@@ -6,6 +6,7 @@ Title.prototype = {
 		// Loading assets:
 		game.load.image('Background', 'assets/img/background.png');
 		game.load.image('Player', 'assets/img/player.png');
+		game.load.audio('Footstep', 'assets/audio/footstep.wav');
 	},
 	create: function() {
 		// add title screen text

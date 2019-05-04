@@ -4,6 +4,9 @@ var Play = function(game) {
 };
 Play.prototype = {
 	create: function() {
+		// Sounds:
+		this.footstep = game.add.audio('Footstep');
+
 		// Physics:
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 		game.physics.setBoundsToWorld();
@@ -26,16 +29,19 @@ Play.prototype = {
 	update: function() {
 		// Controls:
 		if(game.input.keyboard.isDown(Phaser.Keyboard.UP) || game.input.keyboard.isDown(Phaser.Keyboard.W) ) {
-			player.body.velocity.y -= PLAYER_Y_ACCELERATION;
+			player.body.velocity.y -= PLAYER_WALKING_SPEED;
 		} 
 		if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN) || game.input.keyboard.isDown(Phaser.Keyboard.S)) {
-			player.body.velocity.y += PLAYER_Y_ACCELERATION;
+			player.body.velocity.y += PLAYER_WALKING_SPEED;
 		}
 		if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT) || game.input.keyboard.isDown(Phaser.Keyboard.A)) {
-			player.body.velocity.x -= PLAYER_X_ACCELERATION;
+			player.body.velocity.x -= PLAYER_WALKING_SPEED;
 		} 
 		if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) || game.input.keyboard.isDown(Phaser.Keyboard.D)) {
-			player.body.velocity.x += PLAYER_X_ACCELERATION;
+			player.body.velocity.x += PLAYER_WALKING_SPEED;
+		}
+		if((player.body.velocity.x != 0) || (player.body.velocity.y != 0)) {
+			this.footstep.play('', 0, 1, false, false);
 		}
 	},
 	render: function() {

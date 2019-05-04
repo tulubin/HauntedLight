@@ -7,8 +7,7 @@
 // define globals
 var game;
 var player;
-var PLAYER_X_ACCELERATION = 50;
-var PLAYER_Y_ACCELERATION = 50;
+var PLAYER_WALKING_SPEED = 50;
 
 window.onload = function() {	
 	// define game
