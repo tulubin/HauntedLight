@@ -8,8 +8,10 @@
 var game;
 var player;
 var PLAYER_WALKING_SPEED = 50;
-var map;
-var mapLayer;
+var WORLD_SIZE = 3000;
+var GRID_SIZE = 32;
+// var map;
+// var mapLayer;
 
 window.onload = function() {	
 	// define game
