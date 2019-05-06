@@ -34,7 +34,7 @@ Play.prototype = {
 		player.body.immovable = true;
 		// player.body.drag.set(1500);
 		game.camera.follow(player);
-		player.gridPosition = new Phaser.Point(game.world.centerX/GRID_SIZE, game.world.centerY/GRID_SIZE);
+		player.gridPosition = new Phaser.Point(player.body.x/GRID_SIZE, player.body.y/GRID_SIZE);
 		
 	},
 	update: function() {
@@ -55,17 +55,17 @@ Play.prototype = {
 			// player.body.velocity.x += PLAYER_WALKING_SPEED;
 			this.movePlayer(1, 0);
 		}
-		if(player.tween.isRunning) {
-			this.footstep.play('', 0, 1, true, false);
-		} else {
-			this.footstep.stop();
-		}
+		// if(player.tween.isRunning) {
+		// 	this.footstep.play('', 0, 1, true, false);
+		// } else {
+		// 	this.footstep.stop();
+		// }
 	},
 	render: function() {
 		// Debugging tools:
 	    game.debug.cameraInfo(game.camera, GRID_SIZE, GRID_SIZE);
 	    game.debug.spriteCoords(player, GRID_SIZE, 500);
-	    game.debug.text('Velocity_X: ' + player.body.velocity.x, 32, 600);
+	    // game.debug.text('Velocity_X: ' + player.body.velocity.x, 32, 600);
 	},
 	movePlayer: function(x, y) {
 		player.gridPosition.x += x;  
