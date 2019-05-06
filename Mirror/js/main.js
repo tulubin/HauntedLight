@@ -7,7 +7,7 @@
 // define globals
 var game;
 var player;
-var PLAYER_WALKING_SPEED = 50;
+var PLAYER_WALKING_DURATION = 500;
 var WORLD_SIZE = 3000;
 var GRID_SIZE = 32;
 // var map;

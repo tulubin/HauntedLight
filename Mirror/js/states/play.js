@@ -63,10 +63,12 @@ Play.prototype = {
 		// Debugging tools:
 	    game.debug.cameraInfo(game.camera, GRID_SIZE, GRID_SIZE);
 	    game.debug.spriteCoords(player, GRID_SIZE, 500);
+	    game.debug.text('Velocity_X: ' + player.body.velocity.x, 32, 600);
 	},
 	movePlayer: function(x, y) {  
+		this.footstep.play('', 0, 1, false, false);
 		player.gridPosition.x += x;  
 		player.gridPosition.y += y;  // doing it this way means the player's position will always be a multiple of GRID_SIZE  
-		game.add.tween(player).to({x: player.gridPosition.x * GRID_SIZE, y: player.gridPosition.y * GRID_SIZE}, 250, Phaser.Easing.Quadratic.InOut, true);
+		game.add.tween(player).to({x: player.gridPosition.x * GRID_SIZE, y: player.gridPosition.y * GRID_SIZE}, PLAYER_WALKING_DURATION, Phaser.Easing.Quadratic.InOut, true);
 	}
 };
