@@ -21,43 +21,45 @@ Play.prototype = {
 		// mapLayer = map.createLayer('Tile Layer 1');
 		// mapLayer.resizeWorld();
 
-		background = game.add.tileSprite(0, 0, 300, 300, 'Background');
+		background = game.add.tileSprite(0, 0, 288, 288, 'Background');
 		background.scale.setTo(10, 10);
 		game.world.setBounds(0, 0, WORLD_SIZE, WORLD_SIZE);
 
 		// Player:
-		player = game.add.sprite(WORLD_SIZE/2+GRID_SIZE/2, WORLD_SIZE/2+GRID_SIZE/2, 'Player');
+		player = game.add.sprite(game.world.centerX, game.world.centerY, 'Player');
 		player.anchor.set(0.5);
 		game.physics.enable(player, Phaser.Physics.ARCADE);
-		player.body.maxVelocity.set(250);
-		player.body.collideWorldBounds = true;
+		// player.body.maxVelocity.set(250);
+		// player.body.collideWorldBounds = true;
 		player.body.immovable = true;
-		player.body.drag.set(1500);
+		// player.body.drag.set(1500);
 		game.camera.follow(player);
-		player.gridPosition = new Phaser.Point((WORLD_SIZE/2+GRID_SIZE/2)/GRID_SIZE, (WORLD_SIZE/2+GRID_SIZE/2)/GRID_SIZE);
+		player.gridPosition = new Phaser.Point(game.world.centerX/GRID_SIZE, game.world.centerY/GRID_SIZE);
 		
 	},
 	update: function() {
 		// Controls:
-		if((game.input.keyboard.justPressed(Phaser.Keyboard.UP) || game.input.keyboard.justPressed(Phaser.Keyboard.W)) && player.y >= GRID_SIZE ) {
+		if(game.input.keyboard.justPressed(Phaser.Keyboard.UP) || game.input.keyboard.justPressed(Phaser.Keyboard.W)) {
 			// player.body.velocity.y -= PLAYER_WALKING_SPEED;
 			this.movePlayer(0, -1);
 		} 
-		if((game.input.keyboard.justPressed(Phaser.Keyboard.DOWN) || game.input.keyboard.justPressed(Phaser.Keyboard.S)) && player.y <= WORLD_SIZE - GRID_SIZE ) {
+		if(game.input.keyboard.justPressed(Phaser.Keyboard.DOWN) || game.input.keyboard.justPressed(Phaser.Keyboard.S)) {
 			// player.body.velocity.y += PLAYER_WALKING_SPEED;
 			this.movePlayer(0, 1);
 		}
-		if((game.input.keyboard.justPressed(Phaser.Keyboard.LEFT) || game.input.keyboard.justPressed(Phaser.Keyboard.A)) && player.x >= GRID_SIZE) {
+		if(game.input.keyboard.justPressed(Phaser.Keyboard.LEFT) || game.input.keyboard.justPressed(Phaser.Keyboard.A)) {
 			// player.body.velocity.x -= PLAYER_WALKING_SPEED;
 			this.movePlayer(-1, 0);
 		} 
-		if((game.input.keyboard.justPressed(Phaser.Keyboard.RIGHT) || game.input.keyboard.justPressed(Phaser.Keyboard.D)) && player.x <= WORLD_SIZE - GRID_SIZE)  {
+		if(game.input.keyboard.justPressed(Phaser.Keyboard.RIGHT) || game.input.keyboard.justPressed(Phaser.Keyboard.D)) {
 			// player.body.velocity.x += PLAYER_WALKING_SPEED;
 			this.movePlayer(1, 0);
 		}
-		// if((player.body.velocity.x != 0) || (player.body.velocity.y != 0)) {
-		// 	this.footstep.play('', 0, 1, false, false);
-		// }
+		if(player.tween.isRunning) {
+			this.footstep.play('', 0, 1, true, false);
+		} else {
+			this.footstep.stop();
+		}
 	},
 	render: function() {
 		// Debugging tools:
@@ -65,10 +67,9 @@ Play.prototype = {
 	    game.debug.spriteCoords(player, GRID_SIZE, 500);
 	    game.debug.text('Velocity_X: ' + player.body.velocity.x, 32, 600);
 	},
-	movePlayer: function(x, y) {  
-		this.footstep.play('', 0, 1, false, false);
+	movePlayer: function(x, y) {
 		player.gridPosition.x += x;  
 		player.gridPosition.y += y;  // doing it this way means the player's position will always be a multiple of GRID_SIZE  
-		game.add.tween(player).to({x: player.gridPosition.x * GRID_SIZE, y: player.gridPosition.y * GRID_SIZE}, PLAYER_WALKING_DURATION, Phaser.Easing.Quadratic.InOut, true);
+		game.add.tween(player).to({x: player.gridPosition.x * GRID_SIZE, y: player.gridPosition.y * GRID_SIZE}, PLAYER_WALKING_DRUATION, Phaser.Easing.Quadratic.InOut, true);
 	}
 };
