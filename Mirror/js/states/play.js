@@ -6,16 +6,39 @@ Play.prototype = {
 	create: function() {
 		// Sounds:
 		this.footstep = game.add.audio('Footstep');
-
+		
 		// Physics:
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 		game.physics.setBoundsToWorld();
 
 		// World:
-		// game.add.tileSprite(0, 0, 1920, 1920, 'background');
-		background = game.add.tileSprite(0, 0, 300, 300, 'Background');
-		background.scale.setTo(10, 10);
-		game.world.setBounds(0, 0, 3000, 3000);
+		game.physics.arcade.gravity.y = this.GRAVITY;
+		// TILE_BIAS adds a pixel "buffer" around your tiles to avoid collision tunneling
+		// see https://thoughts.amphibian.com/2016/02/dont-fall-through-tile-bias-in-phaser.html
+		game.physics.arcade.TILE_BIAS = 32;
+
+		// set bg color
+		game.stage.setBackgroundColor('#87CEEB');
+
+		// create new Tilemap object - when using Tiled, you only need to pass the key
+		map = game.add.tilemap('level');
+		// add an image to the map to be used as a tileset (tileset, key)
+		// the tileset name is specified w/in the .json file (or in Tiled)
+		// a single map may use multiple tilesets
+		map.addTilesetImage('tilesheet-color', 'tilesheet');
+		// set ALL tiles to collide *except* those passed in the array
+		map.setCollisionByExclusion([]);
+		// create new TilemapLayer object 
+		// A Tilemap Layer is a set of map data combined with a tileset
+		mapLayer = map.createLayer('Tile Layer 1');
+		
+		// set the world size to match the size of the Tilemap layer
+		mapLayer.resizeWorld();
+
+		// background = game.add.tileSprite(0, 0, 300, 300, 'Background');
+		// background.scale.setTo(10, 10);
+		// game.world.setBounds(0, 0, 3000, 3000);
+
 		// Player:
 		player = game.add.sprite(game.width/2+16, game.height/2+16, 'Player');
 		player.anchor.set(0.5);

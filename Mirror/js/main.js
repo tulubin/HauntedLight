@@ -8,6 +8,8 @@
 var game;
 var player;
 var PLAYER_WALKING_SPEED = 50;
+var map;
+var mapLayer;
 
 window.onload = function() {	
 	// define game
