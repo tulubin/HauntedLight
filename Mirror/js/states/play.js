@@ -28,39 +28,10 @@ Play.prototype = {
 		// Player:
 		player = new Player(game);
 		game.add.existing(player);
-		// player = game.add.sprite(game.world.centerX, game.world.centerY, 'Player');
-		// player.anchor.set(0.5);
-		// game.physics.enable(player, Phaser.Physics.ARCADE);
-		// player.body.maxVelocity.set(250);
-		// player.body.collideWorldBounds = true;
-		// player.body.immovable = true;
-		// player.body.drag.set(1500);
 		game.camera.follow(player);
 		
 	},
 	update: function() {
-		// // Controls:
-		// if(game.input.keyboard.justPressed(Phaser.Keyboard.UP) || game.input.keyboard.justPressed(Phaser.Keyboard.W)) {
-		// 	// player.body.velocity.y -= PLAYER_WALKING_SPEED;
-		// 	this.movePlayer(0, -1);
-		// } 
-		// if(game.input.keyboard.justPressed(Phaser.Keyboard.DOWN) || game.input.keyboard.justPressed(Phaser.Keyboard.S)) {
-		// 	// player.body.velocity.y += PLAYER_WALKING_SPEED;
-		// 	this.movePlayer(0, 1);
-		// }
-		// if(game.input.keyboard.justPressed(Phaser.Keyboard.LEFT) || game.input.keyboard.justPressed(Phaser.Keyboard.A)) {
-		// 	// player.body.velocity.x -= PLAYER_WALKING_SPEED;
-		// 	this.movePlayer(-1, 0);
-		// } 
-		// if(game.input.keyboard.justPressed(Phaser.Keyboard.RIGHT) || game.input.keyboard.justPressed(Phaser.Keyboard.D)) {
-		// 	// player.body.velocity.x += PLAYER_WALKING_SPEED;
-		// 	this.movePlayer(1, 0);
-		// }
-		// if(player.tween.isRunning) {
-		// 	this.footstep.play('', 0, 1, true, false);
-		// } else {
-		// 	this.footstep.stop();
-		// }
 	},
 	render: function() {
 		// Debugging tools:
