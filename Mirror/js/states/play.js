@@ -26,35 +26,36 @@ Play.prototype = {
 		game.world.setBounds(0, 0, WORLD_SIZE, WORLD_SIZE);
 
 		// Player:
-		player = game.add.sprite(game.world.centerX, game.world.centerY, 'Player');
-		player.anchor.set(0.5);
-		game.physics.enable(player, Phaser.Physics.ARCADE);
+		player = new Player(game);
+		game.add.existing(player);
+		// player = game.add.sprite(game.world.centerX, game.world.centerY, 'Player');
+		// player.anchor.set(0.5);
+		// game.physics.enable(player, Phaser.Physics.ARCADE);
 		// player.body.maxVelocity.set(250);
 		// player.body.collideWorldBounds = true;
-		player.body.immovable = true;
+		// player.body.immovable = true;
 		// player.body.drag.set(1500);
 		game.camera.follow(player);
-		player.gridPosition = new Phaser.Point(player.body.x/GRID_SIZE, player.body.y/GRID_SIZE);
 		
 	},
 	update: function() {
-		// Controls:
-		if(game.input.keyboard.justPressed(Phaser.Keyboard.UP) || game.input.keyboard.justPressed(Phaser.Keyboard.W)) {
-			// player.body.velocity.y -= PLAYER_WALKING_SPEED;
-			this.movePlayer(0, -1);
-		} 
-		if(game.input.keyboard.justPressed(Phaser.Keyboard.DOWN) || game.input.keyboard.justPressed(Phaser.Keyboard.S)) {
-			// player.body.velocity.y += PLAYER_WALKING_SPEED;
-			this.movePlayer(0, 1);
-		}
-		if(game.input.keyboard.justPressed(Phaser.Keyboard.LEFT) || game.input.keyboard.justPressed(Phaser.Keyboard.A)) {
-			// player.body.velocity.x -= PLAYER_WALKING_SPEED;
-			this.movePlayer(-1, 0);
-		} 
-		if(game.input.keyboard.justPressed(Phaser.Keyboard.RIGHT) || game.input.keyboard.justPressed(Phaser.Keyboard.D)) {
-			// player.body.velocity.x += PLAYER_WALKING_SPEED;
-			this.movePlayer(1, 0);
-		}
+		// // Controls:
+		// if(game.input.keyboard.justPressed(Phaser.Keyboard.UP) || game.input.keyboard.justPressed(Phaser.Keyboard.W)) {
+		// 	// player.body.velocity.y -= PLAYER_WALKING_SPEED;
+		// 	this.movePlayer(0, -1);
+		// } 
+		// if(game.input.keyboard.justPressed(Phaser.Keyboard.DOWN) || game.input.keyboard.justPressed(Phaser.Keyboard.S)) {
+		// 	// player.body.velocity.y += PLAYER_WALKING_SPEED;
+		// 	this.movePlayer(0, 1);
+		// }
+		// if(game.input.keyboard.justPressed(Phaser.Keyboard.LEFT) || game.input.keyboard.justPressed(Phaser.Keyboard.A)) {
+		// 	// player.body.velocity.x -= PLAYER_WALKING_SPEED;
+		// 	this.movePlayer(-1, 0);
+		// } 
+		// if(game.input.keyboard.justPressed(Phaser.Keyboard.RIGHT) || game.input.keyboard.justPressed(Phaser.Keyboard.D)) {
+		// 	// player.body.velocity.x += PLAYER_WALKING_SPEED;
+		// 	this.movePlayer(1, 0);
+		// }
 		// if(player.tween.isRunning) {
 		// 	this.footstep.play('', 0, 1, true, false);
 		// } else {
@@ -66,10 +67,5 @@ Play.prototype = {
 	    game.debug.cameraInfo(game.camera, GRID_SIZE, GRID_SIZE);
 	    game.debug.spriteCoords(player, GRID_SIZE, 500);
 	    // game.debug.text('Velocity_X: ' + player.body.velocity.x, 32, 600);
-	},
-	movePlayer: function(x, y) {
-		player.gridPosition.x += x;  
-		player.gridPosition.y += y;  // doing it this way means the player's position will always be a multiple of GRID_SIZE  
-		game.add.tween(player).to({x: player.gridPosition.x * GRID_SIZE, y: player.gridPosition.y * GRID_SIZE}, PLAYER_WALKING_DRUATION, Phaser.Easing.Quadratic.InOut, true);
 	}
 };
