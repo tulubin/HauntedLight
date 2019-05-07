@@ -4,8 +4,6 @@ var Play = function(game) {
 };
 Play.prototype = {
 	create: function() {
-		// Sounds:
-		this.footstep = game.add.audio('Footstep');
 		
 		// Physics:
 		game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -37,6 +35,6 @@ Play.prototype = {
 		// Debugging tools:
 	    game.debug.cameraInfo(game.camera, GRID_SIZE, GRID_SIZE);
 	    game.debug.spriteCoords(player, GRID_SIZE, 500);
-	    // game.debug.text('Velocity_X: ' + player.body.velocity.x, 32, 600);
+	    game.debug.text('Player Stop Moving: ' + playerTweenCompleted.toString(), 32, 600);
 	}
 };
