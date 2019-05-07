@@ -6,11 +6,12 @@ function Player(game) {
 	Phaser.Sprite.call(this, game, game.world.centerX, game.world.centerY, 'Player');
 	this.anchor.set(0.5);
 
+	// player sounds:
 	footstep = game.add.audio('Footstep');
 	
-	// physics:
+	// player physics:
 	game.physics.arcade.enable(this);
-	game.physics.enable(this, Phaser.Physics.ARCADE);
+	// game.physics.enable(this, Phaser.Physics.ARCADE);
 	this.body.immovable = true;	
 	this.gridPosition = new Phaser.Point(this.body.x/GRID_SIZE, this.body.y/GRID_SIZE);
 }
@@ -22,39 +23,38 @@ Player.prototype = Object.create(Phaser.Sprite.prototype);
 Player.prototype.constructor = Player;  
 
 Player.prototype.update = function() {
-	this.body.velocity.x = 0;
-    this.body.velocity.y = 0;
-    this.body.angularVelocity = 0;
+	// this.body.velocity.x = 0;
+ //    this.body.velocity.y = 0;
+ //    this.body.angularVelocity = 0;
 
-	// Controls:
+	// Player Controls:
 	if((game.input.keyboard.justPressed(Phaser.Keyboard.UP) || game.input.keyboard.justPressed(Phaser.Keyboard.W)) && playerTweenCompleted) {
-		// player.body.velocity.y -= PLAYER_WALKING_SPEED;
 		movePlayer(0, -1);
 	} else if ((game.input.keyboard.justPressed(Phaser.Keyboard.DOWN) || game.input.keyboard.justPressed(Phaser.Keyboard.S)) && playerTweenCompleted) {
-		// player.body.velocity.y += PLAYER_WALKING_SPEED;
 		movePlayer(0, 1);
 	} else if ((game.input.keyboard.justPressed(Phaser.Keyboard.LEFT) || game.input.keyboard.justPressed(Phaser.Keyboard.A)) && playerTweenCompleted) {
-		// player.body.velocity.x -= PLAYER_WALKING_SPEED;
 		movePlayer(-1, 0);
 	} else if ((game.input.keyboard.justPressed(Phaser.Keyboard.RIGHT) || game.input.keyboard.justPressed(Phaser.Keyboard.D)) && playerTweenCompleted) {
-		// player.body.velocity.x += PLAYER_WALKING_SPEED;
 		movePlayer(1, 0);
 	}
+
+	// Play footsetps while moving:
 	if(playerTweenCompleted === true) {
 		footstep.stop();
 	} else if (playerTweenCompleted === false) {
 		footstep.play('', 0, 1, true, false);
 	}
 }
+// move player:
 function movePlayer(x, y) {
 	var playerTween;
 	playerTweenCompleted = false;
 	player.gridPosition.x += x;  
-	player.gridPosition.y += y;  // doing it player way means the player's position will always be a multiple of GRID_SIZE  
+	player.gridPosition.y += y; 
 	playerTween = game.add.tween(player).to({x: player.gridPosition.x * GRID_SIZE, y: player.gridPosition.y * GRID_SIZE}, PLAYER_WALKING_DRUATION, Phaser.Easing.Quadratic.InOut, true);
 	playerTween.onComplete.add(onComplete, this);
 }
+// mark when player stop moving:
 function onComplete() {
-	
 	playerTweenCompleted = true;
 }
