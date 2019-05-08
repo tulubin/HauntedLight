@@ -3,7 +3,7 @@
 function Player(game) {
 	// call Sprite constructor within this object
 	// new Sprite(game, x, y, key, frame)
-	Phaser.Sprite.call(this, game, game.world.centerX, game.world.centerY, 'Player');
+	Phaser.Sprite.call(this, game, game.world.centerX, game.world.centerY, 'player_atlas', 'child00');
 	this.anchor.set(0.5);
 
 	// player sounds:
@@ -14,6 +14,13 @@ function Player(game) {
 	// game.physics.enable(this, Phaser.Physics.ARCADE);
 	this.body.immovable = true;	
 	this.gridPosition = new Phaser.Point(this.body.x/GRID_SIZE, this.body.y/GRID_SIZE);
+
+	//Add player animation
+
+	this.animations.add("walkDown", Phaser.Animation.generateFrameNames('child', 0, 3, "", 2), 4, true);
+	this.animations.add("walkUp", Phaser.Animation.generateFrameNames('child', 4, 7, "", 2), 4, true);
+	this.animations.add("walkLeft", Phaser.Animation.generateFrameNames('child', 8, 11, "", 2), 4, true);
+	this.animations.add("walkRight", Phaser.Animation.generateFrameNames('child', 12, 15, "", 2), 4, true);
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to Player
@@ -30,17 +37,22 @@ Player.prototype.update = function() {
 	// Player Controls:
 	if((game.input.keyboard.justPressed(Phaser.Keyboard.UP) || game.input.keyboard.justPressed(Phaser.Keyboard.W)) && playerTweenCompleted) {
 		movePlayer(0, -1);
+		this.animations.play("walkUp");
 	} else if ((game.input.keyboard.justPressed(Phaser.Keyboard.DOWN) || game.input.keyboard.justPressed(Phaser.Keyboard.S)) && playerTweenCompleted) {
 		movePlayer(0, 1);
+		this.animations.play("walkDown");
 	} else if ((game.input.keyboard.justPressed(Phaser.Keyboard.LEFT) || game.input.keyboard.justPressed(Phaser.Keyboard.A)) && playerTweenCompleted) {
 		movePlayer(-1, 0);
+		this.animations.play("walkLeft");
 	} else if ((game.input.keyboard.justPressed(Phaser.Keyboard.RIGHT) || game.input.keyboard.justPressed(Phaser.Keyboard.D)) && playerTweenCompleted) {
 		movePlayer(1, 0);
+		this.animations.play("walkRight");
 	}
 
 	// Play footsetps while moving:
 	if(playerTweenCompleted === true) {
 		footstep.stop();
+		this.animations.stop();
 	} else if (playerTweenCompleted === false) {
 		footstep.play('', 0, 1, true, false);
 	}

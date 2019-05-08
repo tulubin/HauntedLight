@@ -7,7 +7,7 @@
 // define globals
 var game;
 var player;
-var PLAYER_WALKING_DRUATION = 1500;
+var PLAYER_WALKING_DRUATION = 700;
 var WORLD_SIZE = 2880;
 var GRID_SIZE = 32;
 // var playerTween;
