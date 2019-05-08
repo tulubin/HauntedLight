@@ -13,6 +13,7 @@ var GRID_SIZE = 32;
 // var playerTween;
 var footstep;
 var playerTweenCompleted = true;
+var hud;
 // var timer;
 // var count;
 // var map;

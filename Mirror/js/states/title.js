@@ -20,6 +20,8 @@ Title.prototype = {
 		var playText = game.add.text(game.width/2, game.height*.8, 'Press W to Start', {font: 'Helvetica', fontSize: '24px', fill: '#fff'});
 		playText.anchor.set(0.5);
 
+		// add plugins:
+		game.plugin = game.plugins.add(Phaser.Plugin.HUDPlugin);
 	},
 	update: function() {
 		// input to continue
