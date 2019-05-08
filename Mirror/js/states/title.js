@@ -9,7 +9,15 @@ Title.prototype = {
 
 		// Loading assets:
 		game.load.image('Background', 'assets/img/background.png');
+		
+		
 		game.load.image('Player', 'assets/img/player.png');
+		
+		
+		//preload texture atlas for player
+        game.load.atlas('player_atlas', "assets/img/Child with hat.png", "assets/img/Child with hat.json");
+        //preload texture atlas for objects
+        game.load.atlas('objects_atlas', "assets/img/objects.png", "assets/img/objects.json");
 		game.load.audio('Footstep', 'assets/audio/footstep.wav');
 	},
 	create: function() {

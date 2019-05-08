@@ -23,15 +23,34 @@ Play.prototype = {
 		game.world.setBounds(0, 0, WORLD_SIZE, WORLD_SIZE);
 
 		// Player:
-		player = new Player(game);
-		game.add.existing(player);
+		//player = new Player(game);
+		player = game.add.sprite(game.world.centerX, game.world.centerY, "player_atlas", "child00");
+		//game.add.existing(player);
 		game.camera.follow(player);
+
+		//Add player animation
+		player.animations.add("walkDown", Phaser.Animation.generateFrameNames('child', 0, 3, "", 2), 4, true);
+		player.animations.add("walkUp", Phaser.Animation.generateFrameNames('child', 4, 7, "", 2), 4, true);
+		player.animations.add("walkLeft", Phaser.Animation.generateFrameNames('child', 8, 11, "", 2), 4, true);
+		player.animations.add("walkRight", Phaser.Animation.generateFrameNames('child', 12, 15, "", 2), 4, true);
 		
 		// HUD:
 		game.plugin.addHUD();
 
+
+
 	},
 	update: function() {
+    	//play animation when walking
+    	if((game.input.keyboard.justPressed(Phaser.Keyboard.UP) || game.input.keyboard.justPressed(Phaser.Keyboard.W)) && playerTweenCompleted) {
+        	player.animations.play("walkUp");
+    	} else if ((game.input.keyboard.justPressed(Phaser.Keyboard.DOWN) || game.input.keyboard.justPressed(Phaser.Keyboard.S)) && playerTweenCompleted) {
+        	player.animations.play("walkDown");
+    	} else if ((game.input.keyboard.justPressed(Phaser.Keyboard.LEFT) || game.input.keyboard.justPressed(Phaser.Keyboard.A)) && playerTweenCompleted) {
+        	player.animations.play("walkLeft");
+    	} else if ((game.input.keyboard.justPressed(Phaser.Keyboard.RIGHT) || game.input.keyboard.justPressed(Phaser.Keyboard.D)) && playerTweenCompleted) {
+        	player.animations.play("walkRight");
+    	}
 	},
 	render: function() {
 		// Debugging tools:
