@@ -6,18 +6,16 @@ Title.prototype = {
 		// load tilemap
 		game.load.tilemap('level', 'assets/level/map.json', null, Phaser.Tilemap.TILED_JSON);
 		game.load.spritesheet('tilesheet', 'assets/tilesheet/colorblock.png', 96, 128);
-
+		// game.load.spritesheet('objects', 'assets/img/objects.png', 96, 128);
 		// Loading assets:
 		// game.load.image('Background', 'assets/img/background.png');
-		
-		
-		game.load.image('Player', 'assets/img/player.png');
+		game.load.image('Temp', 'assets/img/temp.png');
 		
 		
 		//preload texture atlas for player
         game.load.atlas('player_atlas', "assets/img/child_No_Hat.png", "assets/img/child_No_Hat.json");
         //preload texture atlas for objects
-        game.load.atlas('objects_atlas', "assets/img/objects.png", "assets/img/objects.json");
+        // game.load.atlas('objects_atlas', "assets/img/objects.png", "assets/img/objects.json");
 		game.load.audio('Footstep', 'assets/audio/footstep.wav');
 	},
 	create: function() {

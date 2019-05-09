@@ -34,7 +34,7 @@ function Player(game) {
 	// this.wasd = {
 	//   up: this.game.input.keyboard.addKey(Phaser.Keyboard.W),
 	//   down: this.game.input.keyboard.addKey(Phaser.Keyboard.S),
-	//   left: this.game.input.keyboard.addKey(Phaser.Keyboard.A),
+	//   left: This.game.input.keyboard.addKey(Phaser.Keyboard.A),
 	//   right: this.game.input.keyboard.addKey(Phaser.Keyboard.D),
 	// };
 }
@@ -49,8 +49,8 @@ Player.prototype.update = function() {
 	// this.body.velocity.x = 0;
  //    this.body.velocity.y = 0;
 
-    game.physics.arcade.collide(this, mapLayer);
- 	// game.physics.arcade.collide(this, mapLayer, blockMoving, null, this);
+    // game.physics.arcade.collide(this, terrainLayer);
+ 	// game.physics.arcade.collide(this, terrainLayer, blockMoving, null, this);
 
 	// Player Controls:
 	if((game.input.keyboard.isDown(Phaser.Keyboard.UP) || game.input.keyboard.isDown(Phaser.Keyboard.W)) && playerTweenCompleted) {
@@ -99,15 +99,15 @@ function movePlayer(directions) {
 }
 // // mark when player stop moving:
 function checkCollision(x, y, directions) {
-    var tileX = mapLayer.getTileX(x);
-    var tileY = mapLayer.getTileY(y);
-    var tile = map.getTile(tileX, tileY, mapLayer);
+    var tileX = terrainLayer.getTileX(x);
+    var tileY = terrainLayer.getTileY(y);
+    var tile = map.getTile(tileX, tileY, terrainLayer, true);
 
-    // currentDataString = tile.index;
-
-    if([1].includes(tile.index)) {
+    // currentDataString = tile;
+    // console.log(currentDataString);
+    // if([1].includes(tile.index)) {
+    if(tile.index === -1) {
 		movePlayer(directions);
-		// player.animations.play("walkUp");
 	}
 }
 function playerTweenComplete() {
