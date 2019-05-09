@@ -5,8 +5,8 @@ Title.prototype = {
 	preload: function() {
 		// load tilemap
 		game.load.tilemap('level', 'assets/level/map.json', null, Phaser.Tilemap.TILED_JSON);
-		game.load.spritesheet('tilesheet', 'assets/tilesheet/colorblock.png', 96, 128);
-		// game.load.spritesheet('objects', 'assets/img/objects.png', 96, 128);
+		game.load.spritesheet('tilesheet', 'assets/tilesheet/colorblock.png', 32, 32);
+		// game.load.spritesheet('objects', 'assets/img/objects.png', 32, 32);
 		// Loading assets:
 		// game.load.image('Background', 'assets/img/background.png');
 		game.load.image('Temp', 'assets/img/temp.png');
