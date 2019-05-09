@@ -4,11 +4,11 @@ var Title = function(game) {};
 Title.prototype = {
 	preload: function() {
 		// load tilemap
-		// game.load.tilemap('level', 'assets/level/mainroom.json', null, Phaser.Tilemap.TILED_JSON);
-		// game.load.spritesheet('tilesheet', 'assets/tilesheet/colorblock.png', 96, 128);
+		game.load.tilemap('level', 'assets/level/map.json', null, Phaser.Tilemap.TILED_JSON);
+		game.load.spritesheet('tilesheet', 'assets/tilesheet/colorblock.png', 96, 128);
 
 		// Loading assets:
-		game.load.image('Background', 'assets/img/background.png');
+		// game.load.image('Background', 'assets/img/background.png');
 		
 		
 		game.load.image('Player', 'assets/img/player.png');

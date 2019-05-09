@@ -3,7 +3,7 @@
 function Player(game) {
 	// call Sprite constructor within this object
 	// new Sprite(game, x, y, key, frame)
-	Phaser.Sprite.call(this, game, game.world.centerX, game.world.centerY, 'player_atlas', 'child00');
+	Phaser.Sprite.call(this, game, game.world.centerX+GRID_SIZE/2, game.world.centerY+GRID_SIZE/2, 'player_atlas', 'child00');
 	this.anchor.set(0.5);
 
 	// player sounds:

@@ -16,8 +16,8 @@ var playerTweenCompleted = true;
 var hud;
 // var timer;
 // var count;
-// var map;
-// var mapLayer;
+var map;
+var mapLayer;
 
 window.onload = function() {	
 	// define game
