@@ -4,22 +4,26 @@
 
 "use strict";
 
-// define globals
+// ----------------Globals-----------------
+// Objects:
 var game;
 var player;
-var PLAYER_WALKING_DRUATION = 250;
-var WORLD_SIZE = 2880;
-var GRID_SIZE = 32;
 var playerTween;
 var footstep;
-var playerTweenCompleted = true;
 var hud;
 var map;
 var floorLayer;
 var terrainLayer;
 var marker;
 var cursors;
+// Variable:
 var currentDataString;
+var playerTweenCompleted = true;
+// Tile-Map Constants:
+var DOOR_INDEX = 1;
+// Other Constants:
+var GRID_SIZE = 32;
+var PLAYER_WALKING_DRUATION = 250;
 
 window.onload = function() {	
 	// define game
