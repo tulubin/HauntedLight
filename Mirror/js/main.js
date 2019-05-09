@@ -7,17 +7,18 @@
 // define globals
 var game;
 var player;
-var PLAYER_WALKING_DRUATION = 700;
+var PLAYER_WALKING_DRUATION = 250;
 var WORLD_SIZE = 2880;
 var GRID_SIZE = 32;
-// var playerTween;
+var playerTween;
 var footstep;
 var playerTweenCompleted = true;
 var hud;
-// var timer;
-// var count;
 var map;
 var mapLayer;
+var marker;
+var cursors;
+var currentDataString;
 
 window.onload = function() {	
 	// define game
