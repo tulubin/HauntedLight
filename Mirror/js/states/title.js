@@ -10,7 +10,7 @@ Title.prototype = {
 		// Loading assets:
 		// game.load.image('Background', 'assets/img/background.png');
 		game.load.image('Temp', 'assets/img/temp.png');
-		
+		game.load.image('Mask', 'assets/img/mask.png');
 		
 		//preload texture atlas for player
         game.load.atlas('player_atlas', "assets/img/child_No_Hat.png", "assets/img/child_No_Hat.json");

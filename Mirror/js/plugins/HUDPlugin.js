@@ -8,6 +8,9 @@ Phaser.Plugin.HUDPlugin.prototype.constructor = Phaser.Plugin.SamplePlugin;
 
 Phaser.Plugin.HUDPlugin.prototype.addHUD = function() {
 	// HUD:
+	//---------------Mask of Camera---------------
+	this.masking = game.add.sprite(0, 0, 'Mask');
+	this.masking.fixedToCamera = true;
 	// --------------------HP---------------------
 	this.HP = game.add.sprite(game.width-64, 32, 'Temp');
 	this.HP.fixedToCamera = true;
