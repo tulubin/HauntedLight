@@ -55,18 +55,28 @@ Player.prototype.update = function() {
 	// Player Controls:
 	if((game.input.keyboard.isDown(Phaser.Keyboard.UP) || game.input.keyboard.isDown(Phaser.Keyboard.W)) && playerTweenCompleted) {
 		player.animations.play("walkUp");
-		checkCollision(this.centerX, this.centerY-32, { up: true, down: false, left: false, right: false });
+		playerOrientation = { up: true, down: false, left: false, right: false }
+		checkCollision(this.centerX, this.centerY-32, playerOrientation);
 		// movePlayer({ up: true, down: false, left: false, right: false });
 	} else if ((game.input.keyboard.isDown(Phaser.Keyboard.DOWN) || game.input.keyboard.isDown(Phaser.Keyboard.S)) && playerTweenCompleted) {
 		player.animations.play("walkDown");
-		checkCollision(this.centerX, this.centerY+32, { up: false, down: true, left: false, right: false });
+		playerOrientation = { up: false, down: true, left: false, right: false };
+		checkCollision(this.centerX, this.centerY+32, playerOrientation);
 	} else if ((game.input.keyboard.isDown(Phaser.Keyboard.LEFT) || game.input.keyboard.isDown(Phaser.Keyboard.A)) && playerTweenCompleted) {
 		player.animations.play("walkLeft");
-		checkCollision(this.centerX-32, this.centerY, { up: false, down: false, left: true, right: false });
+		playerOrientation = { up: false, down: false, left: true, right: false };
+		checkCollision(this.centerX-32, this.centerY, playerOrientation);
 	} else if ((game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) || game.input.keyboard.isDown(Phaser.Keyboard.D)) && playerTweenCompleted) {
 		player.animations.play("walkRight");
-		checkCollision(this.centerX+32, this.centerY, { up: false, down: false, left: false, right: true });
-	} 
+		playerOrientation = { up: false, down: false, left: false, right: true };
+		checkCollision(this.centerX+32, this.centerY, playerOrientation);
+	} else if ((frontObject !== null) && (game.input.keyboard.justPressed(Phaser.Keyboard.E))) {
+		if(frontObject.index === DOOR_CLOSED_INDEX)
+			map.replace(12, 11, frontObject.x, frontObject.y, 1, 1, objectLayer);
+		else if(frontObject.index === DOOR_OPEN_INDEX)
+			map.replace(11, 12, frontObject.x, frontObject.y, 1, 1, objectLayer);
+	}
+	updateFrontObject(playerOrientation);
 
 	// Play footsetps while moving:
 	if(playerTweenCompleted === true) {
@@ -76,8 +86,6 @@ Player.prototype.update = function() {
 	// game.debug.text('Player velocity x: ' + player.body.velocity.x, 32, 600);
 	game.debug.text('PlayerX: ' + player.centerX + ' PlayerY: ' + player.centerY, 32, 632);
 }
-
-
 
 // move player:
 function movePlayer(directions) {
@@ -97,21 +105,58 @@ function movePlayer(directions) {
 	playerTweenCompleted = false;
 	playerTween.onComplete.add(playerTweenComplete, this);
 }
+
 // // mark when player stop moving:
 function checkCollision(x, y, directions) {
-    var tileX = terrainLayer.getTileX(x);
-    var tileY = terrainLayer.getTileY(y);
-    var tile = map.getTile(tileX, tileY, terrainLayer, true);
+	// frontObject = null;
+    var terrainTileX = terrainLayer.getTileX(x);
+    var terrainTileY = terrainLayer.getTileY(y);
+    var tile = map.getTile(terrainTileX, terrainTileY, terrainLayer, true);
 
     // currentDataString = tile;
     // console.log(currentDataString);
-    // if([1].includes(tile.index)) {
+    // if([1].includes(tile.index))
+    // Check if next tile is terrain
     if(tile.index === -1) {
-		movePlayer(directions);
+    	var objectTileX = objectLayer.getTileX(x);
+	    var objectTileY = objectLayer.getTileY(y);
+	    var tile = map.getTile(objectTileX, objectTileY, objectLayer, true);
+	    // Check if next tile is objects
+    	if(tile.index === -1) {
+			movePlayer(directions);
+    	} else {
+    		frontObject = tile;
+    		if (tile.index === DOOR_CLOSED_INDEX) {
+				if(frontObject.index === 12) {
+					console.log('Press E to interact the door');
+					// interactText = game.add.text(player.centerX, player.centerY, 'Press E to interact', {font: 'Helvetica', fontSize: '48px', fill: '#0000FF'});
+					// interactText.anchor.set(0.5);
+				}
+    		} else if (tile.index === DOOR_OPEN_INDEX) {
+    			movePlayer(directions);
+    		}
+    	}
 	}
 }
+
 function playerTweenComplete() {
 	playerTweenCompleted = true;
+}
+
+function updateFrontObject(directions) {
+	if(directions.up === true) {
+		game.debug.text('Player Orientation: ' + "Up" , 32, 664);
+		frontObject = map.getTile(objectLayer.getTileX(player.centerX), objectLayer.getTileY(player.centerY-32), objectLayer, true);
+	} else if (directions.down === true) {
+		game.debug.text('Player Orientation: ' + "Down" , 32, 664);
+		frontObject = map.getTile(objectLayer.getTileX(player.centerX), objectLayer.getTileY(player.centerY+32), objectLayer, true);
+	} else if (directions.left === true) {
+		game.debug.text('Player Orientation: ' + "Left" , 32, 664);
+		frontObject = map.getTile(objectLayer.getTileX(player.centerX-32), objectLayer.getTileY(player.centerY), objectLayer, true);
+	} else if (directions.right === true) {
+		game.debug.text('Player Orientation: ' + "Right" , 32, 664);
+		frontObject = map.getTile(objectLayer.getTileX(player.centerX+32), objectLayer.getTileY(player.centerY), objectLayer, true);
+	}
 }
 // function movePlayer(directions) {
 // 	if (player.world.y >= 200) {

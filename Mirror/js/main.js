@@ -14,13 +14,18 @@ var hud;
 var map;
 var floorLayer;
 var terrainLayer;
+var objectLayer;
 var marker;
 var cursors;
+var interactText;
 // Variable:
 var currentDataString;
 var playerTweenCompleted = true;
+var playerOrientation = { up: false, down: true, left: false, right: false };
+var frontObject = null;
 // Tile-Map Constants:
-var DOOR_INDEX = 1;
+var DOOR_CLOSED_INDEX = 12;
+var DOOR_OPEN_INDEX = 11;
 // Other Constants:
 var GRID_SIZE = 32;
 var PLAYER_WALKING_DRUATION = 250;

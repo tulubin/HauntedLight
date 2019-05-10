@@ -18,6 +18,7 @@ Play.prototype = {
 		map.setCollisionByExclusion([]);
 		floorLayer = map.createLayer('Floor');
 		terrainLayer = map.createLayer('Terrain');
+		objectLayer = map.createLayer('Objects');
 		terrainLayer.resizeWorld();
 		// map.setCollisionByExclusion([1], true, mapLayer);
 		// background = game.add.tileSprite(0, 0, 288, 288, 'Background');
