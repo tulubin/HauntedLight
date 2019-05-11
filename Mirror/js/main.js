@@ -18,6 +18,8 @@ var objectLayer;
 var marker;
 var cursors;
 var interactText;
+var shadowTexture;
+var gradient;
 // Variable:
 var currentDataString;
 var playerTweenCompleted = true;
@@ -29,6 +31,7 @@ var DOOR_OPEN_INDEX = 11;
 // Other Constants:
 var GRID_SIZE = 32;
 var PLAYER_WALKING_DRUATION = 250;
+var LIGHT_RADIUS = 100;
 
 window.onload = function() {	
 	// define game
