@@ -1,17 +1,14 @@
-Phaser.Plugin.HUDPlugin = function(game, parent) {
-	Phaser.Plugin.call(this, game, parent);
+// HUD plugin:
+function HUDPlugin(game) {
+	Phaser.Plugin.call(this, game);
 };
 
 
-Phaser.Plugin.HUDPlugin.prototype = Object.create(Phaser.Plugin.prototype);
-Phaser.Plugin.HUDPlugin.prototype.constructor = Phaser.Plugin.SamplePlugin;
+HUDPlugin.prototype = Object.create(Phaser.Plugin.prototype);
+HUDPlugin.prototype.constructor = HUDPlugin;
 
-Phaser.Plugin.HUDPlugin.prototype.addHUD = function() {
+HUDPlugin.prototype.addHUD = function() {
 	// HUD:
-	//---------------Mask of Camera---------------
-	// this.masking = game.add.sprite(game.camera.width/2, game.camera.height/2, 'Mask');
-	// this.masking.anchor.set(0.5);
-	// this.masking.fixedToCamera = true;
 	// --------------------HP---------------------
 	this.HP = game.add.sprite(game.width-64, 32, 'Temp');
 	this.HP.fixedToCamera = true;
@@ -39,5 +36,17 @@ Phaser.Plugin.HUDPlugin.prototype.addHUD = function() {
 	this.MPbar_f.fixedToCamera = true;
 	this.MPbar_f.tint = 0x141BFF;
 };
-Phaser.Plugin.HUDPlugin.prototype.update = function () {
+HUDPlugin.prototype.triggerHUD = function() {
+	// HUD:
+	this.HP.visible = !(this.HP.visible);
+	this.HPbar_b.visible = !(this.HPbar_b.visible);
+	this.HPbar_f.visible = !(this.HPbar_f.visible);
+	this.MP.visible = !(this.MP.visible);
+	this.MPbar_b.visible = !(this.MPbar_b.visible);
+	this.MPbar_f.visible = !(this.MPbar_f.visible);
+};
+HUDPlugin.prototype.updateHUD = function () {
+	if(game.input.keyboard.justPressed(Phaser.Keyboard.P)) {
+		this.triggerHUD();
+	}
 };
