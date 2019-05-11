@@ -8,7 +8,7 @@ function Player(game) {
 
 	// player sounds:
 	footstep = game.add.audio('Footstep');
-	
+	// game.camera.follow(this);
 	// player physics:
 	// game.physics.arcade.enable(this);
 	game.camera.follow(this, 0, 1, 1);

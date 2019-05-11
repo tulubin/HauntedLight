@@ -32,7 +32,7 @@ var PLAYER_WALKING_DRUATION = 250;
 
 window.onload = function() {	
 	// define game
-	game = new Phaser.Game(750, 750, Phaser.AUTO, 'myGame');
+	game = new Phaser.Game(500, 500, Phaser.AUTO, 'myGame');
 	
 	// define states
 	game.state.add('Title', Title);
