@@ -63,6 +63,7 @@ HUDPlugin.prototype.addHUD = function() {
 	this.MP.visible = false;
 	this.MPbar_b.visible = false;
 	this.MPbar_f.visible = false;
+	this.triggerHUD();
 };
 HUDPlugin.prototype.triggerHUD = function() {
 	// HUD:
