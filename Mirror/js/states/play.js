@@ -16,6 +16,7 @@ Play.prototype = {
 		map = game.add.tilemap('level');
 		map.addTilesetImage('FloorWall', 'floorwall');
 		map.addTilesetImage('Doors', 'door');
+		map.addTilesetImage('Objects', 'objects');
 		map.setCollisionByExclusion([]);
 		floorLayer = map.createLayer('Floor');
 		terrainLayer = map.createLayer('Terrain');
@@ -29,6 +30,9 @@ Play.prototype = {
 		// Player:
 		player = new Player(game);
 		game.add.existing(player);
+
+		var someText = game.add.text(GRID_SIZE*20.5, GRID_SIZE*26, 'Thanks For Playing the Demo!', {font: 'Helvetica', fontSize: '12px', fill: '#fff'});
+		someText.anchor.set(0.5);
 
 		// HUD:
 		light = new LightPlugin(game);

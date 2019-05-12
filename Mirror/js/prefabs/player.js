@@ -3,7 +3,7 @@
 function Player(game) {
 	// call Sprite constructor within this object
 	// new Sprite(game, x, y, key, frame)
-	Phaser.Sprite.call(this, game, GRID_SIZE*7+GRID_SIZE/2, GRID_SIZE*9+GRID_SIZE/2, 'player_atlas', 'child00');
+	Phaser.Sprite.call(this, game, GRID_SIZE*11+GRID_SIZE/2, GRID_SIZE*9+GRID_SIZE/2, 'player_atlas', 'child00');
 	this.anchor.set(0.5);
 	// player sounds:
 	footstep = game.add.audio('Footstep');
@@ -36,6 +36,8 @@ function Player(game) {
 	//   left: This.game.input.keyboard.addKey(Phaser.Keyboard.A),
 	//   right: this.game.input.keyboard.addKey(Phaser.Keyboard.D),
 	// };
+
+
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to Player
@@ -82,8 +84,6 @@ Player.prototype.update = function() {
 		footstep.stop();
 		this.animations.stop();
 	}
-	// game.debug.text('Player velocity x: ' + player.body.velocity.x, 32, 600);
-	game.debug.text('PlayerX: ' + player.centerX + ' PlayerY: ' + player.centerY, 32, 632);
 }
 
 // move player:
@@ -127,9 +127,9 @@ Player.prototype.checkCollision = function(x, y, directions) {
 			this.movePlayer(directions);
     	} else {
     		frontObject = tile;
-    		console.log(tile.index);
+    		// console.log(tile.index);
     		if (tile.index === DOOR_CLOSED_INDEX) {
-				console.log('Press E to interact the door');
+				// console.log('Press E to interact the door');
     		} else if (tile.index === DOOR_OPEN_INDEX) {
     			this.movePlayer(directions);
     		}
@@ -155,4 +155,5 @@ Player.prototype.updateFrontObject = function(directions) {
 		game.debug.text('Player Orientation: ' + "Right" , 32, 664);
 		frontObject = map.getTile(objectLayer.getTileX(player.centerX+32), objectLayer.getTileY(player.centerY), objectLayer, true);
 	}
+	frontObjectIndex = frontObject.index;
 }

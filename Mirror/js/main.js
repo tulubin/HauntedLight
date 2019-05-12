@@ -26,6 +26,7 @@ var gradient;
 var playerTweenCompleted = true;
 var playerOrientation = { up: false, down: true, left: false, right: false };
 var frontObject = null;
+var frontObjectIndex = -1;
 // Tile-Map Constants:
 var DOOR_CLOSED_INDEX = 17;
 var DOOR_OPEN_INDEX = 18;

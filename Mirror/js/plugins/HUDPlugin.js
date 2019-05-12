@@ -35,6 +35,18 @@ HUDPlugin.prototype.addHUD = function() {
 	this.MPbar_f.scale.setTo(4.8, 0.5);
 	this.MPbar_f.fixedToCamera = true;
 	this.MPbar_f.tint = 0x141BFF;
+	// --------------interaction HUD-----------------
+	this.interactionHUD = game.add.sprite(game.width/2+32, game.height/2, 'Temp');
+	this.interactionHUD.anchor.set(0.5);
+	this.interactionHUD.fixedToCamera = true;
+	this.interactionHUD.visible = false;
+	// default:
+	this.HP.visible = false;
+	this.HPbar_b.visible = false;
+	this.HPbar_f.visible = false;
+	this.MP.visible = false;
+	this.MPbar_b.visible = false;
+	this.MPbar_f.visible = false;
 };
 HUDPlugin.prototype.triggerHUD = function() {
 	// HUD:
@@ -48,5 +60,10 @@ HUDPlugin.prototype.triggerHUD = function() {
 HUDPlugin.prototype.updateHUD = function () {
 	if(game.input.keyboard.justPressed(Phaser.Keyboard.P)) {
 		this.triggerHUD();
+	}
+	if(frontObjectIndex === DOOR_CLOSED_INDEX) {
+		this.interactionHUD.visible = true;
+	} else {
+		this.interactionHUD.visible = false;
 	}
 };

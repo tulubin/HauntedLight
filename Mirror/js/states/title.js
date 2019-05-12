@@ -8,6 +8,7 @@ Title.prototype = {
 		// game.load.spritesheet('tilesheet', 'assets/tilesheet/colorblock.png', 32, 32);
 		game.load.spritesheet('floorwall', 'assets/tilesheet/floor-wall.png', 32, 32);
 		game.load.spritesheet('door', 'assets/tilesheet/doorAnimate.png', 32, 32);
+		game.load.spritesheet('objects', 'assets/tilesheet/objects.png', 32, 32);
 		// game.load.spritesheet('objects', 'assets/img/objects.png', 32, 32);
 		// Loading assets:
 		// game.load.image('Background', 'assets/img/background.png');

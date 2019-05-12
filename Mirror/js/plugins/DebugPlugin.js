@@ -7,13 +7,14 @@ DebugPlugin.prototype = Object.create(Phaser.Plugin.prototype);
 DebugPlugin.prototype.constructor = DebugPlugin;
 
 var trigger = false;
-var index;
+var tileIndex;
 var currentLayer;
 
 DebugPlugin.prototype.addDebug = function() {
 	marker = game.add.graphics();
 	marker.lineStyle(2, 0xffffff, 1);
 	marker.drawRect(0, 0, 32, 32);
+	marker.visible = false;
 	game.input.addMoveCallback(this.updateMarker, this);
 	game.input.onDown.add(this.getTileProperties, this);
 	cursors = game.input.keyboard.createCursorKeys();
@@ -21,6 +22,7 @@ DebugPlugin.prototype.addDebug = function() {
 DebugPlugin.prototype.updateDebug = function () {
 	if(game.input.keyboard.justPressed(Phaser.Keyboard.O)) {
 		trigger = !trigger;
+		marker.visible = trigger;
 	}
 	this.render();
 };
@@ -28,8 +30,9 @@ DebugPlugin.prototype.render = function () {
 	if(trigger) {
 		game.debug.cameraInfo(game.camera, GRID_SIZE, GRID_SIZE);
 		game.debug.spriteCoords(player, GRID_SIZE, 500);
-		game.debug.text('Current tile layer: ' + currentLayer, 32, game.camera.height-60);
-		game.debug.text('Target tile index: ' + index, 32, game.camera.height-40);
+		game.debug.text('Current tile layer: ' + currentLayer, 32, game.camera.height-80);
+		game.debug.text('Target tile index: ' + tileIndex, 32, game.camera.height-60);
+		game.debug.text('Front object: ' + frontObjectIndex, 32, game.camera.height-40);
 		game.debug.text('Player Stop Moving: ' + playerTweenCompleted.toString(), 32, game.camera.height-20);
 	}
 };
@@ -45,20 +48,20 @@ DebugPlugin.prototype.getTileProperties = function() {
 	// currentDataString = JSON.stringify(tile.properties);
 	if(tile.index !== -1) {
 		currentLayer = 'Terrain';
-		index = tile.index;
+		tileIndex = tile.index;
 	} else {
 		x = objectLayer.getTileX(game.input.activePointer.worldX);
 		y = objectLayer.getTileY(game.input.activePointer.worldY);
 		tile = map.getTile(x, y, objectLayer, true);
 		if(tile.index !== -1) {
 			currentLayer = 'Object';
-			index = tile.index;
+			tileIndex = tile.index;
 		} else {
 			x = floorLayer.getTileX(game.input.activePointer.worldX);
 			y = floorLayer.getTileY(game.input.activePointer.worldY);
 			tile = map.getTile(x, y, floorLayer, true);
 			currentLayer = 'Floor';
-			index = tile.index;
+			tileIndex = tile.index;
 		}
 	}
 
