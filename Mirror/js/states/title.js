@@ -13,6 +13,9 @@ Title.prototype = {
 		// Loading assets:
 		// game.load.image('Background', 'assets/img/background.png');
 		game.load.image('Temp', 'assets/img/temp.png');
+		game.load.image('e_Key', 'assets/img/e_key.png');
+		game.load.image('arrow_Key', 'assets/img/arrow_keys.png');
+		game.load.image('wasd_Key', 'assets/img/wasd.png');
 		// game.load.image('Mask', 'assets/img/mask.png');
 		
 		//preload texture atlas for player

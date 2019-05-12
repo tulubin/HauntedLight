@@ -41,13 +41,6 @@ Play.prototype = {
 		hud.addHUD();
 		debug = new DebugPlugin(game);
 		debug.addDebug();
-
-     //    game.input.addMoveCallback(this.updateMarker, this);
-
-	    // game.input.onDown.add(this.getTileProperties, this);
-
-	    // cursors = game.input.keyboard.createCursorKeys();
-
 	},
 	update: function() {
 		light.updateLight();

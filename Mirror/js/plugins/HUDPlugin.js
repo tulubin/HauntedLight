@@ -7,6 +7,9 @@ function HUDPlugin(game) {
 HUDPlugin.prototype = Object.create(Phaser.Plugin.prototype);
 HUDPlugin.prototype.constructor = HUDPlugin;
 
+var wasd;
+var arrows;
+
 HUDPlugin.prototype.addHUD = function() {
 	// HUD:
 	// --------------------HP---------------------
@@ -36,10 +39,23 @@ HUDPlugin.prototype.addHUD = function() {
 	this.MPbar_f.fixedToCamera = true;
 	this.MPbar_f.tint = 0x141BFF;
 	// --------------interaction HUD-----------------
-	this.interactionHUD = game.add.sprite(game.width/2+32, game.height/2, 'Temp');
+	this.interactionHUD = game.add.sprite(game.width/2+32, game.height/2-64, 'e_Key');
 	this.interactionHUD.anchor.set(0.5);
 	this.interactionHUD.fixedToCamera = true;
 	this.interactionHUD.visible = false;
+	// --------------tutorial HUD-----------------
+	wasd = game.add.sprite(game.width/4, game.height/4, 'wasd_Key');
+	wasd.anchor.set(0.5);
+	wasd.fixedToCamera = true;
+	wasd.visible = true;
+	game.time.events.add(4000, function () {
+		wasd.destroy();
+		arrows = game.add.sprite(game.width/4, game.height/4+96, 'arrow_Key');
+		arrows.anchor.set(0.5);
+		arrows.fixedToCamera = true;
+		arrows.visible = true;
+	});
+	game.time.events.add(8000, function () {arrows.destroy();});
 	// default:
 	this.HP.visible = false;
 	this.HPbar_b.visible = false;
