@@ -13,7 +13,7 @@ var arrows;
 HUDPlugin.prototype.addHUD = function() {
 	// HUD:
 	// --------------------HP---------------------
-	this.HP = game.add.sprite(game.width-64, 32, 'Temp');
+	this.HP = game.add.sprite(game.width-64, 32, 'Temp_HP');
 	this.HP.fixedToCamera = true;
 	// --------------back MP bar------------------
 	this.HPbar_b = game.add.sprite(game.width-248, 40, 'Temp');
@@ -26,7 +26,7 @@ HUDPlugin.prototype.addHUD = function() {
 	this.HPbar_f.fixedToCamera = true;
 	this.HPbar_f.tint = 0xE8000C;
 	// --------------------MP---------------------
-	this.MP = game.add.sprite(game.width-64, 96, 'Temp');
+	this.MP = game.add.sprite(game.width-64, 96, 'Temp_MP');
 	this.MP.fixedToCamera = true;
 	// --------------back MP bar------------------
 	this.MPbar_b = game.add.sprite(game.width-248, 104, 'Temp');
