@@ -30,7 +30,7 @@ DebugPlugin.prototype.render = function () {
 	if(trigger) {
 		game.debug.cameraInfo(game.camera, GRID_SIZE, GRID_SIZE);
 		game.debug.spriteCoords(player, GRID_SIZE, 500);
-		game.debug.text('Mirror touched: ' + toutch_counter, 32, game.camera.height-100);
+		game.debug.text('Mirror touched: ' + touch_counter, 32, game.camera.height-100);
 		game.debug.text('Current tile layer: ' + currentLayer, 32, game.camera.height-80);
 		game.debug.text('Target tile index: ' + tileIndex, 32, game.camera.height-60);
 		game.debug.text('Front object: ' + frontObjectIndex, 32, game.camera.height-40);

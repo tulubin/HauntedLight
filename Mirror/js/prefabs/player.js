@@ -76,22 +76,22 @@ Player.prototype.update = function() {
 			map.replace(DOOR_CLOSED_INDEX, DOOR_OPEN_INDEX, frontObject.x, frontObject.y, 1, 1, objectLayer);
 		else if(frontObject.index === DOOR_OPEN_INDEX)
 			map.replace(DOOR_OPEN_INDEX, DOOR_CLOSED_INDEX, frontObject.x, frontObject.y, 1, 1, objectLayer);
-		if((frontObject.index === MIRROR_BREAK_INDEX) && (toutch_counter === 4)) {
+		if((frontObject.index === MIRROR_BREAK_INDEX) && (touch_counter === 4)) {
 			game.state.start('End');
 		}
 		if(frontObject.index === MIRROR_GOOD_INDEX)	{
-			toutch_counter++;
-			if(toutch_counter === 4) {
+			touch_counter++;
+			if(touch_counter === 4) {
 				map.replace(MIRROR_GOOD_INDEX, MIRROR_BREAK_INDEX, frontObject.x, frontObject.y, 1, 1, objectLayer);
 				map.replace(CASE_GOOD_INDEX, CASE_BREAK_INDEX, 22, 17, 1, 1, objectLayer);	
-			} else if(toutch_counter === 3) {
+			} else if(touch_counter === 3) {
 				map.replace(RING_GOOD_INDEX, RING_BREAK_INDEX, 19, 12, 1, 1, objectLayer);
-			} else if(toutch_counter === 2) {
+			} else if(touch_counter === 2) {
 				map.replace(CLOTH_GOOD_INDEX, CLOTH_BREAK_INDEX, 13, 16, 1, 1, objectLayer);
-			} if(toutch_counter === 1) {
+			} if(touch_counter === 1) {
 				map.replace(BALL_GOOD_INDEX, BALL_BREAK_INDEX, 9, 13, 1, 1, objectLayer);
 			}		
-			MIRROR_TOUTCHED = true;
+			MIRROR_TOUCHED = true;
 		} 
 	}
 	this.updateFrontObject(playerOrientation);
