@@ -30,6 +30,18 @@ var frontObjectIndex = -1;
 // Tile-Map Constants:
 var DOOR_CLOSED_INDEX = 17;
 var DOOR_OPEN_INDEX = 18;
+var CLOTH_GOOD_INDEX = 25;
+var CLOTH_BREAK_INDEX= 28;
+var BALL_GOOD_INDEX = 29;
+var BALL_BREAK_INDEX= 30;
+var CASE_GOOD_INDEX = 31;
+var CASE_BREAK_INDEX= 32;
+var RING_GOOD_INDEX = 33;
+var RING_BREAK_INDEX= 34;
+var MIRROR_GOOD_INDEX = 26;
+var MIRROR_BREAK_INDEX= 27;
+var MIRROR_TOUTCHED = false;
+var Toutch_counter= 0;
 // Other Constants:
 var GRID_SIZE = 32;
 var PLAYER_WALKING_DRUATION = 250;

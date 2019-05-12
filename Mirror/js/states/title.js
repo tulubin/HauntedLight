@@ -4,7 +4,7 @@ var Title = function(game) {};
 Title.prototype = {
 	preload: function() {
 		// load tilemap
-		game.load.tilemap('level', 'assets/level/map.json', null, Phaser.Tilemap.TILED_JSON);
+		game.load.tilemap('level', 'assets/level/map01.json', null, Phaser.Tilemap.TILED_JSON);
 		// game.load.spritesheet('tilesheet', 'assets/tilesheet/colorblock.png', 32, 32);
 		game.load.spritesheet('floorwall', 'assets/tilesheet/floor-wall.png', 32, 32);
 		game.load.spritesheet('door', 'assets/tilesheet/doorAnimate.png', 32, 32);
@@ -36,6 +36,7 @@ Title.prototype = {
 
 		var playText = game.add.text(game.width/2, game.height*.8, 'Press W to Start', {font: 'Helvetica', fontSize: '24px', fill: '#fff'});
 		playText.anchor.set(0.5);
+
 
 	},
 	update: function() {
