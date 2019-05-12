@@ -78,7 +78,7 @@ HUDPlugin.prototype.updateHUD = function () {
 	if(game.input.keyboard.justPressed(Phaser.Keyboard.P)) {
 		this.triggerHUD();
 	}
-	if(frontObjectIndex === DOOR_CLOSED_INDEX) {
+	if((frontObjectIndex === DOOR_CLOSED_INDEX) || (frontObjectIndex === MIRROR_GOOD_INDEX)) {
 		this.interactionHUD.visible = true;
 	} else {
 		this.interactionHUD.visible = false;
