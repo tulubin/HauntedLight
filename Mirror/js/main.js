@@ -1,6 +1,10 @@
-// 
+// GitHub link:
+// https://github.com/tulubin/UCSC_120_Game_Project
 
-
+// Group Member:
+// Lubin Tu
+// Ang Li
+// Xueer Zhu
 
 "use strict";
 
