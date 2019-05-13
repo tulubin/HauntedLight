@@ -90,6 +90,7 @@ Player.prototype.update = function() {
 				map.replace(CLOTH_GOOD_INDEX, CLOTH_BREAK_INDEX, 13, 16, 1, 1, objectLayer);
 			} if(touch_counter === 1) {
 				map.replace(BALL_GOOD_INDEX, BALL_BREAK_INDEX, 9, 13, 1, 1, objectLayer);
+				map.removeTile(10, 9, objectLayer);
 			}		
 			MIRROR_TOUCHED = true;
 		} 
