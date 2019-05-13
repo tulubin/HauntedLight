@@ -41,4 +41,5 @@ LightPlugin.prototype.updateShadowTexture = function() {
 	shadowTexture.dirty = true;
 
 	// Torch: https://gamemechanicexplorer.com/#lighting-3
+	// FlashLight: http://www.html5gamedevs.com/topic/12805-flashlight-effect-and-masking/
 };
