@@ -15,9 +15,9 @@ Title.prototype = {
 		game.load.image('Temp', 'assets/img/temp.png');
 		game.load.image('Temp_HP', 'assets/img/HP_icon.png');
 		game.load.image('Temp_MP', 'assets/img/MP_icon.png');
-		game.load.image('e_Key', 'assets/img/e_key.png');
-		game.load.image('arrow_Key', 'assets/img/arrow_keys.png');
-		game.load.image('wasd_Key', 'assets/img/wasd.png');
+		game.load.image('e_key', 'assets/img/e_key.png');
+		game.load.image('arrow_key', 'assets/img/arrow_keys.png');
+		game.load.image('wasd_key', 'assets/img/wasd.png');
 		// game.load.image('Mask', 'assets/img/mask.png');
 		
 		//preload texture atlas for player
