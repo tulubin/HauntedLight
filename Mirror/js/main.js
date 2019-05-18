@@ -51,6 +51,12 @@ var GRID_SIZE = 32;
 var PLAYER_WALKING_DRUATION = 250;
 var LIGHT_RADIUS = 100;
 
+
+
+var lightAngle = Math.PI/4;
+var numberOfRays = 20;
+var rayLength = 100;
+
 window.onload = function() {	
 	// define game
 	game = new Phaser.Game(500, 500, Phaser.AUTO, 'myGame');

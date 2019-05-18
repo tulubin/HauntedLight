@@ -36,8 +36,13 @@ function Player(game) {
 	//   left: This.game.input.keyboard.addKey(Phaser.Keyboard.A),
 	//   right: this.game.input.keyboard.addKey(Phaser.Keyboard.D),
 	// };
-
-
+	wallsBitmap = game.make.bitmapData(400,500);
+	wallsBitmap.draw("Temp");
+	wallsBitmap.update();
+	maskGraphics = this.game.add.graphics(0, 0);
+	floorLayer.mask = maskGraphics;
+	terrainLayer.mask = maskGraphics;
+	objectLayer.mask = maskGraphics;
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to Player
@@ -96,7 +101,7 @@ Player.prototype.update = function() {
 		} 
 	}
 	this.updateFrontObject(playerOrientation);
-
+	this.updateLight();
 	// Play footsetps while moving:
 	if(playerTweenCompleted === true) {
 		footstep.stop();
@@ -161,17 +166,52 @@ Player.prototype.playerTweenComplete = function() {
 Player.prototype.updateFrontObject = function(directions) {
 // function updateFrontObject(directions) {
 	if(directions.up === true) {
-		game.debug.text('Player Orientation: ' + "Up" , 32, 664);
 		frontObject = map.getTile(objectLayer.getTileX(player.centerX), objectLayer.getTileY(player.centerY-32), objectLayer, true);
 	} else if (directions.down === true) {
-		game.debug.text('Player Orientation: ' + "Down" , 32, 664);
 		frontObject = map.getTile(objectLayer.getTileX(player.centerX), objectLayer.getTileY(player.centerY+32), objectLayer, true);
 	} else if (directions.left === true) {
-		game.debug.text('Player Orientation: ' + "Left" , 32, 664);
 		frontObject = map.getTile(objectLayer.getTileX(player.centerX-32), objectLayer.getTileY(player.centerY), objectLayer, true);
 	} else if (directions.right === true) {
-		game.debug.text('Player Orientation: ' + "Right" , 32, 664);
 		frontObject = map.getTile(objectLayer.getTileX(player.centerX+32), objectLayer.getTileY(player.centerY), objectLayer, true);
 	}
-	frontObjectIndex = frontObject.index;
+	if(frontObject !== null)
+		frontObjectIndex = frontObject.index;
+	else
+		frontObjectIndex = -1;
 }
+Player.prototype.updateLight = function() {
+	// var directionAngle = Math.atan2(player.y-game.input.y,player.x-game.input.x);
+	var directionAngle = 180*Math.PI/180;
+	maskGraphics.clear();
+	maskGraphics.lineStyle(2, 0xffffff, 1);
+	maskGraphics.beginFill(0xffff00);
+	maskGraphics.moveTo(player.x,player.y);	
+	for(var i = 0; i < numberOfRays; i++){	
+		var rayAngle = directionAngle-(lightAngle/2)+(lightAngle/numberOfRays)*i;
+		var lastX = player.x;
+		var lastY = player.y;
+		for(var j = 1; j <= rayLength; j += 0){
+	  		var landingX = Math.round(player.x-(2*j)*Math.cos(rayAngle));
+	  		var landingY = Math.round(player.y-(2*j)*Math.sin(rayAngle));
+			// game.debug.text('landingX: ' + landingX + ' landingY: ' + landingY, 32, game.camera.height-60);
+			// game.debug.text('wallsBitmap.getPixel32: ' + wallsBitmap.getPixel32(landingX,landingY), 32, game.camera.height-40);
+			// game.debug.text('lastX: ' + lastX + ' lastY: ' + lastY, 32, game.camera.height-20);
+	  		if(wallsBitmap.getPixel32(landingX,landingY)==0){
+				lastX = landingX;
+				lastY = landingY;
+			}
+			else{
+				maskGraphics.lineTo(lastX,lastY);
+				break;
+			}
+			// game.time.events.add(8000, function () {
+			// 	j++;
+			// 	console.log('+1');
+			// });
+		}
+		maskGraphics.lineTo(lastX,lastY);
+	}
+	maskGraphics.lineTo(player.x,player.y);
+	maskGraphics.endFill();
+	floorLayer.alpha = 0.5+Math.random()*0.5;	
+};

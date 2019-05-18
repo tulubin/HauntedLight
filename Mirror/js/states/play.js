@@ -12,7 +12,7 @@ Play.prototype = {
 		// World:
 		// game.physics.arcade.gravity.y = this.GRAVITY;
 		game.physics.arcade.TILE_BIAS = 32;
-		game.stage.setBackgroundColor('#87CEEB');
+		// game.stage.setBackgroundColor('#87CEEB');
 		map = game.add.tilemap('level');
 		map.addTilesetImage('FloorWall', 'floorwall');
 		map.addTilesetImage('Doors', 'door');
@@ -27,6 +27,9 @@ Play.prototype = {
 		// background.scale.setTo(10, 10);
 		// game.world.setBounds(0, 0, WORLD_SIZE, WORLD_SIZE);
 
+		// floorLayer.alpha = 0;
+		// terrainLayer.alpha = 0;
+		// objectLayer.alpha = 0;
 		// Player:
 		player = new Player(game);
 		game.add.existing(player);
@@ -35,15 +38,15 @@ Play.prototype = {
 		//someText.anchor.set(0.5);
 
 		// HUD:
-		light = new LightPlugin(game);
-		light.addLight();
+		// light = new LightPlugin(game);
+		// light.addLight();
 		hud = new HUDPlugin(game);
 		hud.addHUD();
 		debug = new DebugPlugin(game);
 		debug.addDebug();
 	},
 	update: function() {
-		light.updateLight();
+		// light.updateLight();
 		hud.updateHUD();
 		debug.updateDebug();
 		if(MIRROR_TOUCHED) {

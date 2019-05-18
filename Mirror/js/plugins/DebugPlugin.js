@@ -38,6 +38,8 @@ DebugPlugin.prototype.render = function () {
 		game.debug.text('Target tile index: ' + tileIndex, 32, game.camera.height-60);
 		game.debug.text('Front object: ' + frontObjectIndex, 32, game.camera.height-40);
 		game.debug.text('Player Stop Moving: ' + playerTweenCompleted.toString(), 32, game.camera.height-20);
+	} else {
+		game.debug.text('' , 32, 664);
 	}
 };
 DebugPlugin.prototype.updateMarker = function () {
