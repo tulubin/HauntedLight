@@ -24,7 +24,7 @@ Title.prototype = {
 		game.load.atlas('player_atlas', "assets/img/child_No_Hat.png", "assets/img/child_No_Hat.json");
 		//preload texture atlas for objects
 		// game.load.atlas('objects_atlas', "assets/img/objects.png", "assets/img/objects.json");
-		game.load.audio('Footstep', 'assets/audio/footstep.wav');
+		game.load.audio('footstep', 'assets/audio/footstep.wav');
 	},
 	create: function() {
 		// add title screen text

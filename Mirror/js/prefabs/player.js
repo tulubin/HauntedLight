@@ -6,7 +6,7 @@ function Player(game) {
 	Phaser.Sprite.call(this, game, GRID_SIZE*11+GRID_SIZE/2, GRID_SIZE*9+GRID_SIZE/2, 'player_atlas', 'child00');
 	this.anchor.set(0.5);
 	// player sounds:
-	footstep = game.add.audio('Footstep');
+	footstep = game.add.audio('footstep');
 	// game.camera.follow(this);
 	// player physics:
 	// game.physics.arcade.enable(this);
