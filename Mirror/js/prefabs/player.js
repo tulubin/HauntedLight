@@ -36,12 +36,9 @@ function Player(game) {
 	//   left: This.game.input.keyboard.addKey(Phaser.Keyboard.A),
 	//   right: this.game.input.keyboard.addKey(Phaser.Keyboard.D),
 	// };
-	wallsBitmap = game.make.bitmapData(400,500);
-	wallsBitmap.draw("Temp");
-	wallsBitmap.update();
 	maskGraphics = this.game.add.graphics(0, 0);
 	floorLayer.mask = maskGraphics;
-	terrainLayer.mask = maskGraphics;
+	// terrainLayer.mask = maskGraphics;
 	objectLayer.mask = maskGraphics;
 }
 
@@ -193,10 +190,8 @@ Player.prototype.updateLight = function() {
 		for(var j = 1; j <= rayLength; j++){
 	  		var landingX = Math.round(player.x-(2*j)*Math.cos(rayAngle));
 	  		var landingY = Math.round(player.y-(2*j)*Math.sin(rayAngle));
-			// game.debug.text('landingX: ' + landingX + ' landingY: ' + landingY, 32, game.camera.height-60);
-			// game.debug.text('wallsBitmap.getPixel32: ' + wallsBitmap.getPixel32(landingX,landingY), 32, game.camera.height-40);
-			// game.debug.text('lastX: ' + lastX + ' lastY: ' + lastY, 32, game.camera.height-20);
-	  		if(wallsBitmap.getPixel32(landingX,landingY)==0){
+	  		var tile = map.getTile(terrainLayer.getTileX(landingX), terrainLayer.getTileY(landingY), terrainLayer, true);
+	  		if(tile.index == -1){
 				lastX = landingX;
 				lastY = landingY;
 			}
@@ -204,10 +199,6 @@ Player.prototype.updateLight = function() {
 				maskGraphics.lineTo(lastX,lastY);
 				break;
 			}
-			// game.time.events.add(8000, function () {
-			// 	j++;
-			// 	console.log('+1');
-			// });
 		}
 		maskGraphics.lineTo(lastX,lastY);
 	}
