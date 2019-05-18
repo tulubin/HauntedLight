@@ -22,6 +22,7 @@ Play.prototype = {
 		terrainLayer = map.createLayer('Terrain');
 		objectLayer = map.createLayer('Objects');
 		terrainLayer.resizeWorld();
+		
 		// map.setCollisionByExclusion([1], true, mapLayer);
 		// background = game.add.tileSprite(0, 0, 288, 288, 'Background');
 		// background.scale.setTo(10, 10);
@@ -38,15 +39,15 @@ Play.prototype = {
 		//someText.anchor.set(0.5);
 
 		// HUD:
-		// light = new LightPlugin(game);
-		// light.addLight();
+		light = new LightPlugin(game);
+		light.addLight();
 		hud = new HUDPlugin(game);
 		hud.addHUD();
 		debug = new DebugPlugin(game);
 		debug.addDebug();
 	},
 	update: function() {
-		// light.updateLight();
+		light.updateLight();
 		hud.updateHUD();
 		debug.updateDebug();
 		if(MIRROR_TOUCHED) {

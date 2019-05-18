@@ -36,10 +36,6 @@ function Player(game) {
 	//   left: This.game.input.keyboard.addKey(Phaser.Keyboard.A),
 	//   right: this.game.input.keyboard.addKey(Phaser.Keyboard.D),
 	// };
-	maskGraphics = this.game.add.graphics(0, 0);
-	floorLayer.mask = maskGraphics;
-	terrainLayer.mask = maskGraphics;
-	objectLayer.mask = maskGraphics;
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to Player
@@ -98,7 +94,7 @@ Player.prototype.update = function() {
 		} 
 	}
 	this.updateFrontObject(playerOrientation);
-	this.updateLight();
+	// this.updateLight();
 	// Play footsetps while moving:
 	if(playerTweenCompleted === true) {
 		footstep.stop();
@@ -180,31 +176,3 @@ Player.prototype.updateFrontObject = function(directions) {
 	else
 		frontObjectIndex = -1;
 }
-Player.prototype.updateLight = function() {
-	maskGraphics.clear();
-	maskGraphics.lineStyle(2, 0xffffff, 1);
-	maskGraphics.beginFill(0xffff00);
-	maskGraphics.moveTo(player.x,player.y);	
-	for(var i = 0; i < NUMBER_OF_RAYS; i++){	
-		var rayAngle = directionAngle-(LIGHT_ANGLE/2)+(LIGHT_ANGLE/NUMBER_OF_RAYS)*i;
-		var lastX = player.x;
-		var lastY = player.y;
-		for(var j = 1; j <= RAY_LENGTH; j++){
-	  		var landingX = Math.round(player.x-(2*j)*Math.cos(rayAngle));
-	  		var landingY = Math.round(player.y-(2*j)*Math.sin(rayAngle));
-	  		var tile = map.getTile(terrainLayer.getTileX(landingX), terrainLayer.getTileY(landingY), terrainLayer, true);
-	  		if(tile.index == -1){
-				lastX = landingX;
-				lastY = landingY;
-			}
-			else{
-				maskGraphics.lineTo(lastX,lastY);
-				break;
-			}
-		}
-		maskGraphics.lineTo(lastX,lastY);
-	}
-	maskGraphics.lineTo(player.x,player.y);
-	maskGraphics.endFill();
-	floorLayer.alpha = 0.5+Math.random()*0.5;	
-};
