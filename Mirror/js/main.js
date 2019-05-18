@@ -32,6 +32,7 @@ var playerOrientation = { up: false, down: true, left: false, right: false };
 var frontObject = null;
 var frontObjectIndex = -1;
 var touch_counter = 0;
+var directionAngle = 270*Math.PI/180;
 // Tile-Map Constants:
 var DOOR_CLOSED_INDEX = 17;
 var DOOR_OPEN_INDEX = 18;
@@ -46,16 +47,15 @@ var RING_BREAK_INDEX = 34;
 var MIRROR_GOOD_INDEX = 26;
 var MIRROR_BREAK_INDEX = 27;
 var MIRROR_TOUCHED = false;
+// Light Constants:
+var LIGHT_ANGLE = Math.PI/3;
+var NUMBER_OF_RAYS = 20;
+var RAY_LENGTH = 100;
 // Other Constants:
 var GRID_SIZE = 32;
 var PLAYER_WALKING_DRUATION = 250;
 var LIGHT_RADIUS = 100;
 
-
-
-var lightAngle = Math.PI/4;
-var numberOfRays = 20;
-var rayLength = 100;
 
 window.onload = function() {	
 	// define game

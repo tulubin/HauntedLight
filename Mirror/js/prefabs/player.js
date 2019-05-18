@@ -38,7 +38,7 @@ function Player(game) {
 	// };
 	maskGraphics = this.game.add.graphics(0, 0);
 	floorLayer.mask = maskGraphics;
-	// terrainLayer.mask = maskGraphics;
+	terrainLayer.mask = maskGraphics;
 	objectLayer.mask = maskGraphics;
 }
 
@@ -164,12 +164,16 @@ Player.prototype.updateFrontObject = function(directions) {
 // function updateFrontObject(directions) {
 	if(directions.up === true) {
 		frontObject = map.getTile(objectLayer.getTileX(player.centerX), objectLayer.getTileY(player.centerY-32), objectLayer, true);
+		directionAngle = 90*Math.PI/180;
 	} else if (directions.down === true) {
 		frontObject = map.getTile(objectLayer.getTileX(player.centerX), objectLayer.getTileY(player.centerY+32), objectLayer, true);
+		directionAngle = 270*Math.PI/180;
 	} else if (directions.left === true) {
 		frontObject = map.getTile(objectLayer.getTileX(player.centerX-32), objectLayer.getTileY(player.centerY), objectLayer, true);
+		directionAngle = 0*Math.PI/180;
 	} else if (directions.right === true) {
 		frontObject = map.getTile(objectLayer.getTileX(player.centerX+32), objectLayer.getTileY(player.centerY), objectLayer, true);
+		directionAngle = 180*Math.PI/180;
 	}
 	if(frontObject !== null)
 		frontObjectIndex = frontObject.index;
@@ -177,17 +181,15 @@ Player.prototype.updateFrontObject = function(directions) {
 		frontObjectIndex = -1;
 }
 Player.prototype.updateLight = function() {
-	// var directionAngle = Math.atan2(player.y-game.input.y,player.x-game.input.x);
-	var directionAngle = 180*Math.PI/180;
 	maskGraphics.clear();
 	maskGraphics.lineStyle(2, 0xffffff, 1);
 	maskGraphics.beginFill(0xffff00);
 	maskGraphics.moveTo(player.x,player.y);	
-	for(var i = 0; i < numberOfRays; i++){	
-		var rayAngle = directionAngle-(lightAngle/2)+(lightAngle/numberOfRays)*i;
+	for(var i = 0; i < NUMBER_OF_RAYS; i++){	
+		var rayAngle = directionAngle-(LIGHT_ANGLE/2)+(LIGHT_ANGLE/NUMBER_OF_RAYS)*i;
 		var lastX = player.x;
 		var lastY = player.y;
-		for(var j = 1; j <= rayLength; j++){
+		for(var j = 1; j <= RAY_LENGTH; j++){
 	  		var landingX = Math.round(player.x-(2*j)*Math.cos(rayAngle));
 	  		var landingY = Math.round(player.y-(2*j)*Math.sin(rayAngle));
 	  		var tile = map.getTile(terrainLayer.getTileX(landingX), terrainLayer.getTileY(landingY), terrainLayer, true);
