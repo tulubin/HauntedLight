@@ -190,7 +190,7 @@ Player.prototype.updateLight = function() {
 		var rayAngle = directionAngle-(lightAngle/2)+(lightAngle/numberOfRays)*i;
 		var lastX = player.x;
 		var lastY = player.y;
-		for(var j = 1; j <= rayLength; j += 0){
+		for(var j = 1; j <= rayLength; j++){
 	  		var landingX = Math.round(player.x-(2*j)*Math.cos(rayAngle));
 	  		var landingY = Math.round(player.y-(2*j)*Math.sin(rayAngle));
 			// game.debug.text('landingX: ' + landingX + ' landingY: ' + landingY, 32, game.camera.height-60);
