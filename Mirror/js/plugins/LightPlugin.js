@@ -10,9 +10,10 @@ LightPlugin.prototype.constructor = LightPlugin;
 LightPlugin.prototype.addLight = function() {
 	maskGraphics = this.game.add.graphics(0, 0);
 	floorLayer.mask = maskGraphics;
-	// terrainLayer.mask = maskGraphics;
+	// terrainLayer.mask = null; // disable mask
 	objectLayer.mask = maskGraphics;
 	terrainLayer.alpha = 0.02;
+	player.alpha = 0.5;
 };
 LightPlugin.prototype.updateLight = function() {
 	maskGraphics.clear();
