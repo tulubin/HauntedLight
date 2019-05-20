@@ -9,10 +9,12 @@ LightPlugin.prototype.constructor = LightPlugin;
 
 LightPlugin.prototype.addLight = function() {
 	maskGraphics = this.game.add.graphics(0, 0);
+	maskGraphics.blendMode = Phaser.blendModes.MULTIPLY;
+	maskGraphics.alpha = 0.1;
 	floorLayer.mask = maskGraphics;
-	// terrainLayer.mask = maskGraphics;
+	terrainLayer.mask = maskGraphics;
 	objectLayer.mask = maskGraphics;
-	terrainLayer.alpha = 0.02;
+	// terrainLayer.alpha = 0.02;
 };
 LightPlugin.prototype.updateLight = function() {
 	maskGraphics.clear();
