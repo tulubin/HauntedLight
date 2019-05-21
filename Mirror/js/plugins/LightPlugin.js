@@ -30,7 +30,7 @@ LightPlugin.prototype.updateLight = function() {
 	  		var landingX = Math.round(playerX-(2*j)*Math.cos(rayAngle));
 	  		var landingY = Math.round(playerY-(2*j)*Math.sin(rayAngle));
 	  		var tile = map.getTile(terrainLayer.getTileX(landingX), terrainLayer.getTileY(landingY), terrainLayer, true);
-	  		if(tile.index == -1){
+	  		if(tile.index == -1){ // keep going 32 bits after detecting tile.
 				lastX = landingX;
 				lastY = landingY;
 			}
