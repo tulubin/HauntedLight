@@ -27,23 +27,25 @@ LightPlugin.prototype.updateLight = function() {
 		var rayAngle = directionAngle-(LIGHT_ANGLE/2)+(LIGHT_ANGLE/NUMBER_OF_RAYS)*i;
 		var lastX = playerX;
 		var lastY = playerY;
+		var lightThrough = false;
 		var k = 0;
 		for(var j = 1; j <= RAY_LENGTH; j++){
 	  		var terrainTile = map.getTile(terrainLayer.getTileX(lastX), terrainLayer.getTileY(lastY), terrainLayer, true);
 	  		var objectTile = map.getTile(objectLayer.getTileX(lastX), objectLayer.getTileY(lastY), objectLayer, true);
-	  		if(k < 16){
+	  		if(lightThrough && (k >= GRID_SIZE/2 || (terrainTile.index === -1 && objectTile.index !== DOOR_CLOSED_INDEX))){
+				maskGraphics.lineTo(lastX, lastY);
+				break;
+	  		} else {
 	  			if(terrainTile.index !== -1 || objectTile.index === DOOR_CLOSED_INDEX) {
-	  				k++;
+	  				lightThrough = true;
 	  			}
+	  			if(lightThrough)
+	  				k++;
 		  		var landingX = Math.round(playerX-(2*j)*Math.cos(rayAngle));
 		  		var landingY = Math.round(playerY-(2*j)*Math.sin(rayAngle));
 				lastX = landingX;
 				lastY = landingY;
-			}
-			else{
-				maskGraphics.lineTo(lastX, lastY);
-				break;
-			}
+	  		}
 		}
 		maskGraphics.lineTo(lastX, lastY);
 	}
