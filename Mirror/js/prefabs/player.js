@@ -3,8 +3,11 @@
 function Player(game) {
 	// call Sprite constructor within this object
 	// new Sprite(game, x, y, key, frame)
-	Phaser.Sprite.call(this, game, GRID_SIZE*11+GRID_SIZE/2, GRID_SIZE*9+GRID_SIZE/2, 'player_atlas', 'child00');
+	Phaser.Sprite.call(this, game, GRID_SIZE*11+GRID_SIZE/2, GRID_SIZE*9+GRID_SIZE/2, 'player_atlas');
 	this.anchor.set(0.5);
+	footstep = game.add.audio('footstep');
+	game.camera.follow(this, 0, 1, 1);
+
 	// player sounds:
 	footstep = game.add.audio('footstep');
 	// game.camera.follow(this);
@@ -20,10 +23,10 @@ function Player(game) {
 	// this.gridPosition = new Phaser.Point(this.body.x/GRID_SIZE, this.body.y/GRID_SIZE);
 
 	//Add player animation
-	this.animations.add("walkDown", Phaser.Animation.generateFrameNames('child', 0, 3, "", 2), 6, true);
-	this.animations.add("walkUp", Phaser.Animation.generateFrameNames('child', 4, 7, "", 2), 6, true);
-	this.animations.add("walkLeft", Phaser.Animation.generateFrameNames('child', 8, 11, "", 2), 6, true);
-	this.animations.add("walkRight", Phaser.Animation.generateFrameNames('child', 12, 15, "", 2), 6, true);
+	this.animations.add('walkUp', [4, 7], 6, true);
+	this.animations.add('walkDown', [0, 3], 6, true);
+	this.animations.add('walkLeft', [8, 11], 6, true);
+	this.animations.add('walkRight', [12, 15], 6, true);
 
 	//  This will set Tile ID 26 (the coin) to call the hitCoin function when collided with
 	// map.setTileIndexCallback(26, hitCoin, this);
