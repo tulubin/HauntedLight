@@ -31,23 +31,18 @@ LightPlugin.prototype.updateLight = function() {
 		for(var j = 1; j <= RAY_LENGTH; j++){
 	  		var terrainTile = map.getTile(terrainLayer.getTileX(lastX), terrainLayer.getTileY(lastY), terrainLayer, true);
 	  		var objectTile = map.getTile(objectLayer.getTileX(lastX), objectLayer.getTileY(lastY), objectLayer, true);
-	  		if(terrainTile.index === -1 && objectTile.index !== DOOR_CLOSED_INDEX){ 
+	  		if(k < 16){
+	  			if(terrainTile.index !== -1 || objectTile.index === DOOR_CLOSED_INDEX) {
+	  				k++;
+	  			}
 		  		var landingX = Math.round(playerX-(2*j)*Math.cos(rayAngle));
 		  		var landingY = Math.round(playerY-(2*j)*Math.sin(rayAngle));
 				lastX = landingX;
 				lastY = landingY;
 			}
 			else{
-				if(k < 15) {
-					k++;
-					var landingX = Math.round(playerX-(2*j)*Math.cos(rayAngle));
-			  		var landingY = Math.round(playerY-(2*j)*Math.sin(rayAngle));
-					lastX = landingX;
-					lastY = landingY;
-				} else {
-					maskGraphics.lineTo(lastX, lastY);
-					break;
-				}
+				maskGraphics.lineTo(lastX, lastY);
+				break;
 			}
 		}
 		maskGraphics.lineTo(lastX, lastY);
