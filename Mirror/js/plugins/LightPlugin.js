@@ -1,5 +1,5 @@
 // Debug Plugin:
-// Light Algorithm credits to: https://www.emanueleferonato.com/2014/10/21/phaser-tutorial-how-to-create-an-html5-survival-horror-game-in-6-easy-steps/
+// Light Algorithm inspired from: https://www.emanueleferonato.com/2014/10/21/phaser-tutorial-how-to-create-an-html5-survival-horror-game-in-6-easy-steps/
 function LightPlugin(game) {
 	Phaser.Plugin.call(this, game);
 };
