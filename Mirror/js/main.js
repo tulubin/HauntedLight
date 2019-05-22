@@ -54,7 +54,6 @@ var RAY_LENGTH = 80;
 // Other Constants:
 var GRID_SIZE = 32;
 var PLAYER_WALKING_DRUATION = 250;
-var LIGHT_RADIUS = 100;
 
 
 window.onload = function() {	

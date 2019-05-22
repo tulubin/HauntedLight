@@ -5,9 +5,6 @@ function Player(game) {
 	// new Sprite(game, x, y, key, frame)
 	Phaser.Sprite.call(this, game, GRID_SIZE*11+GRID_SIZE/2, GRID_SIZE*9+GRID_SIZE/2, 'player_atlas');
 	this.anchor.set(0.5);
-	footstep = game.add.audio('footstep');
-	game.camera.follow(this, 0, 1, 1);
-
 	// player sounds:
 	footstep = game.add.audio('footstep');
 	// game.camera.follow(this);

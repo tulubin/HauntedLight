@@ -19,7 +19,7 @@ LightPlugin.prototype.addLight = function() {
 LightPlugin.prototype.updateLight = function() {
 	maskGraphics.clear();
 	maskGraphics.lineStyle(2, 0xffffff, 1);
-	maskGraphics.beginFill(0xffffff);
+	maskGraphics.beginFill(0xff0000);
 	var playerX = player.x;
 	var playerY = player.y+6;
 	maskGraphics.moveTo(playerX, playerY);	
