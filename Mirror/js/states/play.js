@@ -43,14 +43,15 @@ Play.prototype = {
 		// HUD:
 		light = new LightPlugin(game);
 		light.addLight();
-		hud = new HUDPlugin(game);
-		hud.addHUD();
+		hud = new HUD(game);
+		// hud = new HUDPlugin(game);
+		// hud.addHUD();
 		debug = new DebugPlugin(game);
 		debug.addDebug();
 	},
 	update: function() {
 		light.updateLight();
-		hud.updateHUD();
+		// hud.updateHUD();
 		debug.updateDebug();
 		if(MIRROR_TOUCHED) {
 			player.x = GRID_SIZE*11 + GRID_SIZE/2;

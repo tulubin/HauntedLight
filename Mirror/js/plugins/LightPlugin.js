@@ -66,7 +66,6 @@ LightPlugin.prototype.updateLight = function() {
 		maskGraphics.lineTo(lastX, lastY);
 	}
 	maskGraphics.lineTo(playerX,playerY);
-	maskGraphics.worldAlpha = 0;
 	maskGraphics.endFill();
 	floorLayer.alpha = 0.5+Math.random()*0.5;
 };

@@ -1,21 +1,15 @@
-// HUD plugin:
-function HUDPlugin(game) {
-	Phaser.Plugin.call(this, game);
-};
+// HUD Group:
 
-
-HUDPlugin.prototype = Object.create(Phaser.Plugin.prototype);
-HUDPlugin.prototype.constructor = HUDPlugin;
-
-var wasd;
+var wsad;
 var arrows;
 
-HUDPlugin.prototype.addHUD = function() {
+function HUD(game) {
+	Phaser.Group.call(this, game);
 	// HUD:
-	// --------------------HP---------------------
-	this.HP = game.add.sprite(game.width-64, 32, 'Temp_HP');
-	this.HP.fixedToCamera = true;
-	// --------------back MP bar------------------
+	// --------------------HPIcon---------------------
+	this.HPIcon = game.add.sprite(game.width-64, 32, 'Temp_HP');
+	this.HPIcon.fixedToCamera = true;
+	// --------------back HP bar------------------
 	this.HPbar_b = game.add.sprite(game.width-248, 40, 'Temp');
 	this.HPbar_b.scale.setTo(5, 0.5);
 	this.HPbar_b.fixedToCamera = true;
@@ -25,9 +19,11 @@ HUDPlugin.prototype.addHUD = function() {
 	this.HPbar_f.scale.setTo(4.8, 0.5);
 	this.HPbar_f.fixedToCamera = true;
 	this.HPbar_f.tint = 0xE8000C;
-	// --------------------MP---------------------
-	this.MP = game.add.sprite(game.width-64, 96, 'Temp_MP');
-	this.MP.fixedToCamera = true;
+	this.HPbar_f.cropEnabled = true;
+	this.HPbar_f.crop.width = (player.HP/player.maxHP)*this.HPbar_f.width;
+	// --------------------MPIcon---------------------
+	this.MPIcon = game.add.sprite(game.width-64, 96, 'Temp_MP');
+	this.MPIcon.fixedToCamera = true;
 	// --------------back MP bar------------------
 	this.MPbar_b = game.add.sprite(game.width-248, 104, 'Temp');
 	this.MPbar_b.scale.setTo(5, 0.5);
@@ -57,24 +53,20 @@ HUDPlugin.prototype.addHUD = function() {
 	});
 	game.time.events.add(8000, function () {arrows.destroy();});
 	// default:
-	this.HP.visible = false;
+	this.HPIcon.visible = false;
 	this.HPbar_b.visible = false;
 	this.HPbar_f.visible = false;
-	this.MP.visible = false;
+	this.MPIcon.visible = false;
 	this.MPbar_b.visible = false;
 	this.MPbar_f.visible = false;
 	// this.triggerHUD();
 };
-HUDPlugin.prototype.triggerHUD = function() {
-	// HUD:
-	this.HP.visible = !(this.HP.visible);
-	this.HPbar_b.visible = !(this.HPbar_b.visible);
-	this.HPbar_f.visible = !(this.HPbar_f.visible);
-	this.MP.visible = !(this.MP.visible);
-	this.MPbar_b.visible = !(this.MPbar_b.visible);
-	this.MPbar_f.visible = !(this.MPbar_f.visible);
-};
-HUDPlugin.prototype.updateHUD = function () {
+
+HUD.prototype = Object.create(Phaser.Group.prototype);
+HUD.prototype.constructor = HUD;
+
+HUD.prototype.update = function () {
+
 	if(game.input.keyboard.justPressed(Phaser.Keyboard.P)) {
 		this.triggerHUD();
 	}
@@ -83,4 +75,14 @@ HUDPlugin.prototype.updateHUD = function () {
 	} else {
 		this.interactionHUD.visible = false;
 	}
+};
+
+HUD.prototype.triggerHUD = function() {
+	// HUD:
+	this.HPIcon.visible = !(this.HPIcon.visible);
+	this.HPbar_b.visible = !(this.HPbar_b.visible);
+	this.HPbar_f.visible = !(this.HPbar_f.visible);
+	this.MPIcon.visible = !(this.MPIcon.visible);
+	this.MPbar_b.visible = !(this.MPbar_b.visible);
+	this.MPbar_f.visible = !(this.MPbar_f.visible);
 };

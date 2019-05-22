@@ -5,6 +5,9 @@ function Player(game) {
 	// new Sprite(game, x, y, key, frame)
 	Phaser.Sprite.call(this, game, GRID_SIZE*11+GRID_SIZE/2, GRID_SIZE*9+GRID_SIZE/2, 'player_atlas');
 	this.anchor.set(0.5);
+	this.HP = 50;
+	this.maxHP = 100;
+
 	// player sounds:
 	footstep = game.add.audio('footstep');
 	// game.camera.follow(this);
@@ -24,18 +27,6 @@ function Player(game) {
 	this.animations.add('walkDown', [0, 3], 6, true);
 	this.animations.add('walkLeft', [8, 11], 6, true);
 	this.animations.add('walkRight', [12, 15], 6, true);
-
-	//  This will set Tile ID 26 (the coin) to call the hitCoin function when collided with
-	// map.setTileIndexCallback(26, hitCoin, this);
-
-	// cursors = this.game.input.keyboard.createCursorKeys();
-
-	// this.wasd = {
-	//   up: this.game.input.keyboard.addKey(Phaser.Keyboard.W),
-	//   down: this.game.input.keyboard.addKey(Phaser.Keyboard.S),
-	//   left: This.game.input.keyboard.addKey(Phaser.Keyboard.A),
-	//   right: this.game.input.keyboard.addKey(Phaser.Keyboard.D),
-	// };
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to Player
