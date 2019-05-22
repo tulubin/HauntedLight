@@ -56,24 +56,36 @@ Player.prototype.update = function() {
 		playerWalkingDuration = 250;
 	else
 		playerWalkingDuration = 500;
-	if((game.input.keyboard.isDown(Phaser.Keyboard.UP) || game.input.keyboard.isDown(Phaser.Keyboard.W)) && playerTweenCompleted) {
+	if(game.input.keyboard.isDown(Phaser.Keyboard.UP) && playerTweenCompleted) {
 		player.animations.play("walkUp");
 		playerOrientation = { up: true, down: false, left: false, right: false }
-		this.checkCollision(this.centerX, this.centerY-32, playerOrientation);
-		// movePlayer({ up: true, down: false, left: false, right: false });
-	} else if ((game.input.keyboard.isDown(Phaser.Keyboard.DOWN) || game.input.keyboard.isDown(Phaser.Keyboard.S)) && playerTweenCompleted) {
+		if(game.input.keyboard.downDuration(Phaser.Keyboard.UP, CONTROL_RESPONSE_DELAY)) {
+		} else {
+			this.checkCollision(this.centerX, this.centerY-32, playerOrientation);
+		}
+	} else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN) && playerTweenCompleted) {
 		player.animations.play("walkDown");
-		playerOrientation = { up: false, down: true, left: false, right: false };
-		this.checkCollision(this.centerX, this.centerY+32, playerOrientation);
-	} else if ((game.input.keyboard.isDown(Phaser.Keyboard.LEFT) || game.input.keyboard.isDown(Phaser.Keyboard.A)) && playerTweenCompleted) {
+		playerOrientation = { up: false, down: true, left: false, right: false }
+		if(game.input.keyboard.downDuration(Phaser.Keyboard.DOWN, CONTROL_RESPONSE_DELAY)) {
+		} else {
+			this.checkCollision(this.centerX, this.centerY+32, playerOrientation);
+		}
+	} else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT) && playerTweenCompleted) {
 		player.animations.play("walkLeft");
-		playerOrientation = { up: false, down: false, left: true, right: false };
-		this.checkCollision(this.centerX-32, this.centerY, playerOrientation);
-	} else if ((game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) || game.input.keyboard.isDown(Phaser.Keyboard.D)) && playerTweenCompleted) {
+		playerOrientation = { up: false, down: false, left: true, right: false }
+		if(game.input.keyboard.downDuration(Phaser.Keyboard.LEFT, CONTROL_RESPONSE_DELAY)) {
+		} else {
+			this.checkCollision(this.centerX-32, this.centerY, playerOrientation);
+		}
+	} else if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) && playerTweenCompleted) {
 		player.animations.play("walkRight");
-		playerOrientation = { up: false, down: false, left: false, right: true };
-		this.checkCollision(this.centerX+32, this.centerY, playerOrientation);
-	} else if ((frontObject !== null) && (game.input.keyboard.justPressed(Phaser.Keyboard.E))) {
+		playerOrientation = { up: false, down: false, left: false, right: true }
+		if(game.input.keyboard.downDuration(Phaser.Keyboard.RIGHT, CONTROL_RESPONSE_DELAY)) {
+		} else {
+			this.checkCollision(this.centerX+32, this.centerY, playerOrientation);
+		}
+	}
+	if ((frontObject !== null) && (game.input.keyboard.justPressed(Phaser.Keyboard.E))) {
 		if(frontObject.index === DOOR_CLOSED_INDEX)
 			map.replace(DOOR_CLOSED_INDEX, DOOR_OPEN_INDEX, frontObject.x, frontObject.y, 1, 1, objectLayer);
 		else if(frontObject.index === DOOR_OPEN_INDEX)

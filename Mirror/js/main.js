@@ -55,7 +55,7 @@ var NUMBER_OF_RAYS = 20;
 var RAY_LENGTH = 80;
 // Other Constants:
 var GRID_SIZE = 32;
-// var PLAYER_WALKING_DRUATION = 400;
+var CONTROL_RESPONSE_DELAY = 100;
 
 
 window.onload = function() {	
