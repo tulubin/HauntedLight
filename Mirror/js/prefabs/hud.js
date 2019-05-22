@@ -6,34 +6,52 @@ var arrows;
 function HUD(game) {
 	Phaser.Group.call(this, game);
 	// HUD:
-	// --------------------HPIcon---------------------
-	this.HPIcon = game.add.sprite(game.width-64, 32, 'Temp_HP');
-	this.HPIcon.fixedToCamera = true;
+	// --------------------hpIcon---------------------
+	this.hpIcon = game.add.sprite(game.width-32, 16, 'Temp_HP');
+	this.hpIcon.fixedToCamera = true;
 	// --------------back HP bar------------------
-	this.HPbar_b = game.add.sprite(game.width-248, 40, 'Temp');
-	this.HPbar_b.scale.setTo(5, 0.5);
-	this.HPbar_b.fixedToCamera = true;
-	this.HPbar_b.tint = 0x000000;
+	// this.hpBar_b = game.add.sprite(game.width-248, 40, 'Temp');
+	// this.hpBar_b.scale.setTo(5, 0.5);
+	// this.hpBar_b.fixedToCamera = true;
+	// this.hpBar_b.tint = 0x000000;
+
+	this.hpBar_b = game.add.graphics(0, 0);
+	this.hpBar_b.fixedToCamera = true;
+	this.hpBar_b.beginFill(0x222222, 0.8);
+	this.hpBar_b.drawRect(game.width-150, 30, 104, 14);
+	this.hpBar_b.endFill();
+
+
 	// --------------front HP bar-----------------
-	this.HPbar_f = game.add.sprite(game.width-248, 40, 'Temp');
-	this.HPbar_f.scale.setTo(4.8, 0.5);
-	this.HPbar_f.fixedToCamera = true;
-	this.HPbar_f.tint = 0xE8000C;
-	this.HPbar_f.cropEnabled = true;
-	this.HPbar_f.crop.width = (player.HP/player.maxHP)*this.HPbar_f.width;
-	// --------------------MPIcon---------------------
-	this.MPIcon = game.add.sprite(game.width-64, 96, 'Temp_MP');
-	this.MPIcon.fixedToCamera = true;
+	this.hpBar_f = game.add.graphics(0, 0);
+	this.hpBar_f.fixedToCamera = true;
+	// this.hpBar_f = game.add.sprite(game.width-248, 40, 'Temp');
+	// this.hpBar_f.scale.setTo(4.8, 0.5);
+	// this.hpBar_f.fixedToCamera = true;
+	// this.hpBar_f.tint = 0xE8000C;
+	// this.hpBar_f.cropEnabled = true;
+	// this.hpBar_f.crop.width = (player.HP/player.maxHP)*this.hpBar_f.width;
+	// --------------------mpIcon---------------------
+	this.mpIcon = game.add.sprite(game.width-32, 48, 'Temp_MP');
+	this.mpIcon.fixedToCamera = true;
 	// --------------back MP bar------------------
-	this.MPbar_b = game.add.sprite(game.width-248, 104, 'Temp');
-	this.MPbar_b.scale.setTo(5, 0.5);
-	this.MPbar_b.fixedToCamera = true;
-	this.MPbar_b.tint = 0x000000;
+	// this.mpBar_b = game.add.sprite(game.width-248, 104, 'Temp');
+	// this.mpBar_b.scale.setTo(5, 0.5);
+	// this.mpBar_b.fixedToCamera = true;
+	// this.mpBar_b.tint = 0x000000;
+
+	this.mpBar_b = game.add.graphics(0, 0);
+	this.mpBar_b.fixedToCamera = true;
+	this.mpBar_b.beginFill(0x222222, 0.8);
+	this.mpBar_b.drawRect(game.width-150, 60, 104, 14);
+	this.mpBar_b.endFill();
 	// --------------front MP bar-----------------
-	this.MPbar_f = game.add.sprite(game.width-248, 104, 'Temp');
-	this.MPbar_f.scale.setTo(4.8, 0.5);
-	this.MPbar_f.fixedToCamera = true;
-	this.MPbar_f.tint = 0x141BFF;
+	this.mpBar_f = game.add.graphics(0, 0);
+	this.mpBar_f.fixedToCamera = true;
+	// this.mpBar_f = game.add.sprite(game.width-248, 104, 'Temp');
+	// this.mpBar_f.scale.setTo(4.8, 0.5);
+	// this.mpBar_f.fixedToCamera = true;
+	// this.mpBar_f.tint = 0x141BFF;
 	// --------------interaction HUD-----------------
 	this.interactionHUD = game.add.sprite(game.width/2+32, game.height/2-64, 'e_key');
 	this.interactionHUD.anchor.set(0.5);
@@ -53,19 +71,28 @@ function HUD(game) {
 	});
 	game.time.events.add(8000, function () {arrows.destroy();});
 	// default:
-	this.HPIcon.visible = false;
-	this.HPbar_b.visible = false;
-	this.HPbar_f.visible = false;
-	this.MPIcon.visible = false;
-	this.MPbar_b.visible = false;
-	this.MPbar_f.visible = false;
-	// this.triggerHUD();
+	this.hpIcon.visible = false;
+	this.hpBar_b.visible = false;
+	this.hpBar_f.visible = false;
+	this.mpIcon.visible = false;
+	this.mpBar_b.visible = false;
+	this.mpBar_f.visible = false;
+	this.triggerHUD();
 };
 
 HUD.prototype = Object.create(Phaser.Group.prototype);
 HUD.prototype.constructor = HUD;
 
 HUD.prototype.update = function () {
+	this.hpBar_f.clear();
+	this.hpBar_f.beginFill(0xE8000C, 0.5);
+	this.hpBar_f.drawRect(game.width-148, 32, 100*(player.currentHP/player.maxHP), 10);
+	this.hpBar_f.endFill();
+
+	this.mpBar_f.clear();
+	this.mpBar_f.beginFill(0x141BFF, 0.5);
+	this.mpBar_f.drawRect(game.width-148, 62, 100*(player.currentMP/player.maxMP), 10);
+	this.mpBar_f.endFill();
 
 	if(game.input.keyboard.justPressed(Phaser.Keyboard.P)) {
 		this.triggerHUD();
@@ -79,10 +106,10 @@ HUD.prototype.update = function () {
 
 HUD.prototype.triggerHUD = function() {
 	// HUD:
-	this.HPIcon.visible = !(this.HPIcon.visible);
-	this.HPbar_b.visible = !(this.HPbar_b.visible);
-	this.HPbar_f.visible = !(this.HPbar_f.visible);
-	this.MPIcon.visible = !(this.MPIcon.visible);
-	this.MPbar_b.visible = !(this.MPbar_b.visible);
-	this.MPbar_f.visible = !(this.MPbar_f.visible);
+	this.hpIcon.visible = !(this.hpIcon.visible);
+	this.hpBar_b.visible = !(this.hpBar_b.visible);
+	this.hpBar_f.visible = !(this.hpBar_f.visible);
+	this.mpIcon.visible = !(this.mpIcon.visible);
+	this.mpBar_b.visible = !(this.mpBar_b.visible);
+	this.mpBar_f.visible = !(this.mpBar_f.visible);
 };

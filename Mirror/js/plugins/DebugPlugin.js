@@ -32,7 +32,7 @@ DebugPlugin.prototype.render = function () {
 	if(trigger) {
 		game.debug.cameraInfo(game.camera, GRID_SIZE, GRID_SIZE);
 		game.debug.spriteCoords(player, GRID_SIZE, 500);
-		game.debug.text('playerWalkingDuration: ' + playerWalkingDuration, 32, game.camera.height-120);
+		game.debug.text('player HP: ' + player.HP, 32, game.camera.height-120);
 		game.debug.text('Tile x: ' + tileX + ' Tile y: ' + tileY, 32, game.camera.height-100);
 		game.debug.text('Current tile layer: ' + currentLayer, 32, game.camera.height-80);
 		game.debug.text('Target tile index: ' + tileIndex, 32, game.camera.height-60);

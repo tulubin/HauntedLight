@@ -63,5 +63,5 @@ Play.prototype = {
 			
 			MIRROR_TOUCHED = false;
 		}
-	},
+	}
 };

@@ -27,6 +27,7 @@ var cursors;
 var interactText;
 var shadowTexture;
 var gradient;
+var timer;
 // Variable:
 var playerTweenCompleted = true;
 var playerOrientation = { up: false, down: true, left: false, right: false };

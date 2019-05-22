@@ -5,8 +5,10 @@ function Player(game) {
 	// new Sprite(game, x, y, key, frame)
 	Phaser.Sprite.call(this, game, GRID_SIZE*11+GRID_SIZE/2, GRID_SIZE*9+GRID_SIZE/2, 'player_atlas');
 	this.anchor.set(0.5);
-	this.HP = 50;
+	this.currentHP = 100;
 	this.maxHP = 100;
+	this.currentMP = 100;
+	this.maxMP = 100;
 
 	// player sounds:
 	footstep = game.add.audio('footstep');
@@ -27,6 +29,12 @@ function Player(game) {
 	this.animations.add('walkDown', [0, 3], 6, true);
 	this.animations.add('walkLeft', [8, 11], 6, true);
 	this.animations.add('walkRight', [12, 15], 6, true);
+	timer = game.time.create(false);
+	timer.loop(Phaser.Timer.SECOND, function(){
+		player.currentHP -= 1;
+		player.currentMP -= 1;
+	}, this);
+	timer.start();
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to Player
@@ -36,6 +44,8 @@ Player.prototype = Object.create(Phaser.Sprite.prototype);
 Player.prototype.constructor = Player;  
 
 Player.prototype.update = function() {
+
+
 	// this.body.velocity.x = 0;
 	// this.body.velocity.y = 0;
 
