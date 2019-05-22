@@ -52,6 +52,10 @@ Player.prototype.update = function() {
 		// game.physics.arcade.collide(this, terrainLayer, blockMoving, null, this);
 
 	// Player Controls:
+	if(game.input.keyboard.isDown(Phaser.Keyboard.SHIFT))
+		playerWalkingDuration = 250;
+	else
+		playerWalkingDuration = 500;
 	if((game.input.keyboard.isDown(Phaser.Keyboard.UP) || game.input.keyboard.isDown(Phaser.Keyboard.W)) && playerTweenCompleted) {
 		player.animations.play("walkUp");
 		playerOrientation = { up: true, down: false, left: false, right: false }
@@ -107,17 +111,17 @@ Player.prototype.movePlayer = function(directions) {
 // function movePlayer(directions) {
 	footstep.play('', 0, 1, false, true);
 	if(directions.up === true) {
-		playerTween = game.add.tween(player).to({x: player.centerX, y: player.centerY-32}, PLAYER_WALKING_DRUATION, Phaser.Easing.Linear.None, true);
+		playerTween = game.add.tween(player).to({x: player.centerX, y: player.centerY-32}, playerWalkingDuration, Phaser.Easing.Linear.None, true);
 	} else if (directions.down === true) {
-		playerTween = game.add.tween(player).to({x: player.centerX, y: player.centerY+32}, PLAYER_WALKING_DRUATION, Phaser.Easing.Linear.None, true);
+		playerTween = game.add.tween(player).to({x: player.centerX, y: player.centerY+32}, playerWalkingDuration, Phaser.Easing.Linear.None, true);
 	} else if (directions.left === true) {
-		playerTween = game.add.tween(player).to({x: player.centerX-32, y: player.centerY}, PLAYER_WALKING_DRUATION, Phaser.Easing.Linear.None, true);
+		playerTween = game.add.tween(player).to({x: player.centerX-32, y: player.centerY}, playerWalkingDuration, Phaser.Easing.Linear.None, true);
 	} else if (directions.right === true) {
-		playerTween = game.add.tween(player).to({x: player.centerX+32, y: player.centerY}, PLAYER_WALKING_DRUATION, Phaser.Easing.Linear.None, true);
+		playerTween = game.add.tween(player).to({x: player.centerX+32, y: player.centerY}, playerWalkingDuration, Phaser.Easing.Linear.None, true);
 	}
 	// player.gridPosition.x += x;  
 	// player.gridPosition.y += y; 
-	// playerTween = game.add.tween(player).to({x: player.gridPosition.x * GRID_SIZE, y: player.gridPosition.y * GRID_SIZE}, PLAYER_WALKING_DRUATION, Phaser.Easing.Quadratic.InOut, true);
+	// playerTween = game.add.tween(player).to({x: player.gridPosition.x * GRID_SIZE, y: player.gridPosition.y * GRID_SIZE}, playerWalkingDuration, Phaser.Easing.Quadratic.InOut, true);
 	playerTweenCompleted = false;
 	playerTween.onComplete.add(this.playerTweenComplete, this);
 }

@@ -12,6 +12,7 @@
 // Objects:
 var game;
 var player;
+var shadow;
 var playerTween;
 var footstep;
 var hud;
@@ -33,6 +34,7 @@ var frontObject = null;
 var frontObjectIndex = -1;
 var touch_counter = 0;
 var directionAngle = 270*Math.PI/180;
+var playerWalkingDuration = 500;
 // Tile-Map Constants:
 var DOOR_CLOSED_INDEX = 17;
 var DOOR_OPEN_INDEX = 18;
@@ -53,7 +55,7 @@ var NUMBER_OF_RAYS = 20;
 var RAY_LENGTH = 80;
 // Other Constants:
 var GRID_SIZE = 32;
-var PLAYER_WALKING_DRUATION = 250;
+// var PLAYER_WALKING_DRUATION = 400;
 
 
 window.onload = function() {	

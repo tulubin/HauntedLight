@@ -12,6 +12,7 @@ LightPlugin.prototype.addLight = function() {
 	floorLayer.mask = maskGraphics;
 	terrainLayer.mask = maskGraphics;
 	objectLayer.mask = maskGraphics;
+	// shadow.mask = maskGraphics;
 	// terrainLayer.mask = null; // disable mask
 	// terrainLayer.alpha = 0.02;
 	player.alpha = 0.5;
@@ -32,6 +33,21 @@ LightPlugin.prototype.updateLight = function() {
 		for(var j = 1; j <= RAY_LENGTH; j++){
 	  		var terrainTile = map.getTile(terrainLayer.getTileX(lastX), terrainLayer.getTileY(lastY), terrainLayer, true);
 	  		var objectTile = map.getTile(objectLayer.getTileX(lastX), objectLayer.getTileY(lastY), objectLayer, true);
+	  		if(shadow.x === lastX && shadow.y === lastY) {
+	  			var x;
+	  			var y;
+	  			if(game.rnd.integerInRange(0, 1) === 1) {
+	  				x = game.rnd.integerInRange(100, 200);
+	  				y = game.rnd.integerInRange(100, 200);
+	  			} else {
+	  				x = game.rnd.integerInRange(-100, -200);
+	  				y = game.rnd.integerInRange(-100, -200);
+	  			}
+
+	  			shadow.x += x;
+	  			shadow.y += y;
+
+	  		}
 	  		if(lightThrough && (k >= GRID_SIZE/2 || (terrainTile.index === -1 && objectTile.index !== DOOR_CLOSED_INDEX))){
 				maskGraphics.lineTo(lastX, lastY);
 				break;
