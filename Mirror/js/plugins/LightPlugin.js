@@ -22,7 +22,7 @@ LightPlugin.prototype.updateLight = function() {
 	maskGraphics.lineStyle(2, 0xffffff, 1);
 	maskGraphics.beginFill(0xff0000);
 	var playerX = player.x;
-	var playerY = player.y+6;
+	var playerY = player.y;
 	maskGraphics.moveTo(playerX, playerY);	
 	for(var i = 0; i < NUMBER_OF_RAYS; i++){	
 		var rayAngle = directionAngle-(LIGHT_ANGLE/2)+(LIGHT_ANGLE/NUMBER_OF_RAYS)*i;

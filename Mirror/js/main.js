@@ -52,7 +52,7 @@ var MIRROR_BREAK_INDEX = 27;
 var MIRROR_TOUCHED = false;
 // Light Constants:
 var LIGHT_ANGLE = Math.PI/3;
-var NUMBER_OF_RAYS = 20;
+var NUMBER_OF_RAYS = LIGHT_ANGLE*50;
 var RAY_LENGTH = 80;
 // Other Constants:
 var GRID_SIZE = 32;
