@@ -43,10 +43,8 @@ LightPlugin.prototype.updateLight = function() {
 	  				x = game.rnd.integerInRange(-100, -200);
 	  				y = game.rnd.integerInRange(-100, -200);
 	  			}
-
 	  			shadow.x += x;
 	  			shadow.y += y;
-
 	  		}
 	  		if(lightThrough && (k >= GRID_SIZE/2 || (terrainTile.index === -1 && objectTile.index !== DOOR_CLOSED_INDEX))){
 				maskGraphics.lineTo(lastX, lastY);
