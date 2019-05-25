@@ -51,12 +51,12 @@ var MIRROR_GOOD_INDEX = 26;
 var MIRROR_BREAK_INDEX = 27;
 var MIRROR_TOUCHED = false;
 // Light Constants:
-var LIGHT_ANGLE = Math.PI/3;
-var NUMBER_OF_RAYS = 20;
-var RAY_LENGTH = 80;
+var LIGHT_ANGLE = Math.PI*0.4;
+var NUMBER_OF_RAYS = LIGHT_ANGLE*50;
+var RAY_LENGTH = 120;
 // Other Constants:
 var GRID_SIZE = 32;
-var CONTROL_RESPONSE_DELAY = 100;
+var CONTROL_RESPONSE_DELAY = 150;
 
 
 window.onload = function() {	
