@@ -21,7 +21,7 @@ Title.prototype = {
 		// game.load.image('Mask', 'assets/img/mask.png');
 		
 		//preload texture atlas for player
-		game.load.atlas('player_atlas', "assets/img/child_No_Hat.png", "assets/img/child_No_Hat.json");
+		game.load.atlas('player_atlas', "assets/img/kid_flash.png", "assets/img/kid_flash.json");
 		//preload texture atlas for objects
 		// game.load.atlas('objects_atlas', "assets/img/objects.png", "assets/img/objects.json");
 		game.load.audio('footstep', 'assets/audio/footstep.wav');

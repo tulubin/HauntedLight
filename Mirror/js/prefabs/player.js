@@ -25,10 +25,10 @@ function Player(game) {
 	// this.gridPosition = new Phaser.Point(this.body.x/GRID_SIZE, this.body.y/GRID_SIZE);
 
 	//Add player animation
-	this.animations.add('walkUp', [4, 7], 6, true);
-	this.animations.add('walkDown', [0, 3], 6, true);
-	this.animations.add('walkLeft', [8, 11], 6, true);
-	this.animations.add('walkRight', [12, 15], 6, true);
+	this.animations.add('walkUp', [4, 5, 6, 7], 6, true);
+	this.animations.add('walkDown', [0, 1, 2, 3], 6, true);
+	this.animations.add('walkLeft', [8, 9, 10, 11], 6, true);
+	this.animations.add('walkRight', [12, 13, 14, 15], 6, true);
 	timer = game.time.create(false);
 	timer.loop(Phaser.Timer.SECOND, function(){
 		player.currentHP -= 1;
