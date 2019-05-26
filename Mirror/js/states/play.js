@@ -18,12 +18,8 @@ Play.prototype = {
 		// map.addTilesetImage('FloorWall', 'floorwall');
 		map.addTilesetImage('doorAnimate', 'door');
 		map.addTilesetImage('objects', 'objects');
-		map.addTilesetImage('0', 'texture_0');
-		map.addTilesetImage('1', 'texture_1');
-		map.addTilesetImage('2', 'texture_2');
-		map.addTilesetImage('3', 'texture_3');
-		map.addTilesetImage('obj', 'obj');
-		map.addTilesetImage('decorations', 'decorations');
+		map.addTilesetImage('floor', 'floor');
+		map.addTilesetImage('wall', 'wall');
 		// map.addTilesetImage('Puzzle_1', 'puzzle_1');
 		map.setCollisionByExclusion([]);
 		floorLayer = map.createLayer('Floor');

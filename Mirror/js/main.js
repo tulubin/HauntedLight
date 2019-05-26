@@ -38,8 +38,8 @@ var touch_counter = 0;
 var directionAngle = 270*Math.PI/180;
 var playerWalkingDuration = 500;
 // Tile-Map Constants:
-var DOOR_CLOSED_INDEX = 101;
-var DOOR_OPEN_INDEX = 102;
+var DOOR_CLOSED_INDEX = 1;
+var DOOR_OPEN_INDEX = 2;
 var CLOTH_GOOD_INDEX = 25;
 var CLOTH_BREAK_INDEX = 28;
 var BALL_GOOD_INDEX = 29;
