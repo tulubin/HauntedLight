@@ -10,11 +10,12 @@ LightPlugin.prototype.constructor = LightPlugin;
 LightPlugin.prototype.addLight = function() {
 	maskGraphics = this.game.add.graphics(0, 0);
 	floorLayer.mask = maskGraphics;
-	terrainLayer.mask = maskGraphics;
+	wallLayer.mask = maskGraphics;
 	objectLayer.mask = maskGraphics;
+	decorations.mask = maskGraphics;
 	// shadow.mask = maskGraphics;
-	// terrainLayer.mask = null; // disable mask
-	// terrainLayer.alpha = 0.02;
+	// wallLayer.mask = null; // disable mask
+	// wallLayer.alpha = 0.02;
 	player.alpha = 0.5;
 };
 LightPlugin.prototype.updateLight = function() {
@@ -31,7 +32,7 @@ LightPlugin.prototype.updateLight = function() {
 		var lightThrough = false;
 		var k = 0;
 		for(var j = 1; j <= RAY_LENGTH; j++){
-	  		var terrainTile = map.getTile(terrainLayer.getTileX(lastX), terrainLayer.getTileY(lastY), terrainLayer, true);
+	  		var wallTile = map.getTile(wallLayer.getTileX(lastX), wallLayer.getTileY(lastY), wallLayer, true);
 	  		var objectTile = map.getTile(objectLayer.getTileX(lastX), objectLayer.getTileY(lastY), objectLayer, true);
 	  		if(shadow.x === lastX && shadow.y === lastY) {
 	  			var x;
@@ -46,11 +47,11 @@ LightPlugin.prototype.updateLight = function() {
 	  			shadow.x += x;
 	  			shadow.y += y;
 	  		}
-	  		if(lightThrough && (k >= GRID_SIZE/2 || (terrainTile.index === -1 && objectTile.index !== DOOR_CLOSED_INDEX))){
+	  		if(lightThrough && (k >= GRID_SIZE/2 || (wallTile.index === -1 && objectTile.index !== DOOR_CLOSED_INDEX))){
 				maskGraphics.lineTo(lastX, lastY);
 				break;
 	  		} else {
-	  			if(terrainTile.index !== -1 || objectTile.index === DOOR_CLOSED_INDEX) {
+	  			if(wallTile.index !== -1 || objectTile.index === DOOR_CLOSED_INDEX) {
 	  				lightThrough = true;
 	  			}
 	  			if(lightThrough)

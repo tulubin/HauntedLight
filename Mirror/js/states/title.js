@@ -4,11 +4,18 @@ var Title = function(game) {};
 Title.prototype = {
 	preload: function() {
 		// load tilemap
-		game.load.tilemap('level', 'assets/level/map01.json', null, Phaser.Tilemap.TILED_JSON);
+		game.load.tilemap('level', 'assets/level/map.json', null, Phaser.Tilemap.TILED_JSON);
 		// game.load.spritesheet('tilesheet', 'assets/tilesheet/colorblock.png', 32, 32);
-		game.load.spritesheet('floorwall', 'assets/tilesheet/floor-wall.png', 32, 32);
+		// game.load.spritesheet('floorwall', 'assets/tilesheet/floor-wall.png', 32, 32);
 		game.load.spritesheet('door', 'assets/tilesheet/doorAnimate.png', 32, 32);
 		game.load.spritesheet('objects', 'assets/tilesheet/objects.png', 32, 32);
+		game.load.spritesheet('texture_0', 'assets/tilesheet/0.png', 32, 32);
+		game.load.spritesheet('texture_1', 'assets/tilesheet/1.png', 32, 32);
+		game.load.spritesheet('texture_2', 'assets/tilesheet/2.png', 32, 32);
+		game.load.spritesheet('texture_3', 'assets/tilesheet/3.png', 32, 32);
+		game.load.spritesheet('obj', 'assets/tilesheet/obj.png', 32, 32);
+		game.load.spritesheet('decorations', 'assets/tilesheet/decorations.png', 32, 32);
+		// game.load.spritesheet('puzzle_1', 'assets/tilesheet/puzzle-1-test-export.png', 32, 32);
 		// game.load.spritesheet('objects', 'assets/img/objects.png', 32, 32);
 		// Loading assets:
 		// game.load.image('Background', 'assets/img/background.png');

@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="12">
- <tileset firstgid="1" source="1.tsx"/>
- <tileset firstgid="101" source="../../tilesheet/doorAnimate.tsx"/>
- <tileset firstgid="109" source="../../tilesheet/objects.tsx"/>
- <tileset firstgid="119" source="../../tilesheet/decorations.tsx"/>
+ <tileset firstgid="1" name="puzzle-1-test" tilewidth="32" tileheight="32" tilecount="100" columns="10">
+  <image source="../../tilesheet/1.png" trans="ff00ff" width="320" height="320"/>
+ </tileset>
+ <tileset firstgid="101" name="doorAnimate" tilewidth="32" tileheight="32" tilecount="8" columns="4">
+  <image source="../../tilesheet/doorAnimate.png" trans="ff00ff" width="128" height="64"/>
+ </tileset>
+ <tileset firstgid="109" name="objects" tilewidth="32" tileheight="32" tilecount="10" columns="5">
+  <image source="../../tilesheet/objects.png" trans="ff00ff" width="160" height="64"/>
+ </tileset>
+ <tileset firstgid="119" name="decorations" tilewidth="32" tileheight="32" tilecount="100" columns="10">
+  <image source="../../tilesheet/decorations.png" trans="ff00ff" width="320" height="320"/>
+ </tileset>
  <tileset firstgid="219" name="3" tilewidth="32" tileheight="32" tilecount="100" columns="10">
   <image source="../../tilesheet/3.png" trans="000000" width="320" height="320"/>
  </tileset>
@@ -16,7 +24,7 @@
  <tileset firstgid="519" name="0" tilewidth="32" tileheight="32" tilecount="100" columns="10">
   <image source="../../tilesheet/0.png" trans="000000" width="320" height="320"/>
  </tileset>
- <layer id="2" name="floor" width="100" height="100">
+ <layer id="2" name="Floor" width="100" height="100">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,
@@ -120,7 +128,7 @@
 26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26
 </data>
  </layer>
- <layer id="3" name="wall" width="100" height="100">
+ <layer id="3" name="Wall" width="100" height="100">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
@@ -224,10 +232,10 @@
 6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6
 </data>
  </layer>
- <objectgroup id="5" name="decorations">
+ <objectgroup id="5" name="Decorations">
   <object id="3" gid="120" x="1465.03" y="2631.33" width="176" height="106"/>
  </objectgroup>
- <layer id="1" name="objects" width="100" height="100">
+ <layer id="1" name="Objects" width="100" height="100">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
