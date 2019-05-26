@@ -34,18 +34,8 @@ LightPlugin.prototype.updateLight = function() {
 		for(var j = 1; j <= RAY_LENGTH; j++){
 	  		var wallTile = map.getTile(wallLayer.getTileX(lastX), wallLayer.getTileY(lastY), wallLayer, true);
 	  		var objectTile = map.getTile(objectLayer.getTileX(lastX), objectLayer.getTileY(lastY), objectLayer, true);
-	  		if(shadow.x === lastX && shadow.y === lastY) {
-	  			var x;
-	  			var y;
-	  			if(game.rnd.integerInRange(0, 1) === 1) {
-	  				x = game.rnd.integerInRange(100, 200);
-	  				y = game.rnd.integerInRange(100, 200);
-	  			} else {
-	  				x = game.rnd.integerInRange(-100, -200);
-	  				y = game.rnd.integerInRange(-100, -200);
-	  			}
-	  			shadow.x += x;
-	  			shadow.y += y;
+	  		if(Phaser.Math.distance(lastX, lastY, shadow.x, shadow.y) < 1) {
+	  			player.currentHP -= 1;
 	  		}
 	  		if(lightThrough && (k >= GRID_SIZE/2 || (wallTile.index === -1 && objectTile.index !== DOOR_CLOSED_INDEX))){
 				maskGraphics.lineTo(lastX, lastY);

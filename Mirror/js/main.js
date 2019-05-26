@@ -30,13 +30,10 @@ var gradient;
 var timer;
 var decorations;
 // Variable:
-var playerTweenCompleted = true;
-var playerOrientation = { up: false, down: true, left: false, right: false };
 var frontObject = null;
 var frontObjectIndex = -1;
 var touch_counter = 0;
 var directionAngle = 270*Math.PI/180;
-var playerWalkingDuration = 500;
 // Tile-Map Constants:
 var DOOR_CLOSED_INDEX = 1;
 var DOOR_OPEN_INDEX = 2;
