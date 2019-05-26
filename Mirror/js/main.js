@@ -28,6 +28,7 @@ var interactText;
 var shadowTexture;
 var gradient;
 var timer;
+var decorations;
 // Variable:
 var playerTweenCompleted = true;
 var playerOrientation = { up: false, down: true, left: false, right: false };
@@ -37,8 +38,8 @@ var touch_counter = 0;
 var directionAngle = 270*Math.PI/180;
 var playerWalkingDuration = 500;
 // Tile-Map Constants:
-var DOOR_CLOSED_INDEX = 17;
-var DOOR_OPEN_INDEX = 18;
+var DOOR_CLOSED_INDEX = 101;
+var DOOR_OPEN_INDEX = 102;
 var CLOTH_GOOD_INDEX = 25;
 var CLOTH_BREAK_INDEX = 28;
 var BALL_GOOD_INDEX = 29;
