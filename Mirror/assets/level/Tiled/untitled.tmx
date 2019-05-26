@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="5" height="14" tilewidth="32" tileheight="32" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" source="floor.tsx"/>
+ <tileset firstgid="132" source="wall.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="5" height="14">
+  <data encoding="csv">
+184,185,186,187,188,
+189,249,192,193,194,
+195,196,197,201,210,
+211,212,213,214,215,
+219,220,221,222,223,
+224,226,227,228,229,
+230,249,232,233,234,
+235,236,237,238,239,
+240,241,243,244,245,
+246,247,248,0,0,
+0,0,0,0,0,
+0,0,0,0,0,
+0,0,0,0,0,
+0,0,0,0,0
+</data>
+ </layer>
+</map>

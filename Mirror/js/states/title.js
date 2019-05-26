@@ -9,12 +9,8 @@ Title.prototype = {
 		// game.load.spritesheet('floorwall', 'assets/tilesheet/floor-wall.png', 32, 32);
 		game.load.spritesheet('door', 'assets/tilesheet/doorAnimate.png', 32, 32);
 		game.load.spritesheet('objects', 'assets/tilesheet/objects.png', 32, 32);
-		game.load.spritesheet('texture_0', 'assets/tilesheet/0.png', 32, 32);
-		game.load.spritesheet('texture_1', 'assets/tilesheet/1.png', 32, 32);
-		game.load.spritesheet('texture_2', 'assets/tilesheet/2.png', 32, 32);
-		game.load.spritesheet('texture_3', 'assets/tilesheet/3.png', 32, 32);
-		game.load.spritesheet('obj', 'assets/tilesheet/obj.png', 32, 32);
-		game.load.spritesheet('decorations', 'assets/tilesheet/decorations.png', 32, 32);
+		game.load.spritesheet('wall', 'assets/tilesheet/wall.png', 32, 32);
+		game.load.spritesheet('floor', 'assets/tilesheet/floor.png', 32, 32);
 		// game.load.spritesheet('puzzle_1', 'assets/tilesheet/puzzle-1-test-export.png', 32, 32);
 		// game.load.spritesheet('objects', 'assets/img/objects.png', 32, 32);
 		// Loading assets:
@@ -41,14 +37,14 @@ Title.prototype = {
 		var playText = game.add.text(game.width/2, game.height*0.6, 'Escape the room!', {font: 'Helvetica', fontSize: '24px', fill: '#fff'});
 		playText.anchor.set(0.5);
 
-		var playText = game.add.text(game.width/2, game.height*.8, 'Press W to Start', {font: 'Helvetica', fontSize: '24px', fill: '#fff'});
+		var playText = game.add.text(game.width/2, game.height*.8, 'Press SPACEBAR to Start', {font: 'Helvetica', fontSize: '24px', fill: '#fff'});
 		playText.anchor.set(0.5);
 
 
 	},
 	update: function() {
 		// input to continue
-		if(game.input.keyboard.justPressed(Phaser.Keyboard.W)) {
+		if(game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR)) {
 			game.state.start('Play');
 		}
 	}

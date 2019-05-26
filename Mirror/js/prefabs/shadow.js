@@ -1,10 +1,11 @@
 // Shadow prefab
 
-function Shadow(game) {
+function Shadow(game, x, y) {
 	// call Sprite constructor within this object
 	// new Sprite(game, x, y, key, frame)
-	Phaser.Sprite.call(this, game, player.x+500, player.y+500, 'player_atlas');
+	Phaser.Sprite.call(this, game, x, y, 'player_atlas');
 	this.anchor.set(0.5);
+	this.inSight = false;
 	// this.alpha = 0.5;
 }
 
@@ -18,11 +19,11 @@ Shadow.prototype.update = function() {
 	this.moveShadow();
 }
 Shadow.prototype.moveShadow = function() {
-	if(player.x > this.x)
+	if(player.lastX > this.x)
 		this.x += game.rnd.integerInRange(-1, 30)/30;
 	else
 		this.x -= game.rnd.integerInRange(-1, 30)/30;
-	if(player.y > this.y)
+	if(player.lastY > this.y)
 		this.y += game.rnd.integerInRange(-1, 30)/30;
 	else
 		this.y -= game.rnd.integerInRange(-1, 30)/30;

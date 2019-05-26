@@ -18,12 +18,8 @@ Play.prototype = {
 		// map.addTilesetImage('FloorWall', 'floorwall');
 		map.addTilesetImage('doorAnimate', 'door');
 		map.addTilesetImage('objects', 'objects');
-		map.addTilesetImage('0', 'texture_0');
-		map.addTilesetImage('1', 'texture_1');
-		map.addTilesetImage('2', 'texture_2');
-		map.addTilesetImage('3', 'texture_3');
-		map.addTilesetImage('obj', 'obj');
-		map.addTilesetImage('decorations', 'decorations');
+		map.addTilesetImage('floor', 'floor');
+		map.addTilesetImage('wall', 'wall');
 		// map.addTilesetImage('Puzzle_1', 'puzzle_1');
 		map.setCollisionByExclusion([]);
 		floorLayer = map.createLayer('Floor');
@@ -46,7 +42,7 @@ Play.prototype = {
 		player = new Player(game);
 		game.add.existing(player);
 
-		shadow = new Shadow(game);
+		shadow = new Shadow(game, player.x+100, player.y+100);
 		game.add.existing(shadow);
 		//var someText = game.add.text(GRID_SIZE*20.5, GRID_SIZE*26, 'Thanks For Playing the Demo!', {font: 'Helvetica', fontSize: '12px', fill: '#fff'});
 		//someText.anchor.set(0.5);
@@ -73,6 +69,9 @@ Play.prototype = {
 			}
 			
 			MIRROR_TOUCHED = false;
+		}
+		if(player.currentHP <= 0) {
+			game.state.start('End');
 		}
 	}
 };

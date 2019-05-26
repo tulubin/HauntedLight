@@ -1,6 +1,5 @@
 // HUD Group:
 
-var wsad;
 var arrows;
 
 function HUD(game) {
@@ -58,17 +57,10 @@ function HUD(game) {
 	this.interactionHUD.fixedToCamera = true;
 	this.interactionHUD.visible = false;
 	// --------------tutorial HUD-----------------
-	wasd = game.add.sprite(game.width/4, game.height/4, 'wasd_key');
-	wasd.anchor.set(0.5);
-	wasd.fixedToCamera = true;
-	wasd.visible = true;
-	game.time.events.add(4000, function () {
-		wasd.destroy();
-		arrows = game.add.sprite(game.width/4, game.height/4+96, 'arrow_key');
-		arrows.anchor.set(0.5);
-		arrows.fixedToCamera = true;
-		arrows.visible = true;
-	});
+	arrows = game.add.sprite(game.width/4, game.height/4, 'arrow_key');
+	arrows.anchor.set(0.5);
+	arrows.fixedToCamera = true;
+	arrows.visible = true;
 	game.time.events.add(8000, function () {arrows.destroy();});
 	// default:
 	this.hpIcon.visible = false;

@@ -9,7 +9,12 @@ function Player(game) {
 	this.maxHP = 100;
 	this.currentMP = 100;
 	this.maxMP = 100;
-
+	this.sprinting = false;
+	this.lastX = this.x;
+	this.lastY = this.y;
+	this.walkingDuration = 500;
+	this.tweenCompleted = true;
+	this.orientation = { up: false, down: true, left: false, right: false };
 	// player sounds:
 	footstep = game.add.audio('footstep');
 	// game.camera.follow(this);
@@ -31,8 +36,12 @@ function Player(game) {
 	this.animations.add('walkRight', [12, 13, 14, 15], 6, true);
 	timer = game.time.create(false);
 	timer.loop(Phaser.Timer.SECOND, function(){
-		player.currentHP -= 1;
-		player.currentMP -= 1;
+		if(Phaser.Math.distance(player.x, player.y, shadow.x, shadow.y) < 100) {
+			player.currentHP -= 5;
+		}
+		if(!player.sprinting && player.currentMP < 100) {
+			player.currentMP ++;
+		}
 	}, this);
 	timer.start();
 }
@@ -53,37 +62,36 @@ Player.prototype.update = function() {
 		// game.physics.arcade.collide(this, wallLayer, blockMoving, null, this);
 
 	// Player Controls:
-	if(game.input.keyboard.isDown(Phaser.Keyboard.SHIFT))
-		playerWalkingDuration = 250;
-	else
-		playerWalkingDuration = 500;
-	if(game.input.keyboard.isDown(Phaser.Keyboard.UP) && playerTweenCompleted) {
+	if((game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)) && (this.currentMP > 10)) {
+		this.walkingDuration = 250;
+		this.sprinting = true;
+	} else {
+		this.walkingDuration = 500;
+		this.sprinting = false;
+	}
+	if(game.input.keyboard.isDown(Phaser.Keyboard.UP) && this.tweenCompleted) {
 		player.animations.play("walkUp");
-		playerOrientation = { up: true, down: false, left: false, right: false }
-		if(game.input.keyboard.downDuration(Phaser.Keyboard.UP, CONTROL_RESPONSE_DELAY)) {
-		} else {
-			this.checkCollision(this.centerX, this.centerY-32, playerOrientation);
+		this.orientation = { up: true, down: false, left: false, right: false }
+		if(!game.input.keyboard.downDuration(Phaser.Keyboard.UP, CONTROL_RESPONSE_DELAY)) {
+			this.checkCollision(this.centerX, this.centerY-32, this.orientation);
 		}
-	} else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN) && playerTweenCompleted) {
+	} else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN) && this.tweenCompleted) {
 		player.animations.play("walkDown");
-		playerOrientation = { up: false, down: true, left: false, right: false }
-		if(game.input.keyboard.downDuration(Phaser.Keyboard.DOWN, CONTROL_RESPONSE_DELAY)) {
-		} else {
-			this.checkCollision(this.centerX, this.centerY+32, playerOrientation);
+		this.orientation = { up: false, down: true, left: false, right: false }
+		if(!game.input.keyboard.downDuration(Phaser.Keyboard.DOWN, CONTROL_RESPONSE_DELAY)) {
+			this.checkCollision(this.centerX, this.centerY+32, this.orientation);
 		}
-	} else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT) && playerTweenCompleted) {
+	} else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT) && this.tweenCompleted) {
 		player.animations.play("walkLeft");
-		playerOrientation = { up: false, down: false, left: true, right: false }
-		if(game.input.keyboard.downDuration(Phaser.Keyboard.LEFT, CONTROL_RESPONSE_DELAY)) {
-		} else {
-			this.checkCollision(this.centerX-32, this.centerY, playerOrientation);
+		this.orientation = { up: false, down: false, left: true, right: false }
+		if(!game.input.keyboard.downDuration(Phaser.Keyboard.LEFT, CONTROL_RESPONSE_DELAY)) {
+			this.checkCollision(this.centerX-32, this.centerY, this.orientation);
 		}
-	} else if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) && playerTweenCompleted) {
+	} else if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) && this.tweenCompleted) {
 		player.animations.play("walkRight");
-		playerOrientation = { up: false, down: false, left: false, right: true }
-		if(game.input.keyboard.downDuration(Phaser.Keyboard.RIGHT, CONTROL_RESPONSE_DELAY)) {
-		} else {
-			this.checkCollision(this.centerX+32, this.centerY, playerOrientation);
+		this.orientation = { up: false, down: false, left: false, right: true }
+		if(!game.input.keyboard.downDuration(Phaser.Keyboard.RIGHT, CONTROL_RESPONSE_DELAY)) {
+			this.checkCollision(this.centerX+32, this.centerY, this.orientation);
 		}
 	}
 	if ((frontObject !== null) && (game.input.keyboard.justPressed(Phaser.Keyboard.E))) {
@@ -110,10 +118,10 @@ Player.prototype.update = function() {
 			MIRROR_TOUCHED = true;
 		} 
 	}
-	this.updateFrontObject(playerOrientation);
+	this.updateFrontObject(this.orientation);
 	// this.updateLight();
 	// Play footsetps while moving:
-	if(playerTweenCompleted === true) {
+	if(this.tweenCompleted === true) {
 		footstep.stop();
 		this.animations.stop();
 	}
@@ -124,18 +132,18 @@ Player.prototype.movePlayer = function(directions) {
 // function movePlayer(directions) {
 	footstep.play('', 0, 1, false, true);
 	if(directions.up === true) {
-		playerTween = game.add.tween(player).to({x: player.centerX, y: player.centerY-32}, playerWalkingDuration, Phaser.Easing.Linear.None, true);
+		playerTween = game.add.tween(player).to({x: player.centerX, y: player.centerY-32}, this.walkingDuration, Phaser.Easing.Linear.None, true);
 	} else if (directions.down === true) {
-		playerTween = game.add.tween(player).to({x: player.centerX, y: player.centerY+32}, playerWalkingDuration, Phaser.Easing.Linear.None, true);
+		playerTween = game.add.tween(player).to({x: player.centerX, y: player.centerY+32}, this.walkingDuration, Phaser.Easing.Linear.None, true);
 	} else if (directions.left === true) {
-		playerTween = game.add.tween(player).to({x: player.centerX-32, y: player.centerY}, playerWalkingDuration, Phaser.Easing.Linear.None, true);
+		playerTween = game.add.tween(player).to({x: player.centerX-32, y: player.centerY}, this.walkingDuration, Phaser.Easing.Linear.None, true);
 	} else if (directions.right === true) {
-		playerTween = game.add.tween(player).to({x: player.centerX+32, y: player.centerY}, playerWalkingDuration, Phaser.Easing.Linear.None, true);
+		playerTween = game.add.tween(player).to({x: player.centerX+32, y: player.centerY}, this.walkingDuration, Phaser.Easing.Linear.None, true);
 	}
 	// player.gridPosition.x += x;  
 	// player.gridPosition.y += y; 
-	// playerTween = game.add.tween(player).to({x: player.gridPosition.x * GRID_SIZE, y: player.gridPosition.y * GRID_SIZE}, playerWalkingDuration, Phaser.Easing.Quadratic.InOut, true);
-	playerTweenCompleted = false;
+	// playerTween = game.add.tween(player).to({x: player.gridPosition.x * GRID_SIZE, y: player.gridPosition.y * GRID_SIZE}, this.walkingDuration, Phaser.Easing.Quadratic.InOut, true);
+	this.tweenCompleted = false;
 	playerTween.onComplete.add(this.playerTweenComplete, this);
 }
 
@@ -168,10 +176,15 @@ Player.prototype.checkCollision = function(x, y, directions) {
     		}
     	}
 	}
+
+	if(this.sprinting) {
+		this.currentMP -= 10;
+	}
 }
 Player.prototype.playerTweenComplete = function() {
 // function playerTweenComplete() {
-	playerTweenCompleted = true;
+	this.tweenCompleted = true;
+	this.updatePlayerXY();
 }
 Player.prototype.updateFrontObject = function(directions) {
 // function updateFrontObject(directions) {
@@ -192,4 +205,8 @@ Player.prototype.updateFrontObject = function(directions) {
 		frontObjectIndex = frontObject.index;
 	else
 		frontObjectIndex = -1;
+}
+Player.prototype.updatePlayerXY = function() {
+	this.lastX = this.x;
+	this.lastY = this.y;
 }
