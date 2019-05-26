@@ -46,17 +46,17 @@ DebugPlugin.prototype.render = function () {
 	}
 };
 DebugPlugin.prototype.updateMarker = function () {
-	marker.x = terrainLayer.getTileX(game.input.activePointer.worldX) * 32;
-	marker.y = terrainLayer.getTileY(game.input.activePointer.worldY) * 32;
+	marker.x = wallLayer.getTileX(game.input.activePointer.worldX) * 32;
+	marker.y = wallLayer.getTileY(game.input.activePointer.worldY) * 32;
 };
 DebugPlugin.prototype.getTileProperties = function() {
-	tileX = terrainLayer.getTileX(game.input.activePointer.worldX);
-	tileY = terrainLayer.getTileY(game.input.activePointer.worldY);
-	var tile = map.getTile(tileX, tileY, terrainLayer, true);
+	tileX = wallLayer.getTileX(game.input.activePointer.worldX);
+	tileY = wallLayer.getTileY(game.input.activePointer.worldY);
+	var tile = map.getTile(tileX, tileY, wallLayer, true);
 	// Note: JSON.stringify will convert the object tile properties to a string
 	// currentDataString = JSON.stringify(tile.properties);
 	if(tile.index !== -1) {
-		currentLayer = 'Terrain';
+		currentLayer = 'wall';
 		tileIndex = tile.index;
 	} else {
 		tileX = objectLayer.getTileX(game.input.activePointer.worldX);

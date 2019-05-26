@@ -3,7 +3,7 @@
 function Player(game) {
 	// call Sprite constructor within this object
 	// new Sprite(game, x, y, key, frame)
-	Phaser.Sprite.call(this, game, GRID_SIZE*11+GRID_SIZE/2, GRID_SIZE*9+GRID_SIZE/2, 'player_atlas');
+	Phaser.Sprite.call(this, game, GRID_SIZE*48+GRID_SIZE/2, GRID_SIZE*80+GRID_SIZE/2, 'player_atlas');
 	this.anchor.set(0.5);
 	this.currentHP = 100;
 	this.maxHP = 100;
@@ -49,8 +49,8 @@ Player.prototype.update = function() {
 	// this.body.velocity.x = 0;
 	// this.body.velocity.y = 0;
 
-	// game.physics.arcade.collide(this, terrainLayer);
-		// game.physics.arcade.collide(this, terrainLayer, blockMoving, null, this);
+	// game.physics.arcade.collide(this, wallLayer);
+		// game.physics.arcade.collide(this, wallLayer, blockMoving, null, this);
 
 	// Player Controls:
 	if(game.input.keyboard.isDown(Phaser.Keyboard.SHIFT))
@@ -143,14 +143,14 @@ Player.prototype.movePlayer = function(directions) {
 Player.prototype.checkCollision = function(x, y, directions) {
 // function checkCollision(x, y, directions) {
 	// frontObject = null;
-    var terrainTileX = terrainLayer.getTileX(x);
-    var terrainTileY = terrainLayer.getTileY(y);
-    var tile = map.getTile(terrainTileX, terrainTileY, terrainLayer, true);
+    var wallTileX = wallLayer.getTileX(x);
+    var wallTileY = wallLayer.getTileY(y);
+    var tile = map.getTile(wallTileX, wallTileY, wallLayer, true);
 
     // currentDataString = tile;
     // console.log(currentDataString);
     // if([1].includes(tile.index))
-    // Check if next tile is terrain
+    // Check if next tile is wall
     if(tile.index === -1) {
     	var objectTileX = objectLayer.getTileX(x);
 	    var objectTileY = objectLayer.getTileY(y);
