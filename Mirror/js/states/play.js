@@ -16,8 +16,8 @@ Play.prototype = {
 		// game.stage.setBackgroundColor('#87CEEB');
 		map = game.add.tilemap('level');
 		// map.addTilesetImage('FloorWall', 'floorwall');
-		map.addTilesetImage('doorAnimate', 'door');
-		map.addTilesetImage('objects', 'objects');
+		map.addTilesetImage('objects32X32', 'objects32X32');
+		map.addTilesetImage('objects64X64', 'objects64X64');
 		map.addTilesetImage('floor', 'floor');
 		map.addTilesetImage('wall', 'wall');
 		// map.addTilesetImage('Puzzle_1', 'puzzle_1');

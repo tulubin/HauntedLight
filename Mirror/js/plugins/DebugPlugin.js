@@ -34,12 +34,12 @@ DebugPlugin.prototype.render = function () {
 		game.debug.text('FPS: ' + game.time.fps || 'FPS: --', 40, 40, "#00ff00");
 		game.debug.cameraInfo(game.camera, GRID_SIZE, GRID_SIZE);
 		game.debug.spriteCoords(player, GRID_SIZE, 500);
-		game.debug.text('player HP: ' + player.HP, 32, game.camera.height-120);
+		game.debug.text('player HP: ' + player.currentHP, 32, game.camera.height-120);
 		game.debug.text('Tile x: ' + tileX + ' Tile y: ' + tileY, 32, game.camera.height-100);
 		game.debug.text('Current tile layer: ' + currentLayer, 32, game.camera.height-80);
 		game.debug.text('Target tile index: ' + tileIndex, 32, game.camera.height-60);
 		game.debug.text('Front object: ' + frontObjectIndex, 32, game.camera.height-40);
-		game.debug.text('Player Stop Moving: ' + playerTweenCompleted.toString(), 32, game.camera.height-20);
+		game.debug.text('Player Stop Moving: ' + player.tweenCompleted.toString(), 32, game.camera.height-20);
 	} else {
 		game.time.advancedTiming = false;
 		game.debug.text('', 32, 664);

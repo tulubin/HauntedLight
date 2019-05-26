@@ -7,8 +7,8 @@ Title.prototype = {
 		game.load.tilemap('level', 'assets/level/map.json', null, Phaser.Tilemap.TILED_JSON);
 		// game.load.spritesheet('tilesheet', 'assets/tilesheet/colorblock.png', 32, 32);
 		// game.load.spritesheet('floorwall', 'assets/tilesheet/floor-wall.png', 32, 32);
-		game.load.spritesheet('door', 'assets/tilesheet/doorAnimate.png', 32, 32);
-		game.load.spritesheet('objects', 'assets/tilesheet/objects.png', 32, 32);
+		game.load.spritesheet('objects32X32', 'assets/tilesheet/objects32X32.png', 32, 32);
+		game.load.spritesheet('objects64X64', 'assets/tilesheet/objects64X64.png', 32, 32);
 		game.load.spritesheet('wall', 'assets/tilesheet/wall.png', 32, 32);
 		game.load.spritesheet('floor', 'assets/tilesheet/floor.png', 32, 32);
 		// game.load.spritesheet('puzzle_1', 'assets/tilesheet/puzzle-1-test-export.png', 32, 32);

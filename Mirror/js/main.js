@@ -35,8 +35,8 @@ var frontObjectIndex = -1;
 var touch_counter = 0;
 var directionAngle = 270*Math.PI/180;
 // Tile-Map Constants:
-var DOOR_CLOSED_INDEX = 1;
-var DOOR_OPEN_INDEX = 2;
+var DOOR_CLOSED_INDEX = 111;
+var DOOR_OPEN_INDEX = 112;
 var CLOTH_GOOD_INDEX = 25;
 var CLOTH_BREAK_INDEX = 28;
 var BALL_GOOD_INDEX = 29;
