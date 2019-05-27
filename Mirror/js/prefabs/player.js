@@ -3,7 +3,7 @@
 function Player(game) {
 	// call Sprite constructor within this object
 	// new Sprite(game, x, y, key, frame)
-	Phaser.Sprite.call(this, game, GRID_SIZE*52+GRID_SIZE/2, GRID_SIZE*77+GRID_SIZE/2, 'player');
+	Phaser.Sprite.call(this, game, GRID_SIZE * 52 + GRID_SIZE / 2, GRID_SIZE * 77 + GRID_SIZE / 2, 'player');
 	this.anchor.set(0.5);
 	this.currentHP = 100;   // for debuging
 	this.maxHP = 100;
@@ -15,8 +15,8 @@ function Player(game) {
 	this.walkingDuration = 500;
 	this.tweenCompleted = true;
 	this.orientation = { up: false, down: true, left: false, right: false };
-	this.lightAngle = Math.PI*0.4;
-	this.numberOfRays = this.lightAngle*50;
+	this.lightAngle = Math.PI * 0.4;
+	this.numberOfRays = this.lightAngle * 50;
 	this.rayLength = 120;
 	this.hided = false;
 	// player sounds:
@@ -31,25 +31,25 @@ function Player(game) {
 	this.animations.add('walkRight', [12, 13, 14, 15], 6, true);
 
 	timer = game.time.create(false);
-	timer.loop(Phaser.Timer.SECOND, function(){
-		if((Phaser.Math.distance(this.x, this.y, shadow.x, shadow.y) < 100) && (this.currentHP >= 0) && !this.hided)
+	timer.loop(Phaser.Timer.SECOND, function () {
+		if ((Phaser.Math.distance(this.x, this.y, shadow.x, shadow.y) < 100) && (this.currentHP >= 0) && !this.hided)
 			this.currentHP -= 5;
-		if(!this.sprinting && this.currentMP < 100 && (this.tweenCompleted || this.hided))
+		if (!this.sprinting && this.currentMP < 100 && (this.tweenCompleted || this.hided))
 			this.currentMP += 10;
-		if((this.hided) && (this.currentHP < this.maxHP))
+		if ((this.hided) && (this.currentHP < this.maxHP))
 			this.currentHP += 15;
-		if(this.currentHP > this.maxHP)
+		if (this.currentHP > this.maxHP)
 			this.currentHP = this.maxHP;
-		if(this.currentHP < 0)
+		if (this.currentHP < 0)
 			this.currentHP = 0;
-		if(this.currentMP > this.maxMP)
+		if (this.currentMP > this.maxMP)
 			this.currentMP = this.maxMP;
-		if(this.currentMP < 0)
+		if (this.currentMP < 0)
 			this.currentMP = 0;
 	}, this);
 	timer.start();
 
-	shadow = new Shadow(game, this.x+100, this.y+100);
+	shadow = new Shadow(game, this.x + 100, this.y + 100);
 	game.add.existing(shadow);
 
 	this.addLight();
@@ -59,45 +59,45 @@ function Player(game) {
 // the Object.create method creates a new object w/ the specified prototype object and properties
 Player.prototype = Object.create(Phaser.Sprite.prototype);
 // since we used Object.create, we need to explicitly set the constructor
-Player.prototype.constructor = Player;  
+Player.prototype.constructor = Player;
 
-Player.prototype.update = function() {
+Player.prototype.update = function () {
 	this.updateLight();
 	// Player Controls:
-	if((game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)) && (this.currentMP > 10)) {
+	if ((game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)) && (this.currentMP > 10)) {
 		this.walkingDuration = 250;
 		this.sprinting = true;
 	} else {
 		this.walkingDuration = 500;
 		this.sprinting = false;
 	}
-	if(game.input.keyboard.isDown(Phaser.Keyboard.UP) && this.tweenCompleted) {
+	if (game.input.keyboard.isDown(Phaser.Keyboard.UP) && this.tweenCompleted) {
 		player.animations.play("walkUp");
 		this.orientation = { up: true, down: false, left: false, right: false }
-		if(!game.input.keyboard.downDuration(Phaser.Keyboard.UP, CONTROL_RESPONSE_DELAY)) {
-			this.checkCollision(this.centerX, this.centerY-32, this.orientation);
+		if (!game.input.keyboard.downDuration(Phaser.Keyboard.UP, CONTROL_RESPONSE_DELAY)) {
+			this.checkCollision(this.centerX, this.centerY - 32, this.orientation);
 		}
-	} else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN) && this.tweenCompleted) {
+	} else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN) && this.tweenCompleted) {
 		player.animations.play("walkDown");
 		this.orientation = { up: false, down: true, left: false, right: false }
-		if(!game.input.keyboard.downDuration(Phaser.Keyboard.DOWN, CONTROL_RESPONSE_DELAY)) {
-			this.checkCollision(this.centerX, this.centerY+32, this.orientation);
+		if (!game.input.keyboard.downDuration(Phaser.Keyboard.DOWN, CONTROL_RESPONSE_DELAY)) {
+			this.checkCollision(this.centerX, this.centerY + 32, this.orientation);
 		}
-	} else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT) && this.tweenCompleted) {
+	} else if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT) && this.tweenCompleted) {
 		player.animations.play("walkLeft");
 		this.orientation = { up: false, down: false, left: true, right: false }
-		if(!game.input.keyboard.downDuration(Phaser.Keyboard.LEFT, CONTROL_RESPONSE_DELAY)) {
-			this.checkCollision(this.centerX-32, this.centerY, this.orientation);
+		if (!game.input.keyboard.downDuration(Phaser.Keyboard.LEFT, CONTROL_RESPONSE_DELAY)) {
+			this.checkCollision(this.centerX - 32, this.centerY, this.orientation);
 		}
-	} else if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) && this.tweenCompleted) {
+	} else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) && this.tweenCompleted) {
 		player.animations.play("walkRight");
 		this.orientation = { up: false, down: false, left: false, right: true }
-		if(!game.input.keyboard.downDuration(Phaser.Keyboard.RIGHT, CONTROL_RESPONSE_DELAY)) {
-			this.checkCollision(this.centerX+32, this.centerY, this.orientation);
+		if (!game.input.keyboard.downDuration(Phaser.Keyboard.RIGHT, CONTROL_RESPONSE_DELAY)) {
+			this.checkCollision(this.centerX + 32, this.centerY, this.orientation);
 		}
 	}
 	if ((frontObject !== null) && (game.input.keyboard.justPressed(Phaser.Keyboard.E))) {
-		switch(frontObject.index) {
+		switch (frontObject.index) {
 			case DOOR_CLOSED_INDEX:
 				map.replace(DOOR_CLOSED_INDEX, DOOR_OPEN_INDEX, frontObject.x, frontObject.y, 1, 1, objectLayer);
 				break;
@@ -105,75 +105,75 @@ Player.prototype.update = function() {
 				map.replace(DOOR_OPEN_INDEX, DOOR_CLOSED_INDEX, frontObject.x, frontObject.y, 1, 1, objectLayer);
 				break;
 			case CLOSET_1_INDEX:
-			case CLOSET_1_INDEX+1:
-				map.replace(CLOSET_1_INDEX, CLOSET_1_INDEX+2, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
-				map.replace(CLOSET_1_INDEX+1, CLOSET_1_INDEX+3, frontObject.x, frontObject.y, 2, 1, objectLayer);
+			case CLOSET_1_INDEX + 1:
+				map.replace(CLOSET_1_INDEX, CLOSET_1_INDEX + 2, frontObject.x - 1, frontObject.y, 2, 1, objectLayer);
+				map.replace(CLOSET_1_INDEX + 1, CLOSET_1_INDEX + 3, frontObject.x, frontObject.y, 2, 1, objectLayer);
 				this.hidePlayer();
 				break;
-			case CLOSET_1_INDEX+2:
-			case CLOSET_1_INDEX+3:
-				map.replace(CLOSET_1_INDEX+2, CLOSET_1_INDEX, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
-				map.replace(CLOSET_1_INDEX+3, CLOSET_1_INDEX+1, frontObject.x, frontObject.y, 2, 1, objectLayer);
+			case CLOSET_1_INDEX + 2:
+			case CLOSET_1_INDEX + 3:
+				map.replace(CLOSET_1_INDEX + 2, CLOSET_1_INDEX, frontObject.x - 1, frontObject.y, 2, 1, objectLayer);
+				map.replace(CLOSET_1_INDEX + 3, CLOSET_1_INDEX + 1, frontObject.x, frontObject.y, 2, 1, objectLayer);
 				this.unhidePlayer();
 				break;
 			case CLOSET_2_INDEX:
-			case CLOSET_2_INDEX+1:
-				map.replace(CLOSET_2_INDEX, CLOSET_2_INDEX+2, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
-				map.replace(CLOSET_2_INDEX+1, CLOSET_2_INDEX+3, frontObject.x, frontObject.y, 2, 1, objectLayer);
+			case CLOSET_2_INDEX + 1:
+				map.replace(CLOSET_2_INDEX, CLOSET_2_INDEX + 2, frontObject.x - 1, frontObject.y, 2, 1, objectLayer);
+				map.replace(CLOSET_2_INDEX + 1, CLOSET_2_INDEX + 3, frontObject.x, frontObject.y, 2, 1, objectLayer);
 				this.hidePlayer();
 				break;
-			case CLOSET_2_INDEX+2:
-			case CLOSET_2_INDEX+3:
-				map.replace(CLOSET_2_INDEX+2, CLOSET_2_INDEX, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
-				map.replace(CLOSET_2_INDEX+3, CLOSET_2_INDEX+1, frontObject.x, frontObject.y, 2, 1, objectLayer);
+			case CLOSET_2_INDEX + 2:
+			case CLOSET_2_INDEX + 3:
+				map.replace(CLOSET_2_INDEX + 2, CLOSET_2_INDEX, frontObject.x - 1, frontObject.y, 2, 1, objectLayer);
+				map.replace(CLOSET_2_INDEX + 3, CLOSET_2_INDEX + 1, frontObject.x, frontObject.y, 2, 1, objectLayer);
 				this.unhidePlayer();
 				break;
 			case DESK_1_INDEX:
-			case DESK_1_INDEX+1:
-				map.replace(DESK_1_INDEX, DESK_1_INDEX+2, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
-				map.replace(DESK_1_INDEX+1, DESK_1_INDEX+3, frontObject.x, frontObject.y, 2, 1, objectLayer);
+			case DESK_1_INDEX + 1:
+				map.replace(DESK_1_INDEX, DESK_1_INDEX + 2, frontObject.x - 1, frontObject.y, 2, 1, objectLayer);
+				map.replace(DESK_1_INDEX + 1, DESK_1_INDEX + 3, frontObject.x, frontObject.y, 2, 1, objectLayer);
 				this.hidePlayer();
 				break;
-			case DESK_1_INDEX+2:
-			case DESK_1_INDEX+3:
-				map.replace(DESK_1_INDEX+2, DESK_1_INDEX, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
-				map.replace(DESK_1_INDEX+3, DESK_1_INDEX+1, frontObject.x, frontObject.y, 2, 1, objectLayer);
+			case DESK_1_INDEX + 2:
+			case DESK_1_INDEX + 3:
+				map.replace(DESK_1_INDEX + 2, DESK_1_INDEX, frontObject.x - 1, frontObject.y, 2, 1, objectLayer);
+				map.replace(DESK_1_INDEX + 3, DESK_1_INDEX + 1, frontObject.x, frontObject.y, 2, 1, objectLayer);
 				this.unhidePlayer();
 				break;
 			case DESK_2_INDEX:
-			case DESK_2_INDEX+1:
-				map.replace(DESK_2_INDEX, DESK_2_INDEX+2, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
-				map.replace(DESK_2_INDEX+1, DESK_2_INDEX+3, frontObject.x, frontObject.y, 2, 1, objectLayer);
+			case DESK_2_INDEX + 1:
+				map.replace(DESK_2_INDEX, DESK_2_INDEX + 2, frontObject.x - 1, frontObject.y, 2, 1, objectLayer);
+				map.replace(DESK_2_INDEX + 1, DESK_2_INDEX + 3, frontObject.x, frontObject.y, 2, 1, objectLayer);
 				this.hidePlayer();
 				break;
-			case DESK_2_INDEX+2:
-			case DESK_2_INDEX+3:
-				map.replace(DESK_2_INDEX+2, DESK_2_INDEX, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
-				map.replace(DESK_2_INDEX+3, DESK_2_INDEX+1, frontObject.x, frontObject.y, 2, 1, objectLayer);
+			case DESK_2_INDEX + 2:
+			case DESK_2_INDEX + 3:
+				map.replace(DESK_2_INDEX + 2, DESK_2_INDEX, frontObject.x - 1, frontObject.y, 2, 1, objectLayer);
+				map.replace(DESK_2_INDEX + 3, DESK_2_INDEX + 1, frontObject.x, frontObject.y, 2, 1, objectLayer);
 				this.unhidePlayer();
 				break;
 			case BED_1_INDEX:
-			case BED_1_INDEX+1:
-				map.replace(BED_1_INDEX, BED_1_INDEX+2, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
-				map.replace(BED_1_INDEX+1, BED_1_INDEX+3, frontObject.x, frontObject.y, 2, 1, objectLayer);
+			case BED_1_INDEX + 1:
+				map.replace(BED_1_INDEX, BED_1_INDEX + 2, frontObject.x - 1, frontObject.y, 2, 1, objectLayer);
+				map.replace(BED_1_INDEX + 1, BED_1_INDEX + 3, frontObject.x, frontObject.y, 2, 1, objectLayer);
 				this.hidePlayer();
 				break;
-			case BED_1_INDEX+2:
-			case BED_1_INDEX+3:
-				map.replace(BED_1_INDEX+2, BED_1_INDEX, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
-				map.replace(BED_1_INDEX+3, BED_1_INDEX+1, frontObject.x, frontObject.y, 2, 1, objectLayer);
+			case BED_1_INDEX + 2:
+			case BED_1_INDEX + 3:
+				map.replace(BED_1_INDEX + 2, BED_1_INDEX, frontObject.x - 1, frontObject.y, 2, 1, objectLayer);
+				map.replace(BED_1_INDEX + 3, BED_1_INDEX + 1, frontObject.x, frontObject.y, 2, 1, objectLayer);
 				this.unhidePlayer();
 				break;
 			case BED_2_INDEX:
-			case BED_2_INDEX+1:
-				map.replace(BED_2_INDEX, BED_2_INDEX+2, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
-				map.replace(BED_2_INDEX+1, BED_2_INDEX+3, frontObject.x, frontObject.y, 2, 1, objectLayer);
+			case BED_2_INDEX + 1:
+				map.replace(BED_2_INDEX, BED_2_INDEX + 2, frontObject.x - 1, frontObject.y, 2, 1, objectLayer);
+				map.replace(BED_2_INDEX + 1, BED_2_INDEX + 3, frontObject.x, frontObject.y, 2, 1, objectLayer);
 				this.hidePlayer();
 				break;
-			case BED_2_INDEX+2:
-			case BED_2_INDEX+3:
-				map.replace(BED_2_INDEX+2, BED_2_INDEX, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
-				map.replace(BED_2_INDEX+3, BED_2_INDEX+1, frontObject.x, frontObject.y, 2, 1, objectLayer);
+			case BED_2_INDEX + 2:
+			case BED_2_INDEX + 3:
+				map.replace(BED_2_INDEX + 2, BED_2_INDEX, frontObject.x - 1, frontObject.y, 2, 1, objectLayer);
+				map.replace(BED_2_INDEX + 3, BED_2_INDEX + 1, frontObject.x, frontObject.y, 2, 1, objectLayer);
 				this.unhidePlayer();
 				break;
 			// default:
@@ -182,24 +182,24 @@ Player.prototype.update = function() {
 	this.updateFrontObject(this.orientation);
 	// this.updateLight();
 	// Play footsetps while moving:
-	if(this.tweenCompleted === true) {
+	if (this.tweenCompleted === true) {
 		footstep.stop();
 		this.animations.stop();
 	}
 }
 
 // move player:
-Player.prototype.movePlayer = function(directions) {
-// function movePlayer(directions) {
+Player.prototype.movePlayer = function (directions) {
+	// function movePlayer(directions) {
 	footstep.play('', 0, 1, false, true);
-	if(directions.up === true) {
-		playerTween = game.add.tween(player).to({x: player.centerX, y: player.centerY-32}, this.walkingDuration, Phaser.Easing.Linear.None, true);
+	if (directions.up === true) {
+		playerTween = game.add.tween(player).to({ x: player.centerX, y: player.centerY - 32 }, this.walkingDuration, Phaser.Easing.Linear.None, true);
 	} else if (directions.down === true) {
-		playerTween = game.add.tween(player).to({x: player.centerX, y: player.centerY+32}, this.walkingDuration, Phaser.Easing.Linear.None, true);
+		playerTween = game.add.tween(player).to({ x: player.centerX, y: player.centerY + 32 }, this.walkingDuration, Phaser.Easing.Linear.None, true);
 	} else if (directions.left === true) {
-		playerTween = game.add.tween(player).to({x: player.centerX-32, y: player.centerY}, this.walkingDuration, Phaser.Easing.Linear.None, true);
+		playerTween = game.add.tween(player).to({ x: player.centerX - 32, y: player.centerY }, this.walkingDuration, Phaser.Easing.Linear.None, true);
 	} else if (directions.right === true) {
-		playerTween = game.add.tween(player).to({x: player.centerX+32, y: player.centerY}, this.walkingDuration, Phaser.Easing.Linear.None, true);
+		playerTween = game.add.tween(player).to({ x: player.centerX + 32, y: player.centerY }, this.walkingDuration, Phaser.Easing.Linear.None, true);
 	}
 	// player.gridPosition.x += x;  
 	// player.gridPosition.y += y; 
@@ -209,85 +209,85 @@ Player.prototype.movePlayer = function(directions) {
 }
 
 // // mark when player stop moving:
-Player.prototype.checkCollision = function(x, y, directions) {
-// function checkCollision(x, y, directions) {
+Player.prototype.checkCollision = function (x, y, directions) {
+	// function checkCollision(x, y, directions) {
 	// frontObject = null;
-    var wallTileX = wallLayer.getTileX(x);
-    var wallTileY = wallLayer.getTileY(y);
-    var tile = map.getTile(wallTileX, wallTileY, wallLayer, true);
+	var wallTileX = wallLayer.getTileX(x);
+	var wallTileY = wallLayer.getTileY(y);
+	var tile = map.getTile(wallTileX, wallTileY, wallLayer, true);
 
-    // currentDataString = tile;
-    // console.log(currentDataString);
-    // if([1].includes(tile.index))
-    // Check if next tile is wall
-    if(tile.index === -1) {
-    	var objectTileX = objectLayer.getTileX(x);
-	    var objectTileY = objectLayer.getTileY(y);
-	    var tile = map.getTile(objectTileX, objectTileY, objectLayer, true);
-	    // Check if next tile is objects
-    	if(tile.index === -1) {
+	// currentDataString = tile;
+	// console.log(currentDataString);
+	// if([1].includes(tile.index))
+	// Check if next tile is wall
+	if (tile.index === -1) {
+		var objectTileX = objectLayer.getTileX(x);
+		var objectTileY = objectLayer.getTileY(y);
+		var tile = map.getTile(objectTileX, objectTileY, objectLayer, true);
+		// Check if next tile is objects
+		if (tile.index === -1) {
 			this.movePlayer(directions);
-    	} else {
-    		frontObject = tile;
-    		// console.log(tile.index);
-    		if (tile.index === DOOR_CLOSED_INDEX) {
+		} else {
+			frontObject = tile;
+			// console.log(tile.index);
+			if (tile.index === DOOR_CLOSED_INDEX) {
 				// console.log('Press E to interact the door');
-    		} else if (tile.index === DOOR_OPEN_INDEX) {
-    			this.movePlayer(directions);
-    		}
-    	}
+			} else if (tile.index === DOOR_OPEN_INDEX) {
+				this.movePlayer(directions);
+			}
+		}
 	}
 
-	if(this.sprinting) {
+	if (this.sprinting) {
 		this.currentMP -= 10;
 	}
 }
-Player.prototype.playerTweenComplete = function() {
-// function playerTweenComplete() {
+Player.prototype.playerTweenComplete = function () {
+	// function playerTweenComplete() {
 	this.tweenCompleted = true;
 	this.updatePlayerXY();
 }
-Player.prototype.updateFrontObject = function(directions) {
-// function updateFrontObject(directions) {
-	if(directions.up === true) {
-		frontObject = map.getTile(objectLayer.getTileX(player.centerX), objectLayer.getTileY(player.centerY-32), objectLayer, true);
-		directionAngle = 90*Math.PI/180;
+Player.prototype.updateFrontObject = function (directions) {
+	// function updateFrontObject(directions) {
+	if (directions.up === true) {
+		frontObject = map.getTile(objectLayer.getTileX(player.centerX), objectLayer.getTileY(player.centerY - 32), objectLayer, true);
+		directionAngle = 90 * Math.PI / 180;
 	} else if (directions.down === true) {
-		frontObject = map.getTile(objectLayer.getTileX(player.centerX), objectLayer.getTileY(player.centerY+32), objectLayer, true);
-		directionAngle = 270*Math.PI/180;
+		frontObject = map.getTile(objectLayer.getTileX(player.centerX), objectLayer.getTileY(player.centerY + 32), objectLayer, true);
+		directionAngle = 270 * Math.PI / 180;
 	} else if (directions.left === true) {
-		frontObject = map.getTile(objectLayer.getTileX(player.centerX-32), objectLayer.getTileY(player.centerY), objectLayer, true);
-		directionAngle = 0*Math.PI/180;
+		frontObject = map.getTile(objectLayer.getTileX(player.centerX - 32), objectLayer.getTileY(player.centerY), objectLayer, true);
+		directionAngle = 0 * Math.PI / 180;
 	} else if (directions.right === true) {
-		frontObject = map.getTile(objectLayer.getTileX(player.centerX+32), objectLayer.getTileY(player.centerY), objectLayer, true);
-		directionAngle = 180*Math.PI/180;
+		frontObject = map.getTile(objectLayer.getTileX(player.centerX + 32), objectLayer.getTileY(player.centerY), objectLayer, true);
+		directionAngle = 180 * Math.PI / 180;
 	}
-	if(frontObject !== null)
+	if (frontObject !== null)
 		frontObjectIndex = frontObject.index;
 	else
 		frontObjectIndex = -1;
 }
-Player.prototype.updatePlayerXY = function() {
+Player.prototype.updatePlayerXY = function () {
 	this.lastX = this.x;
 	this.lastY = this.y;
 }
-Player.prototype.hidePlayer = function() {
+Player.prototype.hidePlayer = function () {
 	this.hided = true;
 	this.visible = false;
 	this.tweenCompleted = false;
-	this.lightAngle = Math.PI*2;
-	this.numberOfRays = this.lightAngle*50;
+	this.lightAngle = Math.PI * 2;
+	this.numberOfRays = this.lightAngle * 50;
 	this.rayLength = 40;
 }
-Player.prototype.unhidePlayer = function() {
+Player.prototype.unhidePlayer = function () {
 	this.hided = false;
 	this.visible = true;
 	this.tweenCompleted = true;
-	this.lightAngle = Math.PI*0.4;
-	this.numberOfRays = this.lightAngle*50;
+	this.lightAngle = Math.PI * 0.4;
+	this.numberOfRays = this.lightAngle * 50;
 	this.rayLength = 120;
 }
-Player.prototype.addLight = function() {
+Player.prototype.addLight = function () {
 	maskGraphics = this.game.add.graphics(0, 0);
 	floorLayer.mask = maskGraphics;
 	wallLayer.mask = maskGraphics;
@@ -298,44 +298,44 @@ Player.prototype.addLight = function() {
 	// wallLayer.alpha = 0.02;
 	this.alpha = 0.5;
 }
-Player.prototype.updateLight = function() {
+Player.prototype.updateLight = function () {
 	maskGraphics.clear();
 	maskGraphics.lineStyle(2, 0xffffff, 1);
 	maskGraphics.beginFill(0xff0000);
 	var playerX = this.x;
 	var playerY = this.y;
-	maskGraphics.moveTo(playerX, playerY);	
-	for(var i = 0; i < this.numberOfRays; i++){	
-		var rayAngle = directionAngle-(this.lightAngle/2)+(this.lightAngle/this.numberOfRays)*i;
+	maskGraphics.moveTo(playerX, playerY);
+	for (var i = 0; i < this.numberOfRays; i++) {
+		var rayAngle = directionAngle - (this.lightAngle / 2) + (this.lightAngle / this.numberOfRays) * i;
 		var lastX = playerX;
 		var lastY = playerY;
 		var lightThrough = false;
 		var k = 0;
-		for(var j = 1; j <= this.rayLength; j++){
-	  		var wallTile = map.getTile(wallLayer.getTileX(lastX), wallLayer.getTileY(lastY), wallLayer, true);
-	  		var objectTile = map.getTile(objectLayer.getTileX(lastX), objectLayer.getTileY(lastY), objectLayer, true);
-	  		if((Phaser.Math.distance(lastX, lastY, shadow.x, shadow.y) < 1) && (this.currentHP > 0) && !this.hided) {
-	  			this.currentHP -= 1;
-	  		}
-	  		if(lightThrough && (k >= GRID_SIZE/2 || (wallTile.index === -1 && objectTile.index !== DOOR_CLOSED_INDEX))){
+		for (var j = 1; j <= this.rayLength; j++) {
+			var wallTile = map.getTile(wallLayer.getTileX(lastX), wallLayer.getTileY(lastY), wallLayer, true);
+			var objectTile = map.getTile(objectLayer.getTileX(lastX), objectLayer.getTileY(lastY), objectLayer, true);
+			if ((Phaser.Math.distance(lastX, lastY, shadow.x, shadow.y) < 1) && (this.currentHP > 0) && !this.hided) {
+				this.currentHP -= 1;
+			}
+			if (lightThrough && (k >= GRID_SIZE / 2 || (wallTile.index === -1 && objectTile.index !== DOOR_CLOSED_INDEX))) {
 				maskGraphics.lineTo(lastX, lastY);
 				break;
-	  		} else {
-	  			if(wallTile.index !== -1 || objectTile.index === DOOR_CLOSED_INDEX) {
-	  				lightThrough = true;
-	  			}
-	  			if(lightThrough)
-	  				k++;
-		  		var landingX = Math.round(playerX-(2*j)*Math.cos(rayAngle));
-		  		var landingY = Math.round(playerY-(2*j)*Math.sin(rayAngle));
+			} else {
+				if (wallTile.index !== -1 || objectTile.index === DOOR_CLOSED_INDEX) {
+					lightThrough = true;
+				}
+				if (lightThrough)
+					k++;
+				var landingX = Math.round(playerX - (2 * j) * Math.cos(rayAngle));
+				var landingY = Math.round(playerY - (2 * j) * Math.sin(rayAngle));
 				lastX = landingX;
 				lastY = landingY;
-	  		}
+			}
 		}
 		maskGraphics.lineTo(lastX, lastY);
 	}
-	maskGraphics.lineTo(playerX,playerY);
+	maskGraphics.lineTo(playerX, playerY);
 	maskGraphics.endFill();
-	if(!this.hided)
-		floorLayer.alpha = 0.5+Math.random()*0.5;
+	if (!this.hided)
+		floorLayer.alpha = 0.5 + Math.random() * 0.5;
 };

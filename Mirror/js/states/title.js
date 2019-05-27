@@ -1,8 +1,8 @@
 // Title state
 
-var Title = function(game) {};
+var Title = function (game) { };
 Title.prototype = {
-	preload: function() {
+	preload: function () {
 		// load tilemap
 		game.load.tilemap('level', 'assets/level/map.json', null, Phaser.Tilemap.TILED_JSON);
 		// game.load.spritesheet('tilesheet', 'assets/tilesheet/colorblock.png', 32, 32);
@@ -21,29 +21,29 @@ Title.prototype = {
 		game.load.image('arrow_key', 'assets/img/arrow_keys.png');
 		game.load.image('wasd_key', 'assets/img/wasd.png');
 		// game.load.image('Mask', 'assets/img/mask.png');
-		
+
 		//preload texture atlas for player
 		game.load.atlas('player', "assets/img/kid_flash.png", "assets/img/kid_flash.json");
 		//preload texture atlas for objects
 		// game.load.atlas('objects_atlas', "assets/img/objects.png", "assets/img/objects.json");
 		game.load.audio('footstep', 'assets/audio/footstep.wav');
 	},
-	create: function() {
+	create: function () {
 		// add title screen text
-		var titleText = game.add.text(game.width/2, game.height/2, 'Mirror', {font: 'Helvetica', fontSize: '48px', fill: '#0000FF'});
+		var titleText = game.add.text(game.width / 2, game.height / 2, 'Mirror', { font: 'Helvetica', fontSize: '48px', fill: '#0000FF' });
 		titleText.anchor.set(0.5);
 
-		var playText = game.add.text(game.width/2, game.height*0.6, 'Explore and survive', {font: 'Helvetica', fontSize: '24px', fill: '#fff'});
+		var playText = game.add.text(game.width / 2, game.height * 0.6, 'Explore and survive', { font: 'Helvetica', fontSize: '24px', fill: '#fff' });
 		playText.anchor.set(0.5);
 
-		var playText = game.add.text(game.width/2, game.height*.8, 'Press SPACEBAR to Start', {font: 'Helvetica', fontSize: '24px', fill: '#fff'});
+		var playText = game.add.text(game.width / 2, game.height * .8, 'Press SPACEBAR to Start', { font: 'Helvetica', fontSize: '24px', fill: '#fff' });
 		playText.anchor.set(0.5);
 
 
 	},
-	update: function() {
+	update: function () {
 		// input to continue
-		if(game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR)) {
+		if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR)) {
 			game.state.start('Play');
 		}
 	}

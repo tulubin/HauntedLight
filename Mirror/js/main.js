@@ -33,10 +33,10 @@ var decorations;
 var frontObject = null;
 var frontObjectIndex = -1;
 var touch_counter = 0;
-var directionAngle = 270*Math.PI/180;
+var directionAngle = 270 * Math.PI / 180;
 // Tile-Map Constants:
 var DOOR_CLOSED_INDEX = 159;
-var DOOR_OPEN_INDEX = DOOR_CLOSED_INDEX+1;
+var DOOR_OPEN_INDEX = DOOR_CLOSED_INDEX + 1;
 var CLOSET_1_INDEX = 119;
 var CLOSET_2_INDEX = 123;
 var DESK_1_INDEX = 135;
@@ -56,18 +56,18 @@ var MIRROR_GOOD_INDEX = 26;
 var MIRROR_BREAK_INDEX = 27;
 var MIRROR_TOUCHED = false;
 // Light Constants:
-var LIGHT_ANGLE = Math.PI*0.4;
-var NUMBER_OF_RAYS = LIGHT_ANGLE*50;
+var LIGHT_ANGLE = Math.PI * 0.4;
+var NUMBER_OF_RAYS = LIGHT_ANGLE * 50;
 var RAY_LENGTH = 120;
 // Other Constants:
 var GRID_SIZE = 32;
 var CONTROL_RESPONSE_DELAY = 150;
 
 
-window.onload = function() {	
+window.onload = function () {
 	// define game
 	game = new Phaser.Game(600, 600, Phaser.AUTO, 'myGame');
-	
+
 	// define states
 	game.state.add('Title', Title);
 	game.state.add('Play', Play);

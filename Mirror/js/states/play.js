@@ -1,9 +1,9 @@
 // Play state
 
-var Play = function(game) {
+var Play = function (game) {
 };
 Play.prototype = {
-	create: function() {
+	create: function () {
 		// Physics:
 		// game.physics.startSystem(Phaser.Physics.ARCADE);
 		// game.physics.setBoundsToWorld();
@@ -26,7 +26,7 @@ Play.prototype = {
 		wallLayer.resizeWorld();
 		decorations = game.add.group();
 		map.createFromObjects('Decorations', 120, 'decorations', 0, true, false, decorations)
-		
+
 		// Player:
 		player = new Player(game);
 		game.add.existing(player);
@@ -39,9 +39,9 @@ Play.prototype = {
 		debug = new debugPlugin(game);
 		debug.addDebug();
 	},
-	update: function() {
+	update: function () {
 		debug.updateDebug();
-		if((player.currentHP <= 0)  && (debug.trigger === false))  {
+		if ((player.currentHP <= 0) && (debug.trigger === false)) {
 			game.state.start('End');
 		}
 	}
