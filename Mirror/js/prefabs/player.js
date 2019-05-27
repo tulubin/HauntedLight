@@ -5,9 +5,9 @@ function Player(game) {
 	// new Sprite(game, x, y, key, frame)
 	Phaser.Sprite.call(this, game, GRID_SIZE*48+GRID_SIZE/2, GRID_SIZE*80+GRID_SIZE/2, 'player_atlas');
 	this.anchor.set(0.5);
-	this.currentHP = 100;
+	this.currentHP = 10000000;   // for debuging
 	this.maxHP = 100;
-	this.currentMP = 100;
+	this.currentMP = 10000000;   // for debuging
 	this.maxMP = 100;
 	this.sprinting = false;
 	this.lastX = this.x;
@@ -15,25 +15,20 @@ function Player(game) {
 	this.walkingDuration = 500;
 	this.tweenCompleted = true;
 	this.orientation = { up: false, down: true, left: false, right: false };
+	this.lightAngle = Math.PI*0.4;
+	this.numberOfRays = this.lightAngle*50;
+	this.rayLength = 120;
 	// player sounds:
 	footstep = game.add.audio('footstep');
-	// game.camera.follow(this);
-	// player physics:
-	// game.physics.arcade.enable(this);
+
 	game.camera.follow(this, 0, 1, 1);
-	// game.physics.enable(this, Phaser.Physics.ARCADE);
-	// this.body.setSize(32, 32, -6, -1);
-	// this.body.drag.set(200);
-	// this.body.maxVelocity = 50;
-	// this.body.immovable = true;	
-	// this.body.collideWorldBounds = true;
-	// this.gridPosition = new Phaser.Point(this.body.x/GRID_SIZE, this.body.y/GRID_SIZE);
 
 	//Add player animation
 	this.animations.add('walkUp', [4, 5, 6, 7], 6, true);
 	this.animations.add('walkDown', [0, 1, 2, 3], 6, true);
 	this.animations.add('walkLeft', [8, 9, 10, 11], 6, true);
 	this.animations.add('walkRight', [12, 13, 14, 15], 6, true);
+
 	timer = game.time.create(false);
 	timer.loop(Phaser.Timer.SECOND, function(){
 		if(Phaser.Math.distance(player.x, player.y, shadow.x, shadow.y) < 100) {
@@ -44,6 +39,7 @@ function Player(game) {
 		}
 	}, this);
 	timer.start();
+	this.addLight();
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to Player
@@ -53,14 +49,7 @@ Player.prototype = Object.create(Phaser.Sprite.prototype);
 Player.prototype.constructor = Player;  
 
 Player.prototype.update = function() {
-
-
-	// this.body.velocity.x = 0;
-	// this.body.velocity.y = 0;
-
-	// game.physics.arcade.collide(this, wallLayer);
-		// game.physics.arcade.collide(this, wallLayer, blockMoving, null, this);
-
+	this.updateLight();
 	// Player Controls:
 	if((game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)) && (this.currentMP > 10)) {
 		this.walkingDuration = 250;
@@ -95,28 +84,75 @@ Player.prototype.update = function() {
 		}
 	}
 	if ((frontObject !== null) && (game.input.keyboard.justPressed(Phaser.Keyboard.E))) {
-		if(frontObject.index === DOOR_CLOSED_INDEX)
-			map.replace(DOOR_CLOSED_INDEX, DOOR_OPEN_INDEX, frontObject.x, frontObject.y, 1, 1, objectLayer);
-		else if(frontObject.index === DOOR_OPEN_INDEX)
-			map.replace(DOOR_OPEN_INDEX, DOOR_CLOSED_INDEX, frontObject.x, frontObject.y, 1, 1, objectLayer);
-		if((frontObject.index === MIRROR_BREAK_INDEX) && (touch_counter === 4)) {
-			game.state.start('End');
+		switch(frontObject.index) {
+			case DOOR_CLOSED_INDEX:
+				map.replace(DOOR_CLOSED_INDEX, DOOR_OPEN_INDEX, frontObject.x, frontObject.y, 1, 1, objectLayer);
+				break;
+			case DOOR_OPEN_INDEX:
+				map.replace(DOOR_OPEN_INDEX, DOOR_CLOSED_INDEX, frontObject.x, frontObject.y, 1, 1, objectLayer);
+				break;
+			case CLOSET_1_INDEX:
+			case CLOSET_1_INDEX+1:
+				map.replace(CLOSET_1_INDEX, CLOSET_1_INDEX+2, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
+				map.replace(CLOSET_1_INDEX+1, CLOSET_1_INDEX+3, frontObject.x, frontObject.y, 2, 1, objectLayer);
+				break;
+			case CLOSET_1_INDEX+2:
+			case CLOSET_1_INDEX+3:
+				map.replace(CLOSET_1_INDEX+2, CLOSET_1_INDEX, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
+				map.replace(CLOSET_1_INDEX+3, CLOSET_1_INDEX+1, frontObject.x, frontObject.y, 2, 1, objectLayer);
+				break;
+			case CLOSET_2_INDEX:
+			case CLOSET_2_INDEX+1:
+				map.replace(CLOSET_2_INDEX, CLOSET_2_INDEX+2, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
+				map.replace(CLOSET_2_INDEX+1, CLOSET_2_INDEX+3, frontObject.x, frontObject.y, 2, 1, objectLayer);
+				break;
+			case CLOSET_2_INDEX+2:
+			case CLOSET_2_INDEX+3:
+				map.replace(CLOSET_2_INDEX+2, CLOSET_2_INDEX, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
+				map.replace(CLOSET_2_INDEX+3, CLOSET_2_INDEX+1, frontObject.x, frontObject.y, 2, 1, objectLayer);
+				break;
+			case DESK_1_INDEX:
+			case DESK_1_INDEX+1:
+				map.replace(DESK_1_INDEX, DESK_1_INDEX+2, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
+				map.replace(DESK_1_INDEX+1, DESK_1_INDEX+3, frontObject.x, frontObject.y, 2, 1, objectLayer);
+				break;
+			case DESK_1_INDEX+2:
+			case DESK_1_INDEX+3:
+				map.replace(DESK_1_INDEX+2, DESK_1_INDEX, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
+				map.replace(DESK_1_INDEX+3, DESK_1_INDEX+1, frontObject.x, frontObject.y, 2, 1, objectLayer);
+				break;
+			case DESK_2_INDEX:
+			case DESK_2_INDEX+1:
+				map.replace(DESK_2_INDEX, DESK_2_INDEX+2, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
+				map.replace(DESK_2_INDEX+1, DESK_2_INDEX+3, frontObject.x, frontObject.y, 2, 1, objectLayer);
+				break;
+			case DESK_2_INDEX+2:
+			case DESK_2_INDEX+3:
+				map.replace(DESK_2_INDEX+2, DESK_2_INDEX, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
+				map.replace(DESK_2_INDEX+3, DESK_2_INDEX+1, frontObject.x, frontObject.y, 2, 1, objectLayer);
+				break;
+			case BED_1_INDEX:
+			case BED_1_INDEX+1:
+				map.replace(BED_1_INDEX, BED_1_INDEX+2, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
+				map.replace(BED_1_INDEX+1, BED_1_INDEX+3, frontObject.x, frontObject.y, 2, 1, objectLayer);
+				break;
+			case BED_1_INDEX+2:
+			case BED_1_INDEX+3:
+				map.replace(BED_1_INDEX+2, BED_1_INDEX, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
+				map.replace(BED_1_INDEX+3, BED_1_INDEX+1, frontObject.x, frontObject.y, 2, 1, objectLayer);
+				break;
+			case BED_2_INDEX:
+			case BED_2_INDEX+1:
+				map.replace(BED_2_INDEX, BED_2_INDEX+2, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
+				map.replace(BED_2_INDEX+1, BED_2_INDEX+3, frontObject.x, frontObject.y, 2, 1, objectLayer);
+				break;
+			case BED_2_INDEX+2:
+			case BED_2_INDEX+3:
+				map.replace(BED_2_INDEX+2, BED_2_INDEX, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
+				map.replace(BED_2_INDEX+3, BED_2_INDEX+1, frontObject.x, frontObject.y, 2, 1, objectLayer);
+				break;
+			// default:
 		}
-		if(frontObject.index === MIRROR_GOOD_INDEX)	{
-			touch_counter++;
-			if(touch_counter === 4) {
-				map.replace(MIRROR_GOOD_INDEX, MIRROR_BREAK_INDEX, frontObject.x, frontObject.y, 1, 1, objectLayer);
-				map.replace(CASE_GOOD_INDEX, CASE_BREAK_INDEX, 22, 17, 1, 1, objectLayer);	
-			} else if(touch_counter === 3) {
-				map.replace(RING_GOOD_INDEX, RING_BREAK_INDEX, 19, 12, 1, 1, objectLayer);
-			} else if(touch_counter === 2) {
-				map.replace(CLOTH_GOOD_INDEX, CLOTH_BREAK_INDEX, 13, 16, 1, 1, objectLayer);
-			} if(touch_counter === 1) {
-				map.replace(BALL_GOOD_INDEX, BALL_BREAK_INDEX, 9, 13, 1, 1, objectLayer);
-				map.removeTile(10, 9, objectLayer);
-			}		
-			MIRROR_TOUCHED = true;
-		} 
 	}
 	this.updateFrontObject(this.orientation);
 	// this.updateLight();
@@ -210,3 +246,54 @@ Player.prototype.updatePlayerXY = function() {
 	this.lastX = this.x;
 	this.lastY = this.y;
 }
+Player.prototype.addLight = function() {
+	maskGraphics = this.game.add.graphics(0, 0);
+	floorLayer.mask = maskGraphics;
+	wallLayer.mask = maskGraphics;
+	objectLayer.mask = maskGraphics;
+	decorations.mask = maskGraphics;
+	// shadow.mask = maskGraphics;
+	// wallLayer.mask = null; // disable mask
+	// wallLayer.alpha = 0.02;
+	this.alpha = 0.5;
+}
+Player.prototype.updateLight = function() {
+	maskGraphics.clear();
+	maskGraphics.lineStyle(2, 0xffffff, 1);
+	maskGraphics.beginFill(0xff0000);
+	var playerX = this.x;
+	var playerY = this.y;
+	maskGraphics.moveTo(playerX, playerY);	
+	for(var i = 0; i < this.numberOfRays; i++){	
+		var rayAngle = directionAngle-(this.lightAngle/2)+(this.lightAngle/this.numberOfRays)*i;
+		var lastX = playerX;
+		var lastY = playerY;
+		var lightThrough = false;
+		var k = 0;
+		for(var j = 1; j <= this.rayLength; j++){
+	  		var wallTile = map.getTile(wallLayer.getTileX(lastX), wallLayer.getTileY(lastY), wallLayer, true);
+	  		var objectTile = map.getTile(objectLayer.getTileX(lastX), objectLayer.getTileY(lastY), objectLayer, true);
+	  		if(Phaser.Math.distance(lastX, lastY, shadow.x, shadow.y) < 1) {
+	  			this.currentHP -= 1;
+	  		}
+	  		if(lightThrough && (k >= GRID_SIZE/2 || (wallTile.index === -1 && objectTile.index !== DOOR_CLOSED_INDEX))){
+				maskGraphics.lineTo(lastX, lastY);
+				break;
+	  		} else {
+	  			if(wallTile.index !== -1 || objectTile.index === DOOR_CLOSED_INDEX) {
+	  				lightThrough = true;
+	  			}
+	  			if(lightThrough)
+	  				k++;
+		  		var landingX = Math.round(playerX-(2*j)*Math.cos(rayAngle));
+		  		var landingY = Math.round(playerY-(2*j)*Math.sin(rayAngle));
+				lastX = landingX;
+				lastY = landingY;
+	  		}
+		}
+		maskGraphics.lineTo(lastX, lastY);
+	}
+	maskGraphics.lineTo(playerX,playerY);
+	maskGraphics.endFill();
+	floorLayer.alpha = 0.5+Math.random()*0.5;
+};

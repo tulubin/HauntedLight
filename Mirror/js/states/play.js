@@ -16,8 +16,7 @@ Play.prototype = {
 		// game.stage.setBackgroundColor('#87CEEB');
 		map = game.add.tilemap('level');
 		// map.addTilesetImage('FloorWall', 'floorwall');
-		map.addTilesetImage('objects32X32', 'objects32X32');
-		map.addTilesetImage('objects64X64', 'objects64X64');
+		map.addTilesetImage('objects', 'objects');
 		map.addTilesetImage('floor', 'floor');
 		map.addTilesetImage('wall', 'wall');
 		// map.addTilesetImage('Puzzle_1', 'puzzle_1');
@@ -48,8 +47,8 @@ Play.prototype = {
 		//someText.anchor.set(0.5);
 
 		// HUD:
-		light = new LightPlugin(game);
-		light.addLight();
+		// light = new LightPlugin(game);
+		// light.addLight();
 		hud = new HUD(game);
 		// hud = new HUDPlugin(game);
 		// hud.addHUD();
@@ -57,19 +56,10 @@ Play.prototype = {
 		debug.addDebug();
 	},
 	update: function() {
-		light.updateLight();
+		// light.updateLight();
 		// hud.updateHUD();
 		debug.updateDebug();
-		if(MIRROR_TOUCHED) {
-			player.x = GRID_SIZE*11 + GRID_SIZE/2;
-			player.y = GRID_SIZE*9 + GRID_SIZE/2; 
-			if(touch_counter === 4) {
-				var someText = game.add.text(GRID_SIZE*20.5, GRID_SIZE*26, 'Thanks For Playing the Demo!', {font: 'Helvetica', fontSize: '12px', fill: '#fff'});
-				someText.anchor.set(0.5);
-			}
-			
-			MIRROR_TOUCHED = false;
-		}
+
 		if(player.currentHP <= 0) {
 			game.state.start('End');
 		}
