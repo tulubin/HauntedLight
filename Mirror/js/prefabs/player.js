@@ -34,7 +34,7 @@ function Player(game) {
 	timer.loop(Phaser.Timer.SECOND, function(){
 		if((Phaser.Math.distance(this.x, this.y, shadow.x, shadow.y) < 100) && (this.currentHP >= 0) && !this.hided)
 			this.currentHP -= 5;
-		if(!this.sprinting && this.currentMP < 100 && this.tweenCompleted)
+		if(!this.sprinting && this.currentMP < 100 && (this.tweenCompleted || this.hided))
 			this.currentMP += 10;
 		if((this.hided) && (this.currentHP < this.maxHP))
 			this.currentHP += 15;
