@@ -9,36 +9,18 @@ function HUD(game) {
 	this.hpIcon = game.add.sprite(game.width-32, 16, 'Temp_HP');
 	this.hpIcon.fixedToCamera = true;
 	// --------------back HP bar------------------
-	// this.hpBar_b = game.add.sprite(game.width-248, 40, 'Temp');
-	// this.hpBar_b.scale.setTo(5, 0.5);
-	// this.hpBar_b.fixedToCamera = true;
-	// this.hpBar_b.tint = 0x000000;
-
 	this.hpBar_b = game.add.graphics(0, 0);
 	this.hpBar_b.fixedToCamera = true;
 	this.hpBar_b.beginFill(0x222222, 0.8);
 	this.hpBar_b.drawRect(game.width-150, 30, 104, 14);
 	this.hpBar_b.endFill();
-
-
 	// --------------front HP bar-----------------
 	this.hpBar_f = game.add.graphics(0, 0);
 	this.hpBar_f.fixedToCamera = true;
-	// this.hpBar_f = game.add.sprite(game.width-248, 40, 'Temp');
-	// this.hpBar_f.scale.setTo(4.8, 0.5);
-	// this.hpBar_f.fixedToCamera = true;
-	// this.hpBar_f.tint = 0xE8000C;
-	// this.hpBar_f.cropEnabled = true;
-	// this.hpBar_f.crop.width = (player.HP/player.maxHP)*this.hpBar_f.width;
 	// --------------------mpIcon---------------------
 	this.mpIcon = game.add.sprite(game.width-32, 48, 'Temp_MP');
 	this.mpIcon.fixedToCamera = true;
 	// --------------back MP bar------------------
-	// this.mpBar_b = game.add.sprite(game.width-248, 104, 'Temp');
-	// this.mpBar_b.scale.setTo(5, 0.5);
-	// this.mpBar_b.fixedToCamera = true;
-	// this.mpBar_b.tint = 0x000000;
-
 	this.mpBar_b = game.add.graphics(0, 0);
 	this.mpBar_b.fixedToCamera = true;
 	this.mpBar_b.beginFill(0x222222, 0.8);
@@ -47,10 +29,6 @@ function HUD(game) {
 	// --------------front MP bar-----------------
 	this.mpBar_f = game.add.graphics(0, 0);
 	this.mpBar_f.fixedToCamera = true;
-	// this.mpBar_f = game.add.sprite(game.width-248, 104, 'Temp');
-	// this.mpBar_f.scale.setTo(4.8, 0.5);
-	// this.mpBar_f.fixedToCamera = true;
-	// this.mpBar_f.tint = 0x141BFF;
 	// --------------interaction HUD-----------------
 	this.interactionHUD = game.add.sprite(game.width/2+32, game.height/2-64, 'e_key');
 	this.interactionHUD.anchor.set(0.5);

@@ -23,7 +23,7 @@ Title.prototype = {
 		// game.load.image('Mask', 'assets/img/mask.png');
 		
 		//preload texture atlas for player
-		game.load.atlas('player_atlas', "assets/img/kid_flash.png", "assets/img/kid_flash.json");
+		game.load.atlas('player', "assets/img/kid_flash.png", "assets/img/kid_flash.json");
 		//preload texture atlas for objects
 		// game.load.atlas('objects_atlas', "assets/img/objects.png", "assets/img/objects.json");
 		game.load.audio('footstep', 'assets/audio/footstep.wav');
@@ -33,7 +33,7 @@ Title.prototype = {
 		var titleText = game.add.text(game.width/2, game.height/2, 'Mirror', {font: 'Helvetica', fontSize: '48px', fill: '#0000FF'});
 		titleText.anchor.set(0.5);
 
-		var playText = game.add.text(game.width/2, game.height*0.6, 'Escape the room!', {font: 'Helvetica', fontSize: '24px', fill: '#fff'});
+		var playText = game.add.text(game.width/2, game.height*0.6, 'Explore and survive', {font: 'Helvetica', fontSize: '24px', fill: '#fff'});
 		playText.anchor.set(0.5);
 
 		var playText = game.add.text(game.width/2, game.height*.8, 'Press SPACEBAR to Start', {font: 'Helvetica', fontSize: '24px', fill: '#fff'});

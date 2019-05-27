@@ -1,18 +1,18 @@
 // Debug Plugin:
-function DebugPlugin(game) {
+function debugPlugin(game) {
 	Phaser.Plugin.call(this, game);
+	this.trigger = false;
 };
 
-DebugPlugin.prototype = Object.create(Phaser.Plugin.prototype);
-DebugPlugin.prototype.constructor = DebugPlugin;
+debugPlugin.prototype = Object.create(Phaser.Plugin.prototype);
+debugPlugin.prototype.constructor = debugPlugin;
 
-var trigger = false;
 var tileIndex;
 var currentLayer;
 var tileX;
 var tileY;
 
-DebugPlugin.prototype.addDebug = function() {
+debugPlugin.prototype.addDebug = function() {
 	marker = game.add.graphics();
 	marker.lineStyle(2, 0xffffff, 1);
 	marker.drawRect(0, 0, 32, 32);
@@ -21,19 +21,19 @@ DebugPlugin.prototype.addDebug = function() {
 	game.input.onDown.add(this.getTileProperties, this);
 	cursors = game.input.keyboard.createCursorKeys();
 };
-DebugPlugin.prototype.updateDebug = function () {
+debugPlugin.prototype.updateDebug = function () {
 	if(game.input.keyboard.justPressed(Phaser.Keyboard.O)) {
-		trigger = !trigger;
-		marker.visible = trigger;
+		this.trigger = !this.trigger;
+		marker.visible = this.trigger;
 	}
 	this.render();
 };
-DebugPlugin.prototype.render = function () {
-	if(trigger) {
+debugPlugin.prototype.render = function () {
+	if(this.trigger) {
 		game.time.advancedTiming = true;
 		game.debug.text('FPS: ' + game.time.fps || 'FPS: --', 40, 40, "#00ff00");
 		game.debug.cameraInfo(game.camera, GRID_SIZE, GRID_SIZE);
-		game.debug.spriteCoords(player, GRID_SIZE, 500);
+		// game.debug.spriteCoords(player, GRID_SIZE, 500);
 		game.debug.text('player HP: ' + player.currentHP, 32, game.camera.height-120);
 		game.debug.text('Tile x: ' + tileX + ' Tile y: ' + tileY, 32, game.camera.height-100);
 		game.debug.text('Current tile layer: ' + currentLayer, 32, game.camera.height-80);
@@ -45,11 +45,11 @@ DebugPlugin.prototype.render = function () {
 		game.debug.text('', 32, 664);
 	}
 };
-DebugPlugin.prototype.updateMarker = function () {
+debugPlugin.prototype.updateMarker = function () {
 	marker.x = wallLayer.getTileX(game.input.activePointer.worldX) * 32;
 	marker.y = wallLayer.getTileY(game.input.activePointer.worldY) * 32;
 };
-DebugPlugin.prototype.getTileProperties = function() {
+debugPlugin.prototype.getTileProperties = function() {
 	tileX = wallLayer.getTileX(game.input.activePointer.worldX);
 	tileY = wallLayer.getTileY(game.input.activePointer.worldY);
 	var tile = map.getTile(tileX, tileY, wallLayer, true);

@@ -3,11 +3,11 @@
 function Player(game) {
 	// call Sprite constructor within this object
 	// new Sprite(game, x, y, key, frame)
-	Phaser.Sprite.call(this, game, GRID_SIZE*48+GRID_SIZE/2, GRID_SIZE*80+GRID_SIZE/2, 'player_atlas');
+	Phaser.Sprite.call(this, game, GRID_SIZE*52+GRID_SIZE/2, GRID_SIZE*77+GRID_SIZE/2, 'player');
 	this.anchor.set(0.5);
-	this.currentHP = 10000000;   // for debuging
+	this.currentHP = 100;   // for debuging
 	this.maxHP = 100;
-	this.currentMP = 10000000;   // for debuging
+	this.currentMP = 100;   // for debuging
 	this.maxMP = 100;
 	this.sprinting = false;
 	this.lastX = this.x;
@@ -18,6 +18,7 @@ function Player(game) {
 	this.lightAngle = Math.PI*0.4;
 	this.numberOfRays = this.lightAngle*50;
 	this.rayLength = 120;
+	this.hided = false;
 	// player sounds:
 	footstep = game.add.audio('footstep');
 
@@ -31,14 +32,26 @@ function Player(game) {
 
 	timer = game.time.create(false);
 	timer.loop(Phaser.Timer.SECOND, function(){
-		if(Phaser.Math.distance(player.x, player.y, shadow.x, shadow.y) < 100) {
-			player.currentHP -= 5;
-		}
-		if(!player.sprinting && player.currentMP < 100) {
-			player.currentMP ++;
-		}
+		if((Phaser.Math.distance(this.x, this.y, shadow.x, shadow.y) < 100) && (this.currentHP >= 0) && !this.hided)
+			this.currentHP -= 5;
+		if(!this.sprinting && this.currentMP < 100 && this.tweenCompleted)
+			this.currentMP += 10;
+		if((this.hided) && (this.currentHP < this.maxHP))
+			this.currentHP += 15;
+		if(this.currentHP > this.maxHP)
+			this.currentHP = this.maxHP;
+		if(this.currentHP < 0)
+			this.currentHP = 0;
+		if(this.currentMP > this.maxMP)
+			this.currentMP = this.maxMP;
+		if(this.currentMP < 0)
+			this.currentMP = 0;
 	}, this);
 	timer.start();
+
+	shadow = new Shadow(game, this.x+100, this.y+100);
+	game.add.existing(shadow);
+
 	this.addLight();
 }
 
@@ -95,11 +108,13 @@ Player.prototype.update = function() {
 			case CLOSET_1_INDEX+1:
 				map.replace(CLOSET_1_INDEX, CLOSET_1_INDEX+2, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
 				map.replace(CLOSET_1_INDEX+1, CLOSET_1_INDEX+3, frontObject.x, frontObject.y, 2, 1, objectLayer);
+				this.hidePlayer();
 				break;
 			case CLOSET_1_INDEX+2:
 			case CLOSET_1_INDEX+3:
 				map.replace(CLOSET_1_INDEX+2, CLOSET_1_INDEX, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
 				map.replace(CLOSET_1_INDEX+3, CLOSET_1_INDEX+1, frontObject.x, frontObject.y, 2, 1, objectLayer);
+				this.unhidePlayer();
 				break;
 			case CLOSET_2_INDEX:
 			case CLOSET_2_INDEX+1:
@@ -246,6 +261,22 @@ Player.prototype.updatePlayerXY = function() {
 	this.lastX = this.x;
 	this.lastY = this.y;
 }
+Player.prototype.hidePlayer = function() {
+	this.hided = true;
+	this.visible = false;
+	this.tweenCompleted = false;
+	this.lightAngle = Math.PI*2;
+	this.numberOfRays = this.lightAngle*50;
+	this.rayLength = 40;
+}
+Player.prototype.unhidePlayer = function() {
+	this.hided = false;
+	this.visible = true;
+	this.tweenCompleted = true;
+	this.lightAngle = Math.PI*0.4;
+	this.numberOfRays = this.lightAngle*50;
+	this.rayLength = 120;
+}
 Player.prototype.addLight = function() {
 	maskGraphics = this.game.add.graphics(0, 0);
 	floorLayer.mask = maskGraphics;
@@ -273,7 +304,7 @@ Player.prototype.updateLight = function() {
 		for(var j = 1; j <= this.rayLength; j++){
 	  		var wallTile = map.getTile(wallLayer.getTileX(lastX), wallLayer.getTileY(lastY), wallLayer, true);
 	  		var objectTile = map.getTile(objectLayer.getTileX(lastX), objectLayer.getTileY(lastY), objectLayer, true);
-	  		if(Phaser.Math.distance(lastX, lastY, shadow.x, shadow.y) < 1) {
+	  		if((Phaser.Math.distance(lastX, lastY, shadow.x, shadow.y) < 1) && (this.currentHP > 0) && !this.hided) {
 	  			this.currentHP -= 1;
 	  		}
 	  		if(lightThrough && (k >= GRID_SIZE/2 || (wallTile.index === -1 && objectTile.index !== DOOR_CLOSED_INDEX))){
@@ -295,5 +326,6 @@ Player.prototype.updateLight = function() {
 	}
 	maskGraphics.lineTo(playerX,playerY);
 	maskGraphics.endFill();
-	floorLayer.alpha = 0.5+Math.random()*0.5;
+	if(!this.hided)
+		floorLayer.alpha = 0.5+Math.random()*0.5;
 };

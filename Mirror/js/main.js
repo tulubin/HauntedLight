@@ -66,7 +66,7 @@ var CONTROL_RESPONSE_DELAY = 150;
 
 window.onload = function() {	
 	// define game
-	game = new Phaser.Game(640, 360, Phaser.AUTO, 'myGame');
+	game = new Phaser.Game(600, 600, Phaser.AUTO, 'myGame');
 	
 	// define states
 	game.state.add('Title', Title);
