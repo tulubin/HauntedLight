@@ -120,51 +120,61 @@ Player.prototype.update = function() {
 			case CLOSET_2_INDEX+1:
 				map.replace(CLOSET_2_INDEX, CLOSET_2_INDEX+2, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
 				map.replace(CLOSET_2_INDEX+1, CLOSET_2_INDEX+3, frontObject.x, frontObject.y, 2, 1, objectLayer);
+				this.hidePlayer();
 				break;
 			case CLOSET_2_INDEX+2:
 			case CLOSET_2_INDEX+3:
 				map.replace(CLOSET_2_INDEX+2, CLOSET_2_INDEX, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
 				map.replace(CLOSET_2_INDEX+3, CLOSET_2_INDEX+1, frontObject.x, frontObject.y, 2, 1, objectLayer);
+				this.unhidePlayer();
 				break;
 			case DESK_1_INDEX:
 			case DESK_1_INDEX+1:
 				map.replace(DESK_1_INDEX, DESK_1_INDEX+2, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
 				map.replace(DESK_1_INDEX+1, DESK_1_INDEX+3, frontObject.x, frontObject.y, 2, 1, objectLayer);
+				this.hidePlayer();
 				break;
 			case DESK_1_INDEX+2:
 			case DESK_1_INDEX+3:
 				map.replace(DESK_1_INDEX+2, DESK_1_INDEX, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
 				map.replace(DESK_1_INDEX+3, DESK_1_INDEX+1, frontObject.x, frontObject.y, 2, 1, objectLayer);
+				this.unhidePlayer();
 				break;
 			case DESK_2_INDEX:
 			case DESK_2_INDEX+1:
 				map.replace(DESK_2_INDEX, DESK_2_INDEX+2, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
 				map.replace(DESK_2_INDEX+1, DESK_2_INDEX+3, frontObject.x, frontObject.y, 2, 1, objectLayer);
+				this.hidePlayer();
 				break;
 			case DESK_2_INDEX+2:
 			case DESK_2_INDEX+3:
 				map.replace(DESK_2_INDEX+2, DESK_2_INDEX, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
 				map.replace(DESK_2_INDEX+3, DESK_2_INDEX+1, frontObject.x, frontObject.y, 2, 1, objectLayer);
+				this.unhidePlayer();
 				break;
 			case BED_1_INDEX:
 			case BED_1_INDEX+1:
 				map.replace(BED_1_INDEX, BED_1_INDEX+2, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
 				map.replace(BED_1_INDEX+1, BED_1_INDEX+3, frontObject.x, frontObject.y, 2, 1, objectLayer);
+				this.hidePlayer();
 				break;
 			case BED_1_INDEX+2:
 			case BED_1_INDEX+3:
 				map.replace(BED_1_INDEX+2, BED_1_INDEX, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
 				map.replace(BED_1_INDEX+3, BED_1_INDEX+1, frontObject.x, frontObject.y, 2, 1, objectLayer);
+				this.unhidePlayer();
 				break;
 			case BED_2_INDEX:
 			case BED_2_INDEX+1:
 				map.replace(BED_2_INDEX, BED_2_INDEX+2, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
 				map.replace(BED_2_INDEX+1, BED_2_INDEX+3, frontObject.x, frontObject.y, 2, 1, objectLayer);
+				this.hidePlayer();
 				break;
 			case BED_2_INDEX+2:
 			case BED_2_INDEX+3:
 				map.replace(BED_2_INDEX+2, BED_2_INDEX, frontObject.x-1, frontObject.y, 2, 1, objectLayer);
 				map.replace(BED_2_INDEX+3, BED_2_INDEX+1, frontObject.x, frontObject.y, 2, 1, objectLayer);
+				this.unhidePlayer();
 				break;
 			// default:
 		}
