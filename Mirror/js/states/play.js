@@ -4,6 +4,7 @@ var Play = function (game) {
 };
 Play.prototype = {
 	create: function () {
+		game.time.advancedTiming = true;
 		// Physics:
 		// game.physics.startSystem(Phaser.Physics.ARCADE);
 		// game.physics.setBoundsToWorld();

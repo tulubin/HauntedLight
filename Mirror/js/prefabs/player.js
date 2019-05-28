@@ -315,7 +315,7 @@ Player.prototype.updateLight = function () {
 			var wallTile = map.getTile(wallLayer.getTileX(lastX), wallLayer.getTileY(lastY), wallLayer, true);
 			var objectTile = map.getTile(objectLayer.getTileX(lastX), objectLayer.getTileY(lastY), objectLayer, true);
 			if ((Phaser.Math.distance(lastX, lastY, shadow.x, shadow.y) < 1) && (this.currentHP > 0) && !this.hided) {
-				this.currentHP -= 1;
+				this.currentHP -= 60 / game.time.fps;
 			}
 			if (lightThrough && (k >= GRID_SIZE / 2 || (wallTile.index === -1 && objectTile.index !== DOOR_CLOSED_INDEX))) {
 				maskGraphics.lineTo(lastX, lastY);

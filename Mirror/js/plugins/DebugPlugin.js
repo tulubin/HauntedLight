@@ -30,7 +30,6 @@ debugPlugin.prototype.updateDebug = function () {
 };
 debugPlugin.prototype.render = function () {
 	if (this.trigger) {
-		game.time.advancedTiming = true;
 		game.debug.text('FPS: ' + game.time.fps || 'FPS: --', 40, 40, "#00ff00");
 		game.debug.cameraInfo(game.camera, GRID_SIZE, GRID_SIZE);
 		// game.debug.spriteCoords(player, GRID_SIZE, 500);
@@ -41,7 +40,6 @@ debugPlugin.prototype.render = function () {
 		game.debug.text('Front object: ' + frontObjectIndex, 32, game.camera.height - 40);
 		game.debug.text('Player Stop Moving: ' + player.tweenCompleted.toString(), 32, game.camera.height - 20);
 	} else {
-		game.time.advancedTiming = false;
 		game.debug.text('', 32, 664);
 	}
 };
