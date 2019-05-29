@@ -32,7 +32,7 @@ function Player(game) {
 
 	timer = game.time.create(false);
 	timer.loop(Phaser.Timer.SECOND, function () {
-		if ((Phaser.Math.distance(this.x, this.y, shadow.x, shadow.y) < 100) && (this.currentHP >= 0) && !this.hided)
+		if ((Phaser.Math.distance(this.x, this.y, shadow.x, shadow.y) < 100) && !this.hided)
 			this.currentHP -= 5;
 		if (!this.sprinting && this.currentMP < 100 && (this.tweenCompleted || this.hided))
 			this.currentMP += 10;
@@ -62,13 +62,15 @@ Player.prototype = Object.create(Phaser.Sprite.prototype);
 Player.prototype.constructor = Player;
 
 Player.prototype.update = function () {
+	if (Phaser.Math.distance(this.lastX, this.lastY, shadow.x, shadow.y) < shadow.moveDis)
+		this.updatePlayerXY();
 	this.updateLight();
 	// Player Controls:
 	if ((game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)) && (this.currentMP > 10)) {
 		this.walkingDuration = 250;
 		this.sprinting = true;
 	} else {
-		this.walkingDuration = 50;
+		this.walkingDuration = 500;
 		this.sprinting = false;
 	}
 	if (game.input.keyboard.isDown(Phaser.Keyboard.UP) && this.tweenCompleted) {
@@ -245,7 +247,7 @@ Player.prototype.checkCollision = function (x, y, directions) {
 Player.prototype.playerTweenComplete = function () {
 	// function playerTweenComplete() {
 	this.tweenCompleted = true;
-	this.updatePlayerXY();
+	// this.updatePlayerXY();
 }
 Player.prototype.updateFrontObject = function (directions) {
 	// function updateFrontObject(directions) {
@@ -293,7 +295,7 @@ Player.prototype.addLight = function () {
 	wallLayer.mask = maskGraphics;
 	objectLayer.mask = maskGraphics;
 	decorations.mask = maskGraphics;
-	shadow.mask = maskGraphics;
+	// shadow.mask = maskGraphics;
 	// wallLayer.mask = null; // disable mask
 	// wallLayer.alpha = 0.02;
 	this.alpha = 0.5;

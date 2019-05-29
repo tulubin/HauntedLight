@@ -6,7 +6,7 @@ function Shadow(game, x, y) {
 	Phaser.Sprite.call(this, game, x, y, 'Shadow');
 	this.anchor.set(0.5);
 	this.inSight = false;
-	this.moveDis = 50;
+	this.moveDis = 80;
 	this.alpha = 0.5;
 	// x = Phaser.Math.distance(this.x, this.y, player.lastX, player.lastY)-this.moveDis
 	this.game.time.events.loop(1500, function () {
