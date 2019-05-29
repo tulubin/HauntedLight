@@ -3,12 +3,11 @@
 function Shadow(game, x, y) {
 	// call Sprite constructor within this object
 	// new Sprite(game, x, y, key, frame)
-	Phaser.Sprite.call(this, game, x, y, 'player');
+	Phaser.Sprite.call(this, game, x, y, 'Shadow');
 	this.anchor.set(0.5);
 	this.inSight = false;
-	this.alpha = 0.5;
-	this.tint = 0x660033;
 	this.moveDis = 50;
+	this.alpha = 0.5;
 	// x = Phaser.Math.distance(this.x, this.y, player.lastX, player.lastY)-this.moveDis
 	this.game.time.events.loop(1500, function () {
 		if (player.hided) {

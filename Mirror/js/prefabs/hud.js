@@ -6,8 +6,9 @@ function HUD(game) {
 	Phaser.Group.call(this, game);
 	// HUD:
 	// --------------------hpIcon---------------------
-	this.hpIcon = game.add.sprite(game.width - 32, 16, 'Temp_HP');
+	this.hpIcon = game.add.sprite(game.width - 30, 26, 'HP_1');
 	this.hpIcon.fixedToCamera = true;
+	this.hpIcon.scale.setTo(0.7);
 	// --------------back HP bar------------------
 	this.hpBar_b = game.add.graphics(0, 0);
 	this.hpBar_b.fixedToCamera = true;
@@ -18,8 +19,9 @@ function HUD(game) {
 	this.hpBar_f = game.add.graphics(0, 0);
 	this.hpBar_f.fixedToCamera = true;
 	// --------------------mpIcon---------------------
-	this.mpIcon = game.add.sprite(game.width - 32, 48, 'Temp_MP');
+	this.mpIcon = game.add.sprite(game.width - 30, 52, 'MP');
 	this.mpIcon.fixedToCamera = true;
+	this.mpIcon.scale.setTo(0.7);
 	// --------------back MP bar------------------
 	this.mpBar_b = game.add.graphics(0, 0);
 	this.mpBar_b.fixedToCamera = true;
@@ -63,6 +65,8 @@ HUD.prototype.update = function () {
 	this.mpBar_f.beginFill(0x141BFF, 0.5);
 	this.mpBar_f.drawRect(game.width - 148, 62, 100 * (player.currentMP / player.maxMP), 10);
 	this.mpBar_f.endFill();
+
+
 
 	if (game.input.keyboard.justPressed(Phaser.Keyboard.P)) {
 		this.triggerHUD();

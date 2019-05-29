@@ -15,8 +15,9 @@ Title.prototype = {
 		// Loading assets:
 		// game.load.image('Background', 'assets/img/background.png');
 		game.load.image('Temp', 'assets/img/temp.png');
-		game.load.image('Temp_HP', 'assets/img/HP_icon.png');
-		game.load.image('Temp_MP', 'assets/img/MP_icon.png');
+		game.load.image('HP_1', 'assets/img/sanity00.png');
+		game.load.image('MP', 'assets/img/MP.png'); 
+		game.load.image('Shadow', 'assets/img/ghost0.png'); 
 		game.load.image('e_key', 'assets/img/e_key.png');
 		game.load.image('arrow_key', 'assets/img/arrow_keys.png');
 		game.load.image('wasd_key', 'assets/img/wasd.png');

@@ -68,7 +68,7 @@ Player.prototype.update = function () {
 		this.walkingDuration = 250;
 		this.sprinting = true;
 	} else {
-		this.walkingDuration = 500;
+		this.walkingDuration = 50;
 		this.sprinting = false;
 	}
 	if (game.input.keyboard.isDown(Phaser.Keyboard.UP) && this.tweenCompleted) {
