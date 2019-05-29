@@ -39,7 +39,6 @@ function Player(game) {
 			this.currentMP += 15;
 		if ((this.hided) && (this.currentHP < this.maxHP))
 			this.currentHP += 15;
-
 		if (this.currentHP > this.maxHP)
 			this.currentHP = this.maxHP;
 		if (this.currentHP < 0)
