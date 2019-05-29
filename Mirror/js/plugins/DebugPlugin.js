@@ -33,7 +33,7 @@ debugPlugin.prototype.render = function () {
 		game.debug.text('FPS: ' + game.time.fps || 'FPS: --', 40, 40, "#00ff00");
 		game.debug.cameraInfo(game.camera, GRID_SIZE, GRID_SIZE);
 		// game.debug.spriteCoords(player, GRID_SIZE, 500);
-		game.debug.text('player HP: ' + player.currentHP, 32, game.camera.height - 120);
+		game.debug.text('player hided: ' + player.hided, 32, game.camera.height - 120);
 		game.debug.text('Tile x: ' + tileX + ' Tile y: ' + tileY, 32, game.camera.height - 100);
 		game.debug.text('Current tile layer: ' + currentLayer, 32, game.camera.height - 80);
 		game.debug.text('Target tile index: ' + tileIndex, 32, game.camera.height - 60);

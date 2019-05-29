@@ -3,7 +3,7 @@
 function Player(game) {
 	// call Sprite constructor within this object
 	// new Sprite(game, x, y, key, frame)
-	Phaser.Sprite.call(this, game, GRID_SIZE * 52 + GRID_SIZE / 2, GRID_SIZE * 77 + GRID_SIZE / 2, 'player');
+	Phaser.Sprite.call(this, game, GRID_SIZE * 52 + GRID_SIZE / 2, GRID_SIZE * 77 + GRID_SIZE / 2, 'Player');
 	this.anchor.set(0.5);
 	this.currentHP = 100;   // for debuging
 	this.maxHP = 100;
@@ -19,12 +19,13 @@ function Player(game) {
 	this.numberOfRays = this.lightAngle * 50;
 	this.rayLength = 120;
 	this.hided = false;
-	// player sounds:
+	this.recoverMP = true;
+	// Player sounds:
 	footstep = game.add.audio('footstep');
 
 	game.camera.follow(this, 0, 1, 1);
 
-	//Add player animation
+	//Add Player animation
 	this.animations.add('walkUp', [4, 5, 6, 7], 6, true);
 	this.animations.add('walkDown', [0, 1, 2, 3], 6, true);
 	this.animations.add('walkLeft', [8, 9, 10, 11], 6, true);
@@ -34,10 +35,11 @@ function Player(game) {
 	timer.loop(Phaser.Timer.SECOND, function () {
 		if ((Phaser.Math.distance(this.x, this.y, shadow.x, shadow.y) < 100) && !this.hided)
 			this.currentHP -= 5;
-		if (!this.sprinting && this.currentMP < 100 && (this.tweenCompleted || this.hided))
-			this.currentMP += 10;
+		if (this.currentMP < this.maxHP && this.recoverMP)
+			this.currentMP += 15;
 		if ((this.hided) && (this.currentHP < this.maxHP))
 			this.currentHP += 15;
+
 		if (this.currentHP > this.maxHP)
 			this.currentHP = this.maxHP;
 		if (this.currentHP < 0)
@@ -46,6 +48,9 @@ function Player(game) {
 			this.currentMP = this.maxMP;
 		if (this.currentMP < 0)
 			this.currentMP = 0;
+		if (!game.input.keyboard.upDuration(Phaser.Keyboard.SHIFT, 2000) && !game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)) {
+			this.recoverMP = true;
+		}
 	}, this);
 	timer.start();
 
@@ -70,29 +75,29 @@ Player.prototype.update = function () {
 		this.walkingDuration = 250;
 		this.sprinting = true;
 	} else {
-		this.walkingDuration = 500;
 		this.sprinting = false;
+		this.walkingDuration = 500;
 	}
 	if (game.input.keyboard.isDown(Phaser.Keyboard.UP) && this.tweenCompleted) {
-		player.animations.play("walkUp");
+		this.animations.play("walkUp");
 		this.orientation = { up: true, down: false, left: false, right: false }
 		if (!game.input.keyboard.downDuration(Phaser.Keyboard.UP, CONTROL_RESPONSE_DELAY)) {
 			this.checkCollision(this.centerX, this.centerY - 32, this.orientation);
 		}
 	} else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN) && this.tweenCompleted) {
-		player.animations.play("walkDown");
+		this.animations.play("walkDown");
 		this.orientation = { up: false, down: true, left: false, right: false }
 		if (!game.input.keyboard.downDuration(Phaser.Keyboard.DOWN, CONTROL_RESPONSE_DELAY)) {
 			this.checkCollision(this.centerX, this.centerY + 32, this.orientation);
 		}
 	} else if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT) && this.tweenCompleted) {
-		player.animations.play("walkLeft");
+		this.animations.play("walkLeft");
 		this.orientation = { up: false, down: false, left: true, right: false }
 		if (!game.input.keyboard.downDuration(Phaser.Keyboard.LEFT, CONTROL_RESPONSE_DELAY)) {
 			this.checkCollision(this.centerX - 32, this.centerY, this.orientation);
 		}
 	} else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) && this.tweenCompleted) {
-		player.animations.play("walkRight");
+		this.animations.play("walkRight");
 		this.orientation = { up: false, down: false, left: false, right: true }
 		if (!game.input.keyboard.downDuration(Phaser.Keyboard.RIGHT, CONTROL_RESPONSE_DELAY)) {
 			this.checkCollision(this.centerX + 32, this.centerY, this.orientation);
@@ -182,7 +187,6 @@ Player.prototype.update = function () {
 		}
 	}
 	this.updateFrontObject(this.orientation);
-	// this.updateLight();
 	// Play footsetps while moving:
 	if (this.tweenCompleted === true) {
 		footstep.stop();
@@ -190,27 +194,31 @@ Player.prototype.update = function () {
 	}
 }
 
-// move player:
+// move Player:
 Player.prototype.movePlayer = function (directions) {
 	// function movePlayer(directions) {
 	footstep.play('', 0, 1, false, true);
 	if (directions.up === true) {
-		playerTween = game.add.tween(player).to({ x: player.centerX, y: player.centerY - 32 }, this.walkingDuration, Phaser.Easing.Linear.None, true);
+		playerTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY - 32 }, this.walkingDuration, Phaser.Easing.Linear.None, true);
 	} else if (directions.down === true) {
-		playerTween = game.add.tween(player).to({ x: player.centerX, y: player.centerY + 32 }, this.walkingDuration, Phaser.Easing.Linear.None, true);
+		playerTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY + 32 }, this.walkingDuration, Phaser.Easing.Linear.None, true);
 	} else if (directions.left === true) {
-		playerTween = game.add.tween(player).to({ x: player.centerX - 32, y: player.centerY }, this.walkingDuration, Phaser.Easing.Linear.None, true);
+		playerTween = game.add.tween(this).to({ x: this.centerX - 32, y: this.centerY }, this.walkingDuration, Phaser.Easing.Linear.None, true);
 	} else if (directions.right === true) {
-		playerTween = game.add.tween(player).to({ x: player.centerX + 32, y: player.centerY }, this.walkingDuration, Phaser.Easing.Linear.None, true);
+		playerTween = game.add.tween(this).to({ x: this.centerX + 32, y: this.centerY }, this.walkingDuration, Phaser.Easing.Linear.None, true);
 	}
-	// player.gridPosition.x += x;  
-	// player.gridPosition.y += y; 
-	// playerTween = game.add.tween(player).to({x: player.gridPosition.x * GRID_SIZE, y: player.gridPosition.y * GRID_SIZE}, this.walkingDuration, Phaser.Easing.Quadratic.InOut, true);
+	// this.gridPosition.x += x;  
+	// this.gridPosition.y += y; 
+	// playerTween = game.add.tween(this).to({x: this.gridPosition.x * GRID_SIZE, y: this.gridPosition.y * GRID_SIZE}, this.walkingDuration, Phaser.Easing.Quadratic.InOut, true);
 	this.tweenCompleted = false;
 	playerTween.onComplete.add(this.playerTweenComplete, this);
+	if (this.sprinting) {
+		this.currentMP -= 10;
+		this.recoverMP = false;
+	}
 }
 
-// // mark when player stop moving:
+// // mark when Player stop moving:
 Player.prototype.checkCollision = function (x, y, directions) {
 	// function checkCollision(x, y, directions) {
 	// frontObject = null;
@@ -239,10 +247,6 @@ Player.prototype.checkCollision = function (x, y, directions) {
 			}
 		}
 	}
-
-	if (this.sprinting) {
-		this.currentMP -= 10;
-	}
 }
 Player.prototype.playerTweenComplete = function () {
 	// function playerTweenComplete() {
@@ -252,16 +256,16 @@ Player.prototype.playerTweenComplete = function () {
 Player.prototype.updateFrontObject = function (directions) {
 	// function updateFrontObject(directions) {
 	if (directions.up === true) {
-		frontObject = map.getTile(objectLayer.getTileX(player.centerX), objectLayer.getTileY(player.centerY - 32), objectLayer, true);
+		frontObject = map.getTile(objectLayer.getTileX(this.centerX), objectLayer.getTileY(this.centerY - 32), objectLayer, true);
 		directionAngle = 90 * Math.PI / 180;
 	} else if (directions.down === true) {
-		frontObject = map.getTile(objectLayer.getTileX(player.centerX), objectLayer.getTileY(player.centerY + 32), objectLayer, true);
+		frontObject = map.getTile(objectLayer.getTileX(this.centerX), objectLayer.getTileY(this.centerY + 32), objectLayer, true);
 		directionAngle = 270 * Math.PI / 180;
 	} else if (directions.left === true) {
-		frontObject = map.getTile(objectLayer.getTileX(player.centerX - 32), objectLayer.getTileY(player.centerY), objectLayer, true);
+		frontObject = map.getTile(objectLayer.getTileX(this.centerX - 32), objectLayer.getTileY(this.centerY), objectLayer, true);
 		directionAngle = 0 * Math.PI / 180;
 	} else if (directions.right === true) {
-		frontObject = map.getTile(objectLayer.getTileX(player.centerX + 32), objectLayer.getTileY(player.centerY), objectLayer, true);
+		frontObject = map.getTile(objectLayer.getTileX(this.centerX + 32), objectLayer.getTileY(this.centerY), objectLayer, true);
 		directionAngle = 180 * Math.PI / 180;
 	}
 	if (frontObject !== null)
@@ -295,7 +299,7 @@ Player.prototype.addLight = function () {
 	wallLayer.mask = maskGraphics;
 	objectLayer.mask = maskGraphics;
 	decorations.mask = maskGraphics;
-	// shadow.mask = maskGraphics;
+	shadow.mask = maskGraphics;
 	// wallLayer.mask = null; // disable mask
 	// wallLayer.alpha = 0.02;
 	this.alpha = 0.5;
@@ -305,7 +309,7 @@ Player.prototype.updateLight = function () {
 	maskGraphics.lineStyle(2, 0xffffff, 1);
 	maskGraphics.beginFill(0xff0000);
 	var playerX = this.x;
-	var playerY = this.y;
+	var playerY = this.y + 3;
 	maskGraphics.moveTo(playerX, playerY);
 	for (var i = 0; i < this.numberOfRays; i++) {
 		var rayAngle = directionAngle - (this.lightAngle / 2) + (this.lightAngle / this.numberOfRays) * i;
