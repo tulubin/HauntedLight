@@ -35,14 +35,14 @@ var frontObjectIndex = -1;
 var touch_counter = 0;
 var directionAngle = 270 * Math.PI / 180;
 // Tile-Map Constants:
-var DOOR_CLOSED_INDEX = 159;
-var DOOR_OPEN_INDEX = DOOR_CLOSED_INDEX + 1;
+var DOOR_1_INDEX = 159;
 var CLOSET_1_INDEX = 119;
 var CLOSET_2_INDEX = 123;
 var DESK_1_INDEX = 135;
 var DESK_2_INDEX = 139;
 var BED_1_INDEX = 151;
 var BED_2_INDEX = 155;
+var MIRROR_1_INDEX = 192;
 
 var CLOTH_GOOD_INDEX = 25;
 var CLOTH_BREAK_INDEX = 28;
@@ -52,7 +52,6 @@ var CASE_GOOD_INDEX = 31;
 var CASE_BREAK_INDEX = 32;
 var RING_GOOD_INDEX = 33;
 var RING_BREAK_INDEX = 34;
-var MIRROR_GOOD_INDEX = 26;
 var MIRROR_BREAK_INDEX = 27;
 var MIRROR_TOUCHED = false;
 // Light Constants:
@@ -66,7 +65,7 @@ var CONTROL_RESPONSE_DELAY = 150;
 
 window.onload = function () {
 	// define game
-	game = new Phaser.Game(640, 360, Phaser.AUTO, 'myGame');
+	game = new Phaser.Game(640, 480, Phaser.AUTO, 'myGame');
 
 	// define states
 	game.state.add('Title', Title);

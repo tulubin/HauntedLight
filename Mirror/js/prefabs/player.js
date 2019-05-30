@@ -15,11 +15,13 @@ function Player(game) {
 	this.walkingDuration = 500;
 	this.tweenCompleted = true;
 	this.orientation = { up: false, down: true, left: false, right: false };
-	this.lightAngle = Math.PI * 0.4;
-	this.numberOfRays = this.lightAngle * 50;
-	this.rayLength = 120;
+	this.lightAngle = Math.PI * 2;
+	this.numberOfRays = this.lightAngle * 25;
+	this.rayLength = 40;
 	this.hided = false;
 	this.recoverMP = true;
+	this.inMirror = false;
+	this.flashLight = false;
 	// Player sounds:
 	footstep = game.add.audio('footstep');
 
@@ -53,7 +55,7 @@ function Player(game) {
 	}, this);
 	timer.start();
 
-	shadow = new Shadow(game, this.x + 100, this.y + 100);
+	shadow = new Shadow(game);
 	game.add.existing(shadow);
 
 	this.addLight();
@@ -104,11 +106,23 @@ Player.prototype.update = function () {
 	}
 	if ((frontObject !== null) && (game.input.keyboard.justPressed(Phaser.Keyboard.E))) {
 		switch (frontObject.index) {
-			case DOOR_CLOSED_INDEX:
-				map.replace(DOOR_CLOSED_INDEX, DOOR_OPEN_INDEX, frontObject.x, frontObject.y, 1, 1, objectLayer);
+			case MIRROR_1_INDEX:
+				this.x += 100 * GRID_SIZE;
+				this.inMirror = true;
 				break;
-			case DOOR_OPEN_INDEX:
-				map.replace(DOOR_OPEN_INDEX, DOOR_CLOSED_INDEX, frontObject.x, frontObject.y, 1, 1, objectLayer);
+			case MIRROR_1_INDEX + 1:
+				this.x -= 100 * GRID_SIZE;
+				this.inMirror = false;
+				if (shadow.moveToReal) {
+					shadow.x -= 100 * GRID_SIZE;
+					shadow.moveToReal = false;
+				}
+				break;
+			case DOOR_1_INDEX:
+				map.replace(DOOR_1_INDEX, DOOR_1_INDEX + 1, frontObject.x, frontObject.y, 1, 1, objectLayer);
+				break;
+			case DOOR_1_INDEX + 1:
+				map.replace(DOOR_1_INDEX + 1, DOOR_1_INDEX, frontObject.x, frontObject.y, 1, 1, objectLayer);
 				break;
 			case CLOSET_1_INDEX:
 			case CLOSET_1_INDEX + 1:
@@ -239,9 +253,9 @@ Player.prototype.checkCollision = function (x, y, directions) {
 		} else {
 			frontObject = tile;
 			// console.log(tile.index);
-			if (tile.index === DOOR_CLOSED_INDEX) {
+			if (tile.index === DOOR_1_INDEX) {
 				// console.log('Press E to interact the door');
-			} else if (tile.index === DOOR_OPEN_INDEX) {
+			} else if (tile.index === DOOR_1_INDEX + 1) {
 				this.movePlayer(directions);
 			}
 		}
@@ -280,17 +294,13 @@ Player.prototype.hidePlayer = function () {
 	this.hided = true;
 	this.visible = false;
 	this.tweenCompleted = false;
-	this.lightAngle = Math.PI * 2;
-	this.numberOfRays = this.lightAngle * 50;
-	this.rayLength = 40;
+	this.triggerFlashLight();
 }
 Player.prototype.unhidePlayer = function () {
 	this.hided = false;
 	this.visible = true;
 	this.tweenCompleted = true;
-	this.lightAngle = Math.PI * 0.4;
-	this.numberOfRays = this.lightAngle * 50;
-	this.rayLength = 120;
+	this.triggerFlashLight();
 }
 Player.prototype.addLight = function () {
 	maskGraphics = this.game.add.graphics(0, 0);
@@ -298,10 +308,9 @@ Player.prototype.addLight = function () {
 	wallLayer.mask = maskGraphics;
 	objectLayer.mask = maskGraphics;
 	decorations.mask = maskGraphics;
-	shadow.mask = maskGraphics;
+	// shadow.mask = maskGraphics;
 	// wallLayer.mask = null; // disable mask
 	// wallLayer.alpha = 0.02;
-	this.alpha = 0.5;
 }
 Player.prototype.updateLight = function () {
 	maskGraphics.clear();
@@ -319,14 +328,18 @@ Player.prototype.updateLight = function () {
 		for (var j = 1; j <= this.rayLength; j++) {
 			var wallTile = map.getTile(wallLayer.getTileX(lastX), wallLayer.getTileY(lastY), wallLayer, true);
 			var objectTile = map.getTile(objectLayer.getTileX(lastX), objectLayer.getTileY(lastY), objectLayer, true);
-			if ((Phaser.Math.distance(lastX, lastY, shadow.x, shadow.y) < 1) && (this.currentHP > 0) && !this.hided) {
-				this.currentHP -= 60 / game.time.fps;
+			if ((Phaser.Math.distance(lastX, lastY, shadow.x, shadow.y) < 16) && (this.currentHP > 0) && !this.hided) {
+				this.currentHP -= 1 / game.time.fps;
+				if (!shadow.startMove) {
+					shadow.startMove = true;
+					shadow.moveToReal = true;
+				}
 			}
-			if (lightThrough && (k >= GRID_SIZE / 2 || (wallTile.index === -1 && objectTile.index !== DOOR_CLOSED_INDEX))) {
+			if (lightThrough && (k >= GRID_SIZE / 2 || (wallTile.index === -1 && objectTile.index !== DOOR_1_INDEX))) {
 				maskGraphics.lineTo(lastX, lastY);
 				break;
 			} else {
-				if (wallTile.index !== -1 || objectTile.index === DOOR_CLOSED_INDEX) {
+				if (wallTile.index !== -1 || objectTile.index === DOOR_1_INDEX) {
 					lightThrough = true;
 				}
 				if (lightThrough)
@@ -341,6 +354,19 @@ Player.prototype.updateLight = function () {
 	}
 	maskGraphics.lineTo(playerX, playerY);
 	maskGraphics.endFill();
-	if (!this.hided)
+	if (this.flashLight)
 		floorLayer.alpha = 0.5 + Math.random() * 0.5;
-};
+}
+Player.prototype.triggerFlashLight = function () {
+	if(!this.flashLight) {
+		this.flashLight = true;
+		this.lightAngle = Math.PI * 0.4;
+		this.rayLength = 120;
+		this.alpha = 0.5;
+	} else {
+		this.flashLight = false;
+		this.lightAngle = Math.PI * 2;
+		this.rayLength = 40;
+		this.alpha = 1;
+	}
+}

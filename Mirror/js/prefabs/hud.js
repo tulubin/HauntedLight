@@ -71,7 +71,7 @@ HUD.prototype.update = function () {
 	if (game.input.keyboard.justPressed(Phaser.Keyboard.P)) {
 		this.triggerHUD();
 	}
-	if ((frontObjectIndex === DOOR_CLOSED_INDEX) || (frontObjectIndex === MIRROR_GOOD_INDEX)) {
+	if ((frontObjectIndex === DOOR_1_INDEX) || (frontObjectIndex === MIRROR_1_INDEX)) {
 		this.interactionHUD.visible = true;
 	} else {
 		this.interactionHUD.visible = false;
