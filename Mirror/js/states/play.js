@@ -23,10 +23,13 @@ Play.prototype = {
 		floorLayer = map.createLayer('Floor');
 		wallLayer = map.createLayer('Wall');
 		objectLayer = map.createLayer('Objects');
-		// decorationLayer = map.createLayer('Decorations');
-		wallLayer.resizeWorld();
+		floorLayer.resizeWorld();
 		decorations = game.add.group();
 		map.createFromObjects('Decorations', 120, 'decorations', 0, true, false, decorations)
+		floorLayer.tint = DARK_TINT;
+		wallLayer.tint = DARK_TINT;
+		objectLayer.tint = DARK_TINT;
+		decorations.tint = DARK_TINT;
 
 		// Player:
 		player = new Player(game);
@@ -42,7 +45,7 @@ Play.prototype = {
 	},
 	update: function () {
 		debug.updateDebug();
-		if ((player.currentHP <= 0) && (debug.trigger === false)) {
+		if ((player.currentHP <= 0) && (debug.toggle === false)) {
 			game.state.start('End');
 		}
 	}

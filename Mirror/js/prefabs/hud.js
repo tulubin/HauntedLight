@@ -49,7 +49,7 @@ function HUD(game) {
 	this.mpIcon.visible = false;
 	this.mpBar_b.visible = false;
 	this.mpBar_f.visible = false;
-	this.triggerHUD();
+	this.toggleHUD();
 };
 
 HUD.prototype = Object.create(Phaser.Group.prototype);
@@ -69,16 +69,16 @@ HUD.prototype.update = function () {
 
 
 	if (game.input.keyboard.justPressed(Phaser.Keyboard.P)) {
-		this.triggerHUD();
+		this.toggleHUD();
 	}
-	if ((frontObjectIndex === DOOR_1_INDEX) || (frontObjectIndex === MIRROR_1_INDEX)) {
+	if ((player.frontObjectIndex === DOOR_1_INDEX) || (player.frontObjectIndex === MIRROR_1_INDEX)) {
 		this.interactionHUD.visible = true;
 	} else {
 		this.interactionHUD.visible = false;
 	}
 };
 
-HUD.prototype.triggerHUD = function () {
+HUD.prototype.toggleHUD = function () {
 	// HUD:
 	this.hpIcon.visible = !(this.hpIcon.visible);
 	this.hpBar_b.visible = !(this.hpBar_b.visible);

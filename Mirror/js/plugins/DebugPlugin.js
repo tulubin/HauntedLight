@@ -1,7 +1,7 @@
 // Debug Plugin:
 function debugPlugin(game) {
 	Phaser.Plugin.call(this, game);
-	this.trigger = false;
+	this.toggle = false;
 	// this.tileIndex
 	// this.currentLayer
 	// this.tileX
@@ -22,22 +22,32 @@ debugPlugin.prototype.addDebug = function () {
 };
 debugPlugin.prototype.updateDebug = function () {
 	if (game.input.keyboard.justPressed(Phaser.Keyboard.O)) {
-		this.trigger = !this.trigger;
-		marker.visible = this.trigger;
+		this.toggle = !this.toggle;
+		marker.visible = this.toggle;
 	}
 	this.render();
 };
 debugPlugin.prototype.render = function () {
-	if (this.trigger) {
+	if (this.toggle) {
 		game.debug.text('FPS: ' + game.time.fps || 'FPS: --', 40, 40, "#00ff00");
 		game.debug.cameraInfo(game.camera, GRID_SIZE, GRID_SIZE);
 		// game.debug.spriteCoords(player, GRID_SIZE, 500);
+		game.debug.text('player HP: ' + player.currentHP, 32, game.camera.height - 180);
+		if (player.orientation.up)
+			game.debug.text('player orientation: ' + 'UP', 32, game.camera.height - 160);
+		else if (player.orientation.down)
+			game.debug.text('player orientation: ' + 'DOWN', 32, game.camera.height - 160);
+		else if (player.orientation.left)
+			game.debug.text('player orientation: ' + 'LEFT', 32, game.camera.height - 160);
+		else if (player.orientation.right)
+			game.debug.text('player orientation: ' + 'RIGHT', 32, game.camera.height - 160);
+		game.debug.text('player visible: ' + player.visible, 32, game.camera.height - 140);
 		game.debug.text('player hided: ' + player.hided, 32, game.camera.height - 120);
 		game.debug.text('Tile x: ' + this.tileX + ' Tile y: ' + this.tileY, 32, game.camera.height - 100);
 		game.debug.text('Current tile layer: ' + this.currentLayer, 32, game.camera.height - 80);
 		game.debug.text('Target tile index: ' + this.tileIndex, 32, game.camera.height - 60);
-		game.debug.text('Front object: ' + frontObjectIndex, 32, game.camera.height - 40);
-		game.debug.text('Player Stop Moving: ' + player.tweenCompleted.toString(), 32, game.camera.height - 20);
+		game.debug.text('Front object: ' + player.frontObjectIndex, 32, game.camera.height - 40);
+		game.debug.text('Player tween stoped: ' + player.tweenCompleted.toString(), 32, game.camera.height - 20);
 	} else {
 		game.debug.text('', 32, 664);
 	}

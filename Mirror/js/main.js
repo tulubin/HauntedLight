@@ -13,7 +13,6 @@
 var game;
 var player;
 var shadow;
-var playerTween;
 var footstep;
 var hud;
 var debug;
@@ -29,11 +28,6 @@ var shadowTexture;
 var gradient;
 var timer;
 var decorations;
-// Variable:
-var frontObject = null;
-var frontObjectIndex = -1;
-var touch_counter = 0;
-var directionAngle = 270 * Math.PI / 180;
 // Tile-Map Constants:
 var DOOR_1_INDEX = 159;
 var CLOSET_1_INDEX = 119;
@@ -44,13 +38,11 @@ var BED_1_INDEX = 151;
 var BED_2_INDEX = 155;
 var MIRROR_1_INDEX = 192;
 var CHEST_FLASHLIGHT_INDEX = 185;
-// Light Constants:
-var LIGHT_ANGLE = Math.PI * 0.4;
-var NUMBER_OF_RAYS = LIGHT_ANGLE * 50;
-var RAY_LENGTH = 120;
 // Other Constants:
 var GRID_SIZE = 32;
 var CONTROL_RESPONSE_DELAY = 150;
+var DARK_TINT = '0x808080';
+var LIGHT_TINT = '0xd9d9d9';
 
 
 window.onload = function () {

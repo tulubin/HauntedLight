@@ -13,7 +13,7 @@ function Shadow(game) {
 	// x = Phaser.Math.distance(this.x, this.y, player.lastX, player.lastY)-this.moveDis
 	this.game.time.events.loop(1500, function () {
 		if (this.startMove && !player.inMirror) {
-			if (player.hided) {
+			if (player.isHided) {
 				var directionX = Math.random() < 0.5 ? -1 : 1;
 				var directionY = Math.random() < 0.5 ? -1 : 1;
 				var moveX = game.rnd.integerInRange(0, this.moveDis);
