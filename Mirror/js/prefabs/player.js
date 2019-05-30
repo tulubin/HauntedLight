@@ -21,7 +21,7 @@ function Player(game) {
 	this.hided = false;
 	this.recoverMP = true;
 	this.inMirror = false;
-	this.flashLight = false;
+	this.getFlashLight = false;
 	// Player sounds:
 	footstep = game.add.audio('footstep');
 
@@ -119,14 +119,6 @@ Player.prototype.update = function () {
 					this.inMirror = true;
 				}
 				break;
-			// case MIRROR_1_INDEX + 1:
-			// 	this.x -= 100 * GRID_SIZE;
-			// 	this.inMirror = false;
-			// 	if (shadow.moveToReal) {
-			// 		shadow.x -= 100 * GRID_SIZE;
-			// 		shadow.moveToReal = false;
-			// 	}
-			// 	break;
 			case DOOR_1_INDEX:
 				map.replace(DOOR_1_INDEX, DOOR_1_INDEX + 1, frontObject.x, frontObject.y, 1, 1, objectLayer);
 				break;
@@ -229,9 +221,6 @@ Player.prototype.movePlayer = function (directions) {
 	} else if (directions.right === true) {
 		playerTween = game.add.tween(this).to({ x: this.centerX + 32, y: this.centerY }, this.walkingDuration, Phaser.Easing.Linear.None, true);
 	}
-	// this.gridPosition.x += x;  
-	// this.gridPosition.y += y; 
-	// playerTween = game.add.tween(this).to({x: this.gridPosition.x * GRID_SIZE, y: this.gridPosition.y * GRID_SIZE}, this.walkingDuration, Phaser.Easing.Quadratic.InOut, true);
 	this.tweenCompleted = false;
 	playerTween.onComplete.add(this.playerTweenComplete, this);
 	if (this.sprinting) {
@@ -244,25 +233,27 @@ Player.prototype.movePlayer = function (directions) {
 Player.prototype.checkCollision = function (x, y, directions) {
 	var frontTileX = floorLayer.getTileX(x);
 	var frontTileY = floorLayer.getTileY(y);
-	var wallTile = map.getTile(frontTileX, frontTileY, wallLayer, true);
+	var tile = map.getTile(frontTileX, frontTileY, wallLayer, true);
 
-	if (wallTile.index === -1) { // check if it's not a wall
-		var objectTile = map.getTile(frontTileX, frontTileY, objectLayer, true);
-		if (objectTile.index !== -1) { // if it is a object
-			frontObject = objectTile;
-			switch (frontObject.index) {
+	if (tile.index === -1) { // check if it's not a wall
+		tile = map.getTile(frontTileX, frontTileY, objectLayer, true);
+		if (tile.index !== -1) { // if it is a object
+			switch (tile.index) {
 				case DOOR_1_INDEX + 1:	// open door pass through
 					this.movePlayer(directions);
 					break;
 				case CHEST_FLASHLIGHT_INDEX:	// open door pass through
 					this.movePlayer(directions);
-					frontObject.destroy();
+					map.replace(CHEST_FLASHLIGHT_INDEX, -1, tile.x, tile.y, 1, 1, objectLayer);
+					this.loadTexture('Player_f');
+					this.flashLightOn();
 					break;
 			}
 		} else { // nothing in front
 			this.movePlayer(directions);
 		}
 	}
+	frontObject = tile;
 }
 Player.prototype.playerTweenComplete = function () {
 	// function playerTweenComplete() {
@@ -297,13 +288,14 @@ Player.prototype.hidePlayer = function () {
 	this.hided = true;
 	this.visible = false;
 	this.tweenCompleted = false;
-	this.triggerFlashLight();
+	this.flashLightOff();
 }
 Player.prototype.unhidePlayer = function () {
 	this.hided = false;
 	this.visible = true;
 	this.tweenCompleted = true;
-	this.triggerFlashLight();
+	if (this.getFlashLight)
+		this.flashLightOn();
 }
 Player.prototype.addLight = function () {
 	maskGraphics = this.game.add.graphics(0, 0);
@@ -357,19 +349,18 @@ Player.prototype.updateLight = function () {
 	}
 	maskGraphics.lineTo(playerX, playerY);
 	maskGraphics.endFill();
-	if (this.flashLight)
+	if (this.getFlashLight)
 		floorLayer.alpha = 0.5 + Math.random() * 0.5;
 }
-Player.prototype.triggerFlashLight = function () {
-	if (!this.flashLight) {
-		this.flashLight = true;
-		this.lightAngle = Math.PI * 0.4;
-		this.rayLength = 120;
-		this.alpha = 0.5;
-	} else {
-		this.flashLight = false;
-		this.lightAngle = Math.PI * 2;
-		this.rayLength = 40;
-		this.alpha = 1;
-	}
+Player.prototype.flashLightOn = function () {
+	this.getFlashLight = true;
+	this.lightAngle = Math.PI * 0.4;
+	this.rayLength = 120;
+	this.alpha = 0.5;
+}
+Player.prototype.flashLightOff = function () {
+	this.getFlashLight = false;
+	this.lightAngle = Math.PI * 2;
+	this.rayLength = 40;
+	this.alpha = 1;
 }
