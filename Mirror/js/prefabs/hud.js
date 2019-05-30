@@ -8,39 +8,32 @@ function HUD(game) {
 	// --------------------hpIcon---------------------
 	this.hpIcon = game.add.sprite(game.width - 30, 26, 'HP_1');
 	this.add(this.hpIcon);
-	// this.hpIcon.fixedToCamera = true;
 	this.hpIcon.scale.setTo(0.7);
 	// --------------back HP bar------------------
 	this.hpBar_b = game.add.graphics(0, 0);
 	this.add(this.hpBar_b);
-	// this.hpBar_b.fixedToCamera = true;
 	this.hpBar_b.beginFill(0x222222, 0.8);
 	this.hpBar_b.drawRect(game.width - 150, 30, 104, 14);
 	this.hpBar_b.endFill();
 	// --------------front HP bar-----------------
 	this.hpBar_f = game.add.graphics(0, 0);
 	this.add(this.hpBar_f);
-	// this.hpBar_f.fixedToCamera = true;
 	// --------------------mpIcon---------------------
 	this.mpIcon = game.add.sprite(game.width - 30, 52, 'MP');
 	this.add(this.mpIcon);
-	// this.mpIcon.fixedToCamera = true;
 	this.mpIcon.scale.setTo(0.7);
 	// --------------back MP bar------------------
 	this.mpBar_b = game.add.graphics(0, 0);
 	this.add(this.mpBar_b);
-	// this.mpBar_b.fixedToCamera = true;
 	this.mpBar_b.beginFill(0x222222, 0.8);
 	this.mpBar_b.drawRect(game.width - 150, 60, 104, 14);
 	this.mpBar_b.endFill();
 	// --------------front MP bar-----------------
 	this.mpBar_f = game.add.graphics(0, 0);
 	this.add(this.mpBar_f);
-	// this.mpBar_f.fixedToCamera = true;
 	// --------------flashlight icon-----------------
 	this.flashlight_icon = game.add.sprite(game.width - 100, game.height - 100, 'Flashlight_icon');
 	this.flashlight_icon.anchor.set(0.5);
-	// this.flashlight_icon.fixedToCamera = true;
 	this.flashlight_icon.scale.setTo(1);
 	this.flashlight_icon.visible = false;
 	this.add(this.flashlight_icon);
@@ -48,7 +41,6 @@ function HUD(game) {
 	this.interactionHUD = game.add.sprite(game.width / 2 + 32, game.height / 2 - 64, 'e_key');
 	this.interactionHUD.anchor.set(0.5);
 	this.add(this.interactionHUD);
-	// this.interactionHUD.fixedToCamera = true;
 	this.interactionHUD.visible = false;
 	// --------------tutorial HUD-----------------
 	this.upKey = game.add.sprite(64, game.height - 128, 'ArrowKey');
@@ -69,10 +61,8 @@ function HUD(game) {
 	this.add(this.leftKey);
 	this.add(this.rightKey);
 	this.add(this.sprintKey);
-	// HUD.fixedToCamera = true;
 	// arrows = game.add.sprite(game.width / 4, game.height / 4, 'arrow_key');
 	// arrows.anchor.set(0.5);
-	// arrows.fixedToCamera = true;
 	// arrows.visible = true;
 	// game.time.events.add(8000, function () { arrows.destroy(); });
 	// default:
@@ -101,9 +91,6 @@ HUD.prototype.update = function () {
 	this.mpBar_f.drawRect(game.width - 148, 62, 100 * (player.currentMP / player.maxMP), 10);
 	this.mpBar_f.endFill();
 
-	// if (game.input.keyboard.justPressed(Phaser.Keyboard.P)) {
-	// 	this.toggleHUD();
-	// }
 	if ((player.frontObjectIndex === DOOR_1_INDEX) || (player.frontObjectIndex === MIRROR_1_INDEX)) {
 		this.interactionHUD.visible = true;
 	} else {

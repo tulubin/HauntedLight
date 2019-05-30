@@ -30,6 +30,7 @@ function Player(game) {
 	this.lightSourceY = this.y + 3;
 	this.frontObject = map.getTile(objectLayer.getTileX(this.centerX), objectLayer.getTileY(this.centerY + 32), objectLayer, true);
 	this.frontObjectIndex = -1;
+	this.switchToHUD = false;
 	// Player sounds:
 	footstep = game.add.audio('footstep');
 
@@ -68,8 +69,9 @@ function Player(game) {
 
 	this.addLight();
 	// HUD:
-	this.hud = new HUD(game);
-	this.hud.fixedToCamera = true;
+	// this.hud = new HUD(game);
+	// this.hud.fixedToCamera = true;
+	this.toggleHUD();
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to Player
@@ -125,17 +127,10 @@ Player.prototype.update = function () {
 			this.switchToFlashLight = !this.switchToFlashLight;
 			this.toggleFlashLight();
 		}
-		// if (game.input.keyboard.justPressed(Phaser.Keyboard.P)) {
-		// 	// toggle HUD
-		// 	if (this.hud.exists) {
-		// 		console.log('killed');
-		// 		this.hud.removeAll(true);
-		// 		this.hud.destroy(true);
-		// 	} else {
-		// 		this.hud = new HUD(game);
-		// 	}
-
-		// }
+	}
+	if (game.input.keyboard.justPressed(Phaser.Keyboard.P)) {
+		// toggle HUD
+		this.toggleHUD();
 	}
 	if (game.input.keyboard.justPressed(Phaser.Keyboard.E) && this.tweenCompleted) {
 		switch (this.frontObject.index) {
@@ -383,11 +378,9 @@ Player.prototype.updateLight = function () {
 }
 Player.prototype.toggleFlashLight = function () {
 	if (!this.flashLightOn && this.hasFlashLight && !this.isHided && this.switchToFlashLight) {
-		this.flashLightOn = true;
 		this.lightAngle = Math.PI * 0.4;
 		this.rayLength = 120;
 	} else {
-		this.flashLightOn = false;
 		this.lightAngle = Math.PI * 2;
 		this.rayLength = 40;
 		this.tint = DARK_TINT;
@@ -396,5 +389,16 @@ Player.prototype.toggleFlashLight = function () {
 		objectLayer.tint = DARK_TINT;
 		decorations.tint = DARK_TINT;
 	}
+	this.flashLightOn = !this.flashLightOn;
 	this.hud.flashlight_icon.visible = this.switchToFlashLight && this.flashLightOn;
+}
+
+Player.prototype.toggleHUD = function () {
+	if (!this.switchToHUD) {
+		this.hud = new HUD(game);
+		this.hud.fixedToCamera = true;
+	} else {
+		this.hud.destroy(true);
+	}
+	this.switchToHUD = !this.switchToHUD;
 }

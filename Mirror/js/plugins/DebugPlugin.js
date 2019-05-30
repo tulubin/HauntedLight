@@ -32,7 +32,7 @@ debugPlugin.prototype.render = function () {
 		game.debug.text('FPS: ' + game.time.fps || 'FPS: --', 40, 40, "#00ff00");
 		game.debug.cameraInfo(game.camera, GRID_SIZE, GRID_SIZE);
 		// game.debug.spriteCoords(player, GRID_SIZE, 500);
-		game.debug.text('player fl: ' + player.hud.exists, 32, game.camera.height - 180);
+		game.debug.text('hud exists: ' + player.hud.exists, 32, game.camera.height - 180);
 		if (player.orientation.up)
 			game.debug.text('player orientation: ' + 'UP', 32, game.camera.height - 160);
 		else if (player.orientation.down)
