@@ -4,6 +4,9 @@ var Title = function (game) { };
 Title.prototype = {
 	preload: function () {
 		game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+		game.scale.pageAlignHorizontally = true;
+		game.scale.pageAlignVertically = true;
+		game.scale.refresh();
 		// game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
 		// game.scale.setUserScale(0, 0);
 		// load tilemap

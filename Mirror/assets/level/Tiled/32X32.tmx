@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="8" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="2" nextobjectid="1">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="8" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="2" nextobjectid="1">
  <tileset firstgid="1" name="1" tilewidth="32" tileheight="32" tilecount="64" columns="8">
   <image source="../../tilesheet/hide&amp;seek.png" width="256" height="256"/>
  </tileset>
@@ -12,6 +12,9 @@
  <tileset firstgid="105" name="4" tilewidth="32" tileheight="32" tilecount="9" columns="3">
   <image source="../../tilesheet/door old.png" width="96" height="96"/>
  </tileset>
+ <tileset firstgid="114" name="5" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="../../img/flashlight.png" width="32" height="32"/>
+ </tileset>
  <layer id="1" name="Tile Layer 1" width="8" height="30">
   <data encoding="csv">
 3,4,1,2,7,8,5,6,
@@ -23,7 +26,7 @@
 65,66,105,106,109,110,0,0,
 73,74,75,76,77,78,79,80,
 81,82,83,84,85,86,87,88,
-89,90,0,0,0,0,0,0,
+89,90,114,0,0,0,0,0,
 95,96,97,98,99,100,101,102,
 103,104,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,

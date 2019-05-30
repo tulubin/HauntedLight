@@ -3,7 +3,7 @@
 function Player(game) {
 	// call Sprite constructor within this object
 	// new Sprite(game, x, y, key, frame)
-	Phaser.Sprite.call(this, game, GRID_SIZE * 52 + GRID_SIZE / 2, GRID_SIZE * 77 + GRID_SIZE / 2, 'Player');
+	Phaser.Sprite.call(this, game, GRID_SIZE * 52 + GRID_SIZE / 2, GRID_SIZE * 82 + GRID_SIZE / 2, 'Player');
 	this.anchor.set(0.5);
 	this.currentHP = 100;   // for debuging
 	this.maxHP = 100;
@@ -107,17 +107,26 @@ Player.prototype.update = function () {
 	if ((frontObject !== null) && (game.input.keyboard.justPressed(Phaser.Keyboard.E))) {
 		switch (frontObject.index) {
 			case MIRROR_1_INDEX:
-				this.x += 100 * GRID_SIZE;
-				this.inMirror = true;
-				break;
-			case MIRROR_1_INDEX + 1:
-				this.x -= 100 * GRID_SIZE;
-				this.inMirror = false;
-				if (shadow.moveToReal) {
-					shadow.x -= 100 * GRID_SIZE;
-					shadow.moveToReal = false;
+				if (this.inMirror) {
+					this.x -= 100 * GRID_SIZE;
+					this.inMirror = false;
+					if (shadow.moveToReal) {
+						shadow.x -= 100 * GRID_SIZE;
+						shadow.moveToReal = false;
+					}
+				} else {
+					this.x += 100 * GRID_SIZE;
+					this.inMirror = true;
 				}
 				break;
+			// case MIRROR_1_INDEX + 1:
+			// 	this.x -= 100 * GRID_SIZE;
+			// 	this.inMirror = false;
+			// 	if (shadow.moveToReal) {
+			// 		shadow.x -= 100 * GRID_SIZE;
+			// 		shadow.moveToReal = false;
+			// 	}
+			// 	break;
 			case DOOR_1_INDEX:
 				map.replace(DOOR_1_INDEX, DOOR_1_INDEX + 1, frontObject.x, frontObject.y, 1, 1, objectLayer);
 				break;
@@ -233,31 +242,25 @@ Player.prototype.movePlayer = function (directions) {
 
 // // mark when Player stop moving:
 Player.prototype.checkCollision = function (x, y, directions) {
-	// function checkCollision(x, y, directions) {
-	// frontObject = null;
-	var wallTileX = wallLayer.getTileX(x);
-	var wallTileY = wallLayer.getTileY(y);
-	var tile = map.getTile(wallTileX, wallTileY, wallLayer, true);
+	var frontTileX = floorLayer.getTileX(x);
+	var frontTileY = floorLayer.getTileY(y);
+	var wallTile = map.getTile(frontTileX, frontTileY, wallLayer, true);
 
-	// currentDataString = tile;
-	// console.log(currentDataString);
-	// if([1].includes(tile.index))
-	// Check if next tile is wall
-	if (tile.index === -1) {
-		var objectTileX = objectLayer.getTileX(x);
-		var objectTileY = objectLayer.getTileY(y);
-		var tile = map.getTile(objectTileX, objectTileY, objectLayer, true);
-		// Check if next tile is objects
-		if (tile.index === -1) {
-			this.movePlayer(directions);
-		} else {
-			frontObject = tile;
-			// console.log(tile.index);
-			if (tile.index === DOOR_1_INDEX) {
-				// console.log('Press E to interact the door');
-			} else if (tile.index === DOOR_1_INDEX + 1) {
-				this.movePlayer(directions);
+	if (wallTile.index === -1) { // check if it's not a wall
+		var objectTile = map.getTile(frontTileX, frontTileY, objectLayer, true);
+		if (objectTile.index !== -1) { // if it is a object
+			frontObject = objectTile;
+			switch (frontObject.index) {
+				case DOOR_1_INDEX + 1:	// open door pass through
+					this.movePlayer(directions);
+					break;
+				case CHEST_FLASHLIGHT_INDEX:	// open door pass through
+					this.movePlayer(directions);
+					frontObject.destroy();
+					break;
 			}
+		} else { // nothing in front
+			this.movePlayer(directions);
 		}
 	}
 }
@@ -358,7 +361,7 @@ Player.prototype.updateLight = function () {
 		floorLayer.alpha = 0.5 + Math.random() * 0.5;
 }
 Player.prototype.triggerFlashLight = function () {
-	if(!this.flashLight) {
+	if (!this.flashLight) {
 		this.flashLight = true;
 		this.lightAngle = Math.PI * 0.4;
 		this.rayLength = 120;
