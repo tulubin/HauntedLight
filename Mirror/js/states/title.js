@@ -3,6 +3,9 @@
 var Title = function (game) { };
 Title.prototype = {
 	preload: function () {
+		game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+		// game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
+		// game.scale.setUserScale(0, 0);
 		// load tilemap
 		game.load.tilemap('level', 'assets/level/map.json', null, Phaser.Tilemap.TILED_JSON);
 		// game.load.spritesheet('tilesheet', 'assets/tilesheet/colorblock.png', 32, 32);
@@ -30,6 +33,7 @@ Title.prototype = {
 		game.load.audio('footstep', 'assets/audio/footstep.wav');
 	},
 	create: function () {
+		
 		// add title screen text
 		var titleText = game.add.text(game.width / 2, game.height / 2, 'Mirror', { font: 'Helvetica', fontSize: '48px', fill: '#0000FF' });
 		titleText.anchor.set(0.5);

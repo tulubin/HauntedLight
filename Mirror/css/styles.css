@@ -1,7 +1,22 @@
-body {
-	font-family: Helvetica;
+* {
+	box-sizing: border-box;
 }
 
-canvas {
-	border: 1px solid black;
+body, html {
+	/* font-family: Helvetica;*/
+	margin: 0;
+	padding: 0;
 }
+
+#container {
+	height: 100vh;
+	min-height: 525px;
+	border: 1px solid green;
+}
+
+#phaser {
+	height: 100%;
+}
+/* canvas {
+	border: 1px solid black;
+} */
