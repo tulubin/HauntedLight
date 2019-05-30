@@ -12,6 +12,9 @@
  <tileset firstgid="105" name="4" tilewidth="32" tileheight="32" tilecount="9" columns="3">
   <image source="../../tilesheet/door old.png" width="96" height="96"/>
  </tileset>
+ <tileset firstgid="114" name="5" tilewidth="32" tileheight="32" tilecount="4" columns="2">
+  <image source="../../../../../../../../artg120/asset/door v2.png" width="64" height="64"/>
+ </tileset>
  <layer id="1" name="Tile Layer 1" width="8" height="30">
   <data encoding="csv">
 3,4,1,2,7,8,5,6,
@@ -20,7 +23,7 @@
 25,26,27,28,29,30,31,32,
 33,34,35,36,37,38,39,40,
 41,42,43,44,45,46,47,48,
-65,66,105,106,109,110,0,0,
+65,66,105,106,116,117,114,115,
 73,74,75,76,77,78,79,80,
 81,82,83,84,85,86,87,88,
 89,90,0,0,0,0,0,0,
