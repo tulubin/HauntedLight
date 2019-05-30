@@ -38,8 +38,6 @@ Play.prototype = {
 		//var someText = game.add.text(GRID_SIZE*20.5, GRID_SIZE*26, 'Thanks For Playing the Demo!', {font: 'Helvetica', fontSize: '12px', fill: '#fff'});
 		//someText.anchor.set(0.5);
 
-		// HUD:
-		hud = new HUD(game);
 		debug = new debugPlugin(game);
 		debug.addDebug();
 	},

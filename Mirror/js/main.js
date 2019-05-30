@@ -43,8 +43,8 @@ var GRID_SIZE = 32;
 var CONTROL_RESPONSE_DELAY = 150;
 var DARK_TINT = '0x808080';
 var LIGHT_TINT = '0xd9d9d9';
-
-
+var PRESS_TINT = '0x66ff66';
+var RESET_TINT = '0xFFFFFF';
 window.onload = function () {
 	// define game
 	game = new Phaser.Game(640, 480, Phaser.AUTO, 'myGame');

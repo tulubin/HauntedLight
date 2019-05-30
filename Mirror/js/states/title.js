@@ -24,9 +24,12 @@ Title.prototype = {
 		game.load.image('HP_1', 'assets/img/sanity00.png');
 		game.load.image('MP', 'assets/img/MP.png'); 
 		game.load.image('Shadow', 'assets/img/ghost0.png'); 
+		game.load.image('Flashlight_icon', 'assets/img/flashlight_icon.png'); 
+
+		game.load.image('ArrowKey', 'assets/img/temp.png');
 		game.load.image('e_key', 'assets/img/e_key.png');
-		game.load.image('arrow_key', 'assets/img/arrow_keys.png');
-		game.load.image('wasd_key', 'assets/img/wasd.png');
+		game.load.image('SprintKey', 'assets/img/temp.png');
+		// game.load.image('arrow_key', 'assets/img/arrow_keys.png');
 		// game.load.image('Mask', 'assets/img/mask.png');
 
 		//preload texture atlas for player

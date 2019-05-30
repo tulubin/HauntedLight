@@ -67,6 +67,9 @@ function Player(game) {
 	game.add.existing(shadow);
 
 	this.addLight();
+	// HUD:
+	this.hud = new HUD(game);
+	this.hud.fixedToCamera = true;
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to Player
@@ -118,9 +121,21 @@ Player.prototype.update = function () {
 			}
 		}
 		if (game.input.keyboard.justPressed(Phaser.Keyboard.L) && this.hasFlashLight) {
+			// toggle flashlight
 			this.switchToFlashLight = !this.switchToFlashLight;
 			this.toggleFlashLight();
 		}
+		// if (game.input.keyboard.justPressed(Phaser.Keyboard.P)) {
+		// 	// toggle HUD
+		// 	if (this.hud.exists) {
+		// 		console.log('killed');
+		// 		this.hud.removeAll(true);
+		// 		this.hud.destroy(true);
+		// 	} else {
+		// 		this.hud = new HUD(game);
+		// 	}
+
+		// }
 	}
 	if (game.input.keyboard.justPressed(Phaser.Keyboard.E) && this.tweenCompleted) {
 		switch (this.frontObject.index) {
@@ -317,8 +332,8 @@ Player.prototype.addLight = function () {
 }
 Player.prototype.updateLight = function () {
 	maskGraphics.clear();
-	maskGraphics.lineStyle(2, 0xFFFFFF, 1);
-	maskGraphics.beginFill(0xFFFFFF);
+	maskGraphics.lineStyle(2, RESET_TINT, 1);
+	maskGraphics.beginFill(RESET_TINT);
 	this.lightSourceX = this.x;
 	this.lightSourceY = this.y + 3;
 	maskGraphics.moveTo(this.lightSourceX, this.lightSourceY);
@@ -359,10 +374,10 @@ Player.prototype.updateLight = function () {
 	maskGraphics.endFill();
 	if (this.flashLightOn) {
 		var ran = Math.random();
-		floorLayer.tint = (ran < 0.5) ? 0xFFFFFF : LIGHT_TINT;
-		wallLayer.tint = (ran < 0.5) ? 0xFFFFFF : LIGHT_TINT;
-		objectLayer.tint = (ran < 0.5) ? 0xFFFFFF : LIGHT_TINT;
-		decorations.tint = (ran < 0.5) ? 0xFFFFFF : LIGHT_TINT;
+		floorLayer.tint = (ran < 0.5) ? RESET_TINT : LIGHT_TINT;
+		wallLayer.tint = (ran < 0.5) ? RESET_TINT : LIGHT_TINT;
+		objectLayer.tint = (ran < 0.5) ? RESET_TINT : LIGHT_TINT;
+		decorations.tint = (ran < 0.5) ? RESET_TINT : LIGHT_TINT;
 		// floorLayer.alpha = 0.5 + Math.random() * 0.5;
 	}
 }
@@ -381,4 +396,5 @@ Player.prototype.toggleFlashLight = function () {
 		objectLayer.tint = DARK_TINT;
 		decorations.tint = DARK_TINT;
 	}
+	this.hud.flashlight_icon.visible = this.switchToFlashLight && this.flashLightOn;
 }

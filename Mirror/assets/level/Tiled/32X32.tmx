@@ -15,6 +15,9 @@
  <tileset firstgid="114" name="5" tilewidth="32" tileheight="32" tilecount="1" columns="1">
   <image source="../../img/flashlight.png" width="32" height="32"/>
  </tileset>
+ <tileset firstgid="115" name="6" tilewidth="32" tileheight="32" tilecount="100" columns="10">
+  <image source="../../tilesheet/decorations.png" width="320" height="320"/>
+ </tileset>
  <layer id="1" name="Tile Layer 1" width="8" height="30">
   <data encoding="csv">
 3,4,1,2,7,8,5,6,
