@@ -118,6 +118,7 @@ Player.prototype.update = function () {
 			this.animations.play("walkUp");
 			this.orientation = { up: true, down: false, left: false, right: false }
 			this.updateSurroundingObject(this.orientation);
+			//call mirrorUpdate here
 			if (!game.input.keyboard.downDuration(Phaser.Keyboard.UP, CONTROL_RESPONSE_DELAY)) {
 				this.checkCollision(this.centerX, this.centerY - 32, this.orientation);
 			}
@@ -125,6 +126,7 @@ Player.prototype.update = function () {
 			this.animations.play("walkDown");
 			this.orientation = { up: false, down: true, left: false, right: false }
 			this.updateSurroundingObject(this.orientation);
+			//call mirrorUpdate here
 			if (!game.input.keyboard.downDuration(Phaser.Keyboard.DOWN, CONTROL_RESPONSE_DELAY)) {
 				this.checkCollision(this.centerX, this.centerY + 32, this.orientation);
 			}
@@ -132,6 +134,7 @@ Player.prototype.update = function () {
 			this.animations.play("walkLeft");
 			this.orientation = { up: false, down: false, left: true, right: false }
 			this.updateSurroundingObject(this.orientation);
+			//call mirrorUpdate here
 			if (!game.input.keyboard.downDuration(Phaser.Keyboard.LEFT, CONTROL_RESPONSE_DELAY)) {
 				this.checkCollision(this.centerX - 32, this.centerY, this.orientation);
 			}
@@ -139,6 +142,7 @@ Player.prototype.update = function () {
 			this.animations.play("walkRight");
 			this.orientation = { up: false, down: false, left: false, right: true }
 			this.updateSurroundingObject(this.orientation);
+			//call mirrorUpdate here
 			if (!game.input.keyboard.downDuration(Phaser.Keyboard.RIGHT, CONTROL_RESPONSE_DELAY)) {
 				this.checkCollision(this.centerX + 32, this.centerY, this.orientation);
 			}
@@ -264,36 +268,6 @@ Player.prototype.update = function () {
 		footstep.stop();
 		this.animations.stop();
 	}
-
-	//update mirror
-	if(!this.switchToFlashLight){
-		if((this.frontObject.index == MIRROR_1_INDEX)){
-			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 1, this.leftObject.x, this.leftObject.y, 1, 1, objectLayer);
-		}
-		if((this.leftObject.index == MIRROR_1_INDEX)){
-			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 2, this.leftObject.x, this.leftObject.y, 1, 1, objectLayer);
-		}
-		if((this.rightObject.index == MIRROR_1_INDEX)){
-			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 3, this.leftObject.x, this.leftObject.y, 1, 1, objectLayer);
-		}
-		if((this.backObject.index == MIRROR_1_INDEX)){
-			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 4, this.leftObject.x, this.leftObject.y, 1, 1, objectLayer);
-		}
-	}
-	else{
-		if((this.frontObject.index == MIRROR_1_INDEX)){
-			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 5, this.leftObject.x, this.leftObject.y, 1, 1, objectLayer);
-		}
-		if((this.leftObject.index == MIRROR_1_INDEX)){
-			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 6, this.leftObject.x, this.leftObject.y, 1, 1, objectLayer);
-		}
-		if((this.rightObject.index == MIRROR_1_INDEX)){
-			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 7, this.leftObject.x, this.leftObject.y, 1, 1, objectLayer);
-		}
-		if((this.backObject.index == MIRROR_1_INDEX)){
-			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 8, this.leftObject.x, this.leftObject.y, 1, 1, objectLayer);
-		}
-	}
 }
 
 // move Player:
@@ -373,8 +347,17 @@ Player.prototype.updateSurroundingObject = function (directions) {
 	}
 	if (this.frontObject !== null)
 		this.frontObjectIndex = this.frontObject.index;
+	if (this.leftObject !== null)
+		this.leftObjectIndex = this.leftObject.index;
+	if (this.rightObject !== null)
+		this.rightObjectIndex = this.rightObject.index;
+	if (this.backObject !== null)
+		this.backObjectIndex = this.backObject.index;
 	else
 		this.frontObjectIndex = -1;
+		this.leftObjectIndex = -1;
+		this.rightObjectIndex = -1;
+		this.backObjectIndex = -1;
 }
 Player.prototype.updatePlayerXY = function () {
 	this.lastX = this.x;
@@ -499,3 +482,36 @@ Player.prototype.flashlightPickupEvent = function () {
 	}
 }
 
+Player.prototype.mirrorUpdate = function () {
+	//update mirror for approching
+	if(!this.switchToFlashLight){
+		if((this.frontObject.index == MIRROR_1_INDEX)){
+			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 1, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
+		}
+		if((this.leftObject.index == MIRROR_1_INDEX)){
+			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 2, this.leftObject.x, this.leftObject.y, 1, 1, objectLayer);
+		}
+		if((this.rightObject.index == MIRROR_1_INDEX)){
+			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 3, this.rightObject.x, this.rightObject.y, 1, 1, objectLayer);
+		}
+		if((this.backObject.index == MIRROR_1_INDEX)){
+			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 4, this.backObject.x, this.backObject.y, 1, 1, objectLayer);
+		}
+	}
+	else{
+		if((this.frontObject.index == MIRROR_1_INDEX)){
+			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 5, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
+		}
+		if((this.leftObject.index == MIRROR_1_INDEX)){
+			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 6, this.leftObject.x, this.leftObject.y, 1, 1, objectLayer);
+		}
+		if((this.rightObject.index == MIRROR_1_INDEX)){
+			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 7, this.rightObject.x, this.rightObject.y, 1, 1, objectLayer);
+		}
+		if((this.backObject.index == MIRROR_1_INDEX)){
+			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 8, this.backObject.x, this.backObject.y, 1, 1, objectLayer);
+		}
+	}
+	//update mirror for leaving
+	
+}
