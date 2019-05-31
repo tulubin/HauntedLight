@@ -118,6 +118,7 @@ Player.prototype.update = function () {
 			this.animations.play("walkUp");
 			this.orientation = { up: true, down: false, left: false, right: false }
 			this.updateSurroundingObject(this.orientation);
+			//call mirrorUpdate here
 			if (!game.input.keyboard.downDuration(Phaser.Keyboard.UP, CONTROL_RESPONSE_DELAY)) {
 				this.checkCollision(this.centerX, this.centerY - 32, this.orientation);
 			}
@@ -125,6 +126,7 @@ Player.prototype.update = function () {
 			this.animations.play("walkDown");
 			this.orientation = { up: false, down: true, left: false, right: false }
 			this.updateSurroundingObject(this.orientation);
+			//call mirrorUpdate here
 			if (!game.input.keyboard.downDuration(Phaser.Keyboard.DOWN, CONTROL_RESPONSE_DELAY)) {
 				this.checkCollision(this.centerX, this.centerY + 32, this.orientation);
 			}
@@ -132,6 +134,7 @@ Player.prototype.update = function () {
 			this.animations.play("walkLeft");
 			this.orientation = { up: false, down: false, left: true, right: false }
 			this.updateSurroundingObject(this.orientation);
+			//call mirrorUpdate here
 			if (!game.input.keyboard.downDuration(Phaser.Keyboard.LEFT, CONTROL_RESPONSE_DELAY)) {
 				this.checkCollision(this.centerX - 32, this.centerY, this.orientation);
 			}
@@ -139,6 +142,7 @@ Player.prototype.update = function () {
 			this.animations.play("walkRight");
 			this.orientation = { up: false, down: false, left: false, right: true }
 			this.updateSurroundingObject(this.orientation);
+			//call mirrorUpdate here
 			if (!game.input.keyboard.downDuration(Phaser.Keyboard.RIGHT, CONTROL_RESPONSE_DELAY)) {
 				this.checkCollision(this.centerX + 32, this.centerY, this.orientation);
 			}
@@ -470,7 +474,7 @@ Player.prototype.flashlightPickupEvent = function () {
 }
 
 Player.prototype.mirrorUpdate = function () {
-	//update mirror
+	//update mirror for approching
 	if(!this.switchToFlashLight){
 		if((this.frontObject.index == MIRROR_1_INDEX)){
 			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 1, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
@@ -499,4 +503,6 @@ Player.prototype.mirrorUpdate = function () {
 			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 8, this.backObject.x, this.backObject.y, 1, 1, objectLayer);
 		}
 	}
+	//update mirror for leaving
+	
 }
