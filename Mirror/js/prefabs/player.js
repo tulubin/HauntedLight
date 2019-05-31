@@ -6,10 +6,12 @@ function Player(game) {
 	Phaser.Sprite.call(this, game, GRID_SIZE * 52 + GRID_SIZE / 2, GRID_SIZE * 82 + GRID_SIZE / 2, 'Player');
 	this.anchor.set(0.5);
 	this.tint = DARK_TINT;
-	this.currentHP = 100;   // for debuging
+	this.currentHP = 100; // horror point
 	this.maxHP = 100;
-	this.currentMP = 100;   // for debuging
+	this.currentMP = 100; // movement point
 	this.maxMP = 100;
+	this.currentBattery = 100;
+	this.maxBattery = 100;
 	this.sprinting = false;
 	this.lastX = this.x;
 	this.lastY = this.y;
@@ -17,9 +19,9 @@ function Player(game) {
 	this.tweenCompleted = true;
 	this.orientation = { up: false, down: true, left: false, right: false };
 	this.directionAngle = 270 * Math.PI / 180;
-	this.lightAngle = Math.PI * 2;
+	this.lightAngle = DEFAULT_VISION_ANGLE;
 	this.numberOfRays = this.lightAngle * 25;
-	this.rayLength = 40;
+	this.rayLength = DEFAULT_VISION_LENGTH;
 	this.isHided = false;
 	this.recoverMP = true;
 	this.inMirror = false;
@@ -60,6 +62,15 @@ function Player(game) {
 			this.currentMP = 0;
 		if (!game.input.keyboard.upDuration(Phaser.Keyboard.SHIFT, 2000) && !game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)) {
 			this.recoverMP = true;
+		}
+		if (this.switchToFlashLight && this.flashLightOn && this.currentBattery >= 0) {
+			if (this.currentBattery <= 0) {
+				this.toggleFlashLight();
+			} else {
+				this.currentBattery -= 1;
+				this.rayLength = DEFAULT_FLISHLIGHT_LENGTH / 2 * this.currentBattery / this.maxBattery + DEFAULT_FLISHLIGHT_LENGTH / 2;
+			}
+
 		}
 	}, this);
 	timer.start();
@@ -122,13 +133,13 @@ Player.prototype.update = function () {
 				this.checkCollision(this.centerX + 32, this.centerY, this.orientation);
 			}
 		}
-		if (game.input.keyboard.justPressed(Phaser.Keyboard.L) && this.hasFlashLight) {
+		if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && this.hasFlashLight) {
 			// toggle flashlight
 			this.switchToFlashLight = !this.switchToFlashLight;
 			this.toggleFlashLight();
 		}
 	}
-	if (game.input.keyboard.justPressed(Phaser.Keyboard.P)) {
+	if (game.input.keyboard.justPressed(Phaser.Keyboard.U)) {
 		// toggle HUD
 		this.toggleHUD();
 	}
@@ -275,8 +286,9 @@ Player.prototype.checkCollision = function (x, y, directions) {
 				this.movePlayer(directions);
 				map.replace(CHEST_FLASHLIGHT_INDEX, -1, objectTile.x, objectTile.y, 1, 1, objectLayer);
 				this.loadTexture('Player_f', 4);
-				this.playerTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY - 32 }, this.walkingDuration, Phaser.Easing.Linear.None, true);
+				var newTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY - 32 }, this.walkingDuration, Phaser.Easing.Linear.None, true);
 				this.toggleFlashLight();
+				newTween.onComplete.addOnce(this.flashlightPickupEvent, this);
 				break;
 			case -1: // no object infront
 				this.movePlayer(directions);
@@ -341,8 +353,8 @@ Player.prototype.updateLight = function () {
 		for (var j = 1; j <= this.rayLength; j++) {
 			var wallTile = map.getTile(wallLayer.getTileX(lastX), wallLayer.getTileY(lastY), wallLayer, true);
 			var objectTile = map.getTile(objectLayer.getTileX(lastX), objectLayer.getTileY(lastY), objectLayer, true);
-			if ((Phaser.Math.distance(lastX, lastY, shadow.x, shadow.y) < 16) && (this.currentHP > 0) && !this.isHided) {
-				this.currentHP -= 0.2 / game.time.fps;
+			if ((Phaser.Math.distance(lastX, lastY, shadow.x, shadow.y) < 8) && (this.currentHP > 0) && !this.isHided) {
+				this.currentHP -= 0.3 / game.time.fps;
 				if (!shadow.startMove) {
 					shadow.startMove = true;
 					shadow.moveToReal = true;
@@ -367,7 +379,7 @@ Player.prototype.updateLight = function () {
 	}
 	maskGraphics.lineTo(this.lightSourceX, this.lightSourceY);
 	maskGraphics.endFill();
-	if (this.flashLightOn) {
+	if (this.switchToFlashLight && this.flashLightOn) {
 		var ran = Math.random();
 		floorLayer.tint = (ran < 0.5) ? RESET_TINT : LIGHT_TINT;
 		wallLayer.tint = (ran < 0.5) ? RESET_TINT : LIGHT_TINT;
@@ -377,20 +389,35 @@ Player.prototype.updateLight = function () {
 	}
 }
 Player.prototype.toggleFlashLight = function () {
-	if (!this.flashLightOn && this.hasFlashLight && !this.isHided && this.switchToFlashLight) {
-		this.lightAngle = Math.PI * 0.4;
-		this.rayLength = 120;
+	if (this.currentBattery > 0) {
+		if (!this.flashLightOn && this.hasFlashLight && !this.isHided && this.switchToFlashLight) {
+			this.lightAngle = DEFAULT_FLASHLIGHT_ANGLE;
+			this.rayLength = DEFAULT_FLISHLIGHT_LENGTH / 2 * this.currentBattery / this.maxBattery + DEFAULT_FLISHLIGHT_LENGTH / 2;
+		} else {
+			this.lightAngle = DEFAULT_VISION_ANGLE;
+			this.rayLength = DEFAULT_VISION_LENGTH;
+			this.tint = DARK_TINT;
+			floorLayer.tint = DARK_TINT;
+			wallLayer.tint = DARK_TINT;
+			objectLayer.tint = DARK_TINT;
+			decorations.tint = DARK_TINT;
+		}
+		this.flashLightOn = !this.flashLightOn;
+		this.hud.flashlight_icon.visible = this.switchToFlashLight && this.flashLightOn;
+		this.hud.battery_level.visible = this.switchToFlashLight && this.flashLightOn;
 	} else {
-		this.lightAngle = Math.PI * 2;
-		this.rayLength = 40;
+		console.log('Zero Battery!');
+		this.lightAngle = DEFAULT_VISION_ANGLE;
+		this.rayLength = DEFAULT_VISION_LENGTH;
 		this.tint = DARK_TINT;
 		floorLayer.tint = DARK_TINT;
 		wallLayer.tint = DARK_TINT;
 		objectLayer.tint = DARK_TINT;
 		decorations.tint = DARK_TINT;
+		this.flashLightOn = false;
+		this.hud.flashlight_icon.visible = false;
+		this.hud.battery_level.visible = false;
 	}
-	this.flashLightOn = !this.flashLightOn;
-	this.hud.flashlight_icon.visible = this.switchToFlashLight && this.flashLightOn;
 }
 
 Player.prototype.toggleHUD = function () {
@@ -402,3 +429,8 @@ Player.prototype.toggleHUD = function () {
 	}
 	this.switchToHUD = !this.switchToHUD;
 }
+Player.prototype.flashlightPickupEvent = function () {
+	console.log('you picked up a flashlight!');
+	// do something
+}
+

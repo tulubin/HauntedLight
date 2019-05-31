@@ -45,6 +45,11 @@ var DARK_TINT = '0x808080';
 var LIGHT_TINT = '0xd9d9d9';
 var PRESS_TINT = '0x66ff66';
 var RESET_TINT = '0xFFFFFF';
+var DEFAULT_VISION_LENGTH = 35;
+var DEFAULT_FLISHLIGHT_LENGTH = 120;
+var DEFAULT_VISION_ANGLE = Math.PI * 2;
+var DEFAULT_FLASHLIGHT_ANGLE = Math.PI * 0.5;
+
 window.onload = function () {
 	// define game
 	game = new Phaser.Game(640, 480, Phaser.AUTO, 'myGame');

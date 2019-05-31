@@ -21,7 +21,7 @@ debugPlugin.prototype.addDebug = function () {
 	cursors = game.input.keyboard.createCursorKeys();
 };
 debugPlugin.prototype.updateDebug = function () {
-	if (game.input.keyboard.justPressed(Phaser.Keyboard.O)) {
+	if (game.input.keyboard.justPressed(Phaser.Keyboard.I)) {
 		this.toggle = !this.toggle;
 		marker.visible = this.toggle;
 	}
@@ -32,7 +32,8 @@ debugPlugin.prototype.render = function () {
 		game.debug.text('FPS: ' + game.time.fps || 'FPS: --', 40, 40, "#00ff00");
 		game.debug.cameraInfo(game.camera, GRID_SIZE, GRID_SIZE);
 		// game.debug.spriteCoords(player, GRID_SIZE, 500);
-		game.debug.text('hud exists: ' + player.hud.exists, 32, game.camera.height - 180);
+		game.debug.text('player.battery: ' + player.currentBattery, 32, game.camera.height - 200);
+		game.debug.text('flashLightOn: ' + player.flashLightOn, 32, game.camera.height - 180);
 		if (player.orientation.up)
 			game.debug.text('player orientation: ' + 'UP', 32, game.camera.height - 160);
 		else if (player.orientation.down)

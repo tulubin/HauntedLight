@@ -25,16 +25,16 @@ Title.prototype = {
 		game.load.image('MP', 'assets/img/MP.png'); 
 		game.load.image('Shadow', 'assets/img/ghost0.png'); 
 		game.load.image('Flashlight_icon', 'assets/img/flashlight_icon.png'); 
-
-		game.load.image('ArrowKey', 'assets/img/temp.png');
-		game.load.image('e_key', 'assets/img/e_key.png');
+		
+		game.load.image('ArrowKey', 'assets/img/arrow_up.png');
+		game.load.image('E_key', 'assets/img/e_key.png');
 		game.load.image('SprintKey', 'assets/img/temp.png');
-		// game.load.image('arrow_key', 'assets/img/arrow_keys.png');
-		// game.load.image('Mask', 'assets/img/mask.png');
-
+		game.load.image('Spacebar', 'assets/img/spacebar.png');
+		
 		//preload texture atlas for player
 		game.load.atlas('Player', "assets/img/kid.png", "assets/img/kid.json");
 		game.load.atlas('Player_f', "assets/img/kid_flash.png", "assets/img/kid_flash.json");
+		game.load.atlas('Battery_level', 'assets/img/battery_level.png', "assets/img/battery_level.json");
 		//preload texture atlas for objects
 		// game.load.atlas('objects_atlas', "assets/img/objects.png", "assets/img/objects.json");
 		game.load.audio('footstep', 'assets/audio/footstep.wav');
