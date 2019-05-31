@@ -50,12 +50,14 @@ function HUD(game) {
 	this.add(this.eKey);
 	this.eKey.visible = false;
 	// --------------tutorial HUD-----------------
-	this.upKey = game.add.sprite(64, game.height - 128, 'ArrowKey');
-	this.downKey = game.add.sprite(64, game.height - 96, 'ArrowKey');
-	this.leftKey = game.add.sprite(32, game.height - 96, 'ArrowKey');
-	this.rightKey = game.add.sprite(96, game.height - 96, 'ArrowKey');
-	this.sprintKey = game.add.sprite(32, game.height - 32, 'SprintKey');
-	this.spacebar = game.add.sprite(96, game.height - 32, 'Spacebar');
+	this.upKey = game.add.sprite(60, game.height - 140, 'ArrowKey');
+	this.downKey = game.add.sprite(60, game.height - 120, 'ArrowKey');
+	this.leftKey = game.add.sprite(40, game.height - 120, 'ArrowKey');
+	this.rightKey = game.add.sprite(80, game.height - 120, 'ArrowKey');
+	this.sprintKey = game.add.sprite(40, game.height - 80, 'SprintKey');
+	this.sprintText = game.add.text(80, game.height - 90, 'Hold to Sprint', { font: 'Helvetica', fontSize: '12px', fill: '#FFFFFF' });
+	this.spacebar = game.add.sprite(40, game.height - 40, 'Spacebar');
+	this.spacebarText = game.add.text(80, game.height - 50, 'Toggle Flash Light', { font: 'Helvetica', fontSize: '12px', fill: '#FFFFFF' });
 	this.upKey.anchor.set(0.5);
 	this.downKey.anchor.set(0.5);
 	this.leftKey.anchor.set(0.5);
@@ -70,21 +72,9 @@ function HUD(game) {
 	this.add(this.leftKey);
 	this.add(this.rightKey);
 	this.add(this.sprintKey);
+	this.add(this.sprintText);
 	this.add(this.spacebar);
-	// arrows = game.add.sprite(game.width / 4, game.height / 4, 'arrow_key');
-	// arrows.anchor.set(0.5);
-	// arrows.visible = true;
-	// game.time.events.add(8000, function () { arrows.destroy(); });
-	// default:
-	// this.hpIcon.visible = false;
-	// this.hpBar_b.visible = false;
-	// this.hpBar_f.visible = false;
-	// this.mpIcon.visible = false;
-	// this.mpBar_b.visible = false;
-	// this.mpBar_f.visible = false;
-	// this.flashlight_icon.visible = false;
-	// this.eKey.visible = false;
-	// this.toggleHUD();
+	this.add(this.spacebarText);
 };
 
 HUD.prototype = Object.create(Phaser.Group.prototype);
@@ -107,18 +97,29 @@ HUD.prototype.update = function () {
 			case DOOR_1_INDEX + 1:
 			case CLOSET_1_INDEX:
 			case CLOSET_1_INDEX + 1:
+			case CLOSET_1_INDEX + 2:
+			case CLOSET_1_INDEX + 3:
 			case CLOSET_2_INDEX:
 			case CLOSET_2_INDEX + 1:
+			case CLOSET_2_INDEX + 2:
+			case CLOSET_2_INDEX + 3:
 			case DESK_1_INDEX:
 			case DESK_1_INDEX + 1:
+			case DESK_1_INDEX + 2:
+			case DESK_1_INDEX + 3:
 			case DESK_2_INDEX:
 			case DESK_2_INDEX + 1:
+			case DESK_2_INDEX + 2:
+			case DESK_2_INDEX + 3:
 			case BED_1_INDEX:
 			case BED_1_INDEX + 1:
+			case BED_1_INDEX + 2:
+			case BED_1_INDEX + 3:
 			case BED_2_INDEX:
 			case BED_2_INDEX + 1:
+			case BED_2_INDEX + 2:
+			case BED_2_INDEX + 3:
 			case MIRROR_1_INDEX:
-			case MIRROR_1_INDEX + 1:
 				this.eKey.visible = true;
 				if (player.orientation.up) {
 					this.eKey.x = game.width / 2 + 16;
@@ -141,78 +142,54 @@ HUD.prototype.update = function () {
 	} else {
 		this.eKey.visible = false;
 	}
-	// switch (true) {
-	// 	case (game.input.keyboard.isDown(Phaser.Keyboard.UP)):
-	// 		this.upKey.tint = PRESS_TINT;
-	// 		break;
-	// 	case (game.input.keyboard.isDown(Phaser.Keyboard.DOWN)):
-	// 		this.downKey.tint = PRESS_TINT;
-	// 		break;
-	// 	case (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)):
-	// 		this.leftKey.tint = PRESS_TINT;
-	// 		break;
-	// 	case (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)):
-	// 		this.rightKey.tint = PRESS_TINT;
-	// 		break;
-	// 	case (game.input.keyboard.isDown(Phaser.Keyboard.E)):
-	// 		this.eKey.tint = PRESS_TINT;
-	// 		break;
-	// 	case (game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)):
-	// 		this.sprintKey.tint = PRESS_TINT;
-	// 		break;
-	// 	case (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)):
-	// 		this.spacebar.tint = PRESS_TINT;
-	// 		break;
-	// 	default:
-	// 		this.upKey.tint = RESET_TINT;
-	// 		this.downKey.tint = RESET_TINT;
-	// 		this.leftKey.tint = RESET_TINT;
-	// 		this.rightKey.tint = RESET_TINT;
-	// 		this.eKey.tint = RESET_TINT;
-	// 		this.sprintKey.tint = RESET_TINT;
-	// 		this.spacebar.tint = RESET_TINT;
-	// 		break;
-	// }
-	if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
-		this.upKey.tint = PRESS_TINT;
-		this.downKey.tint = RESET_TINT;
-		this.leftKey.tint = RESET_TINT;
-		this.rightKey.tint = RESET_TINT;
-	} else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
-		this.downKey.tint = PRESS_TINT;
-		this.upKey.tint = RESET_TINT;
-		this.leftKey.tint = RESET_TINT;
-		this.rightKey.tint = RESET_TINT;
-	} else if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-		this.leftKey.tint = PRESS_TINT;
-		this.upKey.tint = RESET_TINT;
-		this.downKey.tint = RESET_TINT;
-		this.rightKey.tint = RESET_TINT;
-	} else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
-		this.rightKey.tint = PRESS_TINT;
-		this.upKey.tint = RESET_TINT;
-		this.downKey.tint = RESET_TINT;
-		this.leftKey.tint = RESET_TINT;
-	} else {
-		this.upKey.tint = RESET_TINT;
-		this.downKey.tint = RESET_TINT;
-		this.leftKey.tint = RESET_TINT;
-		this.rightKey.tint = RESET_TINT;
+	if (inTutorial) {
+		if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
+			this.upKey.tint = PRESS_TINT;
+			this.downKey.tint = RESET_TINT;
+			this.leftKey.tint = RESET_TINT;
+			this.rightKey.tint = RESET_TINT;
+		} else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
+			this.downKey.tint = PRESS_TINT;
+			this.upKey.tint = RESET_TINT;
+			this.leftKey.tint = RESET_TINT;
+			this.rightKey.tint = RESET_TINT;
+		} else if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
+			this.leftKey.tint = PRESS_TINT;
+			this.upKey.tint = RESET_TINT;
+			this.downKey.tint = RESET_TINT;
+			this.rightKey.tint = RESET_TINT;
+		} else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+			this.rightKey.tint = PRESS_TINT;
+			this.upKey.tint = RESET_TINT;
+			this.downKey.tint = RESET_TINT;
+			this.leftKey.tint = RESET_TINT;
+		} else {
+			this.upKey.tint = RESET_TINT;
+			this.downKey.tint = RESET_TINT;
+			this.leftKey.tint = RESET_TINT;
+			this.rightKey.tint = RESET_TINT;
+		}
+		if (game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)) {
+			this.sprintKey.tint = PRESS_TINT;
+		} else {
+			this.sprintKey.tint = RESET_TINT;
+		}
+		if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+			if (player.hasFlashlight) {
+				this.spacebar.tint = PRESS_TINT;
+				console.log(player.hasFlashlight);
+			} else {
+				console.log(player.hasFlashlight);
+				this.spacebar.tint = RED_TINT;
+			}
+		} else {
+			this.spacebar.tint = RESET_TINT;
+		}
 	}
 	if (game.input.keyboard.isDown(Phaser.Keyboard.E)) {
 		this.eKey.tint = PRESS_TINT;
 	} else {
 		this.eKey.tint = RESET_TINT;
-	}
-	if (game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)) {
-		this.sprintKey.tint = PRESS_TINT;
-	} else {
-		this.sprintKey.tint = RESET_TINT;
-	}
-	if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-		this.spacebar.tint = PRESS_TINT;
-	} else {
-		this.spacebar.tint = RESET_TINT;
 	}
 	switch (true) {
 		case (player.currentBattery > 66):
@@ -228,13 +205,3 @@ HUD.prototype.update = function () {
 			break;
 	}
 };
-
-// HUD.prototype.toggleHUD = function () {
-// 	// HUD:
-// 	this.hpIcon.visible = !(this.hpIcon.visible);
-// 	this.hpBar_b.visible = !(this.hpBar_b.visible);
-// 	this.hpBar_f.visible = !(this.hpBar_f.visible);
-// 	this.mpIcon.visible = !(this.mpIcon.visible);
-// 	this.mpBar_b.visible = !(this.mpBar_b.visible);
-// 	this.mpBar_f.visible = !(this.mpBar_f.visible);
-// };

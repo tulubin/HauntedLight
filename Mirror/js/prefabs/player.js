@@ -33,6 +33,7 @@ function Player(game) {
 	this.frontObject = map.getTile(objectLayer.getTileX(this.centerX), objectLayer.getTileY(this.centerY + 32), objectLayer, true);
 	this.frontObjectIndex = -1;
 	this.switchToHUD = false;
+	this.endTutorialEvent = false;
 	// Player sounds:
 	footstep = game.add.audio('footstep');
 
@@ -82,7 +83,9 @@ function Player(game) {
 	// HUD:
 	// this.hud = new HUD(game);
 	// this.hud.fixedToCamera = true;
-	this.toggleHUD();
+	// this.toggleHUD();
+	this.hud = new HUD(game);
+	this.hud.fixedToCamera = true;
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to Player
@@ -139,24 +142,35 @@ Player.prototype.update = function () {
 			this.toggleFlashLight();
 		}
 	}
-	if (game.input.keyboard.justPressed(Phaser.Keyboard.U)) {
-		// toggle HUD
-		this.toggleHUD();
-	}
+	// if (game.input.keyboard.justPressed(Phaser.Keyboard.U)) {
+	// 	// toggle HUD
+	// 	this.toggleHUD();
+	// }
 	if (game.input.keyboard.justPressed(Phaser.Keyboard.E) && this.tweenCompleted) {
 		switch (this.frontObject.index) {
 			case MIRROR_1_INDEX:
 				if (this.inMirror) {
 					this.x -= 100 * GRID_SIZE;
-					this.inMirror = false;
-					if (shadow.moveToReal) {
+					if (this.endTutorialEvent) {
 						shadow.x -= 100 * GRID_SIZE;
-						shadow.moveToReal = false;
+						inTutorial = false;
+						this.endTutorialEvent = false;
+						this.hud.upKey.destroy();
+						this.hud.downKey.destroy();
+						this.hud.leftKey.destroy();
+						this.hud.rightKey.destroy();
+						this.hud.sprintKey.destroy();
+						this.hud.spacebar.destroy();
+						// this.toggleHUD();
+						// this.toggleHUD();
+						// this.hud.destroy(true);
+						// this.hud = new HUD(game);
+						// this.hud.fixedToCamera = true;
 					}
 				} else {
 					this.x += 100 * GRID_SIZE;
-					this.inMirror = true;
 				}
+				this.inMirror = !this.inMirror;
 				break;
 			case DOOR_1_INDEX:
 				map.replace(DOOR_1_INDEX, DOOR_1_INDEX + 1, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
@@ -357,7 +371,7 @@ Player.prototype.updateLight = function () {
 				this.currentHP -= 0.3 / game.time.fps;
 				if (!shadow.startMove) {
 					shadow.startMove = true;
-					shadow.moveToReal = true;
+					this.endTutorialEvent = true;
 				}
 			}
 			if (lightThrough && (k >= GRID_SIZE / 2 || (wallTile.index === -1 && objectTile.index !== DOOR_1_INDEX))) {
@@ -420,15 +434,15 @@ Player.prototype.toggleFlashLight = function () {
 	}
 }
 
-Player.prototype.toggleHUD = function () {
-	if (!this.switchToHUD) {
-		this.hud = new HUD(game);
-		this.hud.fixedToCamera = true;
-	} else {
-		this.hud.destroy(true);
-	}
-	this.switchToHUD = !this.switchToHUD;
-}
+// Player.prototype.toggleHUD = function () {
+// 	if (!this.switchToHUD) {
+// 		this.hud = new HUD(game);
+// 		this.hud.fixedToCamera = true;
+// 	} else {
+// 		this.hud.destroy(true);
+// 	}
+// 	this.switchToHUD = !this.switchToHUD;
+// }
 Player.prototype.flashlightPickupEvent = function () {
 	console.log('you picked up a flashlight!');
 	// do something

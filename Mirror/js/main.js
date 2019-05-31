@@ -28,9 +28,11 @@ var shadowTexture;
 var gradient;
 var timer;
 var decorations;
+// Variables:
+var inTutorial = true;
 // Tile-Map Constants:
-var DOOR_1_INDEX = 159;
-var CLOSET_1_INDEX = 119;
+var DOOR_1_INDEX = 159; // closed door index is + 1
+var CLOSET_1_INDEX = 119; // those are 64x64 objects and placed in order in the tileset, so +1 means right half of this whole object, +2 +3 stand for closed version.
 var CLOSET_2_INDEX = 123;
 var DESK_1_INDEX = 135;
 var DESK_2_INDEX = 139;
@@ -41,6 +43,7 @@ var CHEST_FLASHLIGHT_INDEX = 185;
 // Other Constants:
 var GRID_SIZE = 32;
 var CONTROL_RESPONSE_DELAY = 150;
+var RED_TINT = '0xff0000';
 var DARK_TINT = '0x808080';
 var LIGHT_TINT = '0xd9d9d9';
 var PRESS_TINT = '0x66ff66';

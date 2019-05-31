@@ -9,7 +9,6 @@ function Shadow(game) {
 	this.moveDis = 80;
 	this.alpha = 0.5;
 	this.startMove = false;
-	this.moveToReal = false;
 	// x = Phaser.Math.distance(this.x, this.y, player.lastX, player.lastY)-this.moveDis
 	this.game.time.events.loop(1500, function () {
 		if (this.startMove && !player.inMirror) {
