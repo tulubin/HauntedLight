@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="8" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="2" nextobjectid="1">
- <tileset firstgid="1" name="1" tilewidth="32" tileheight="32" tilecount="64" columns="8">
-  <image source="../../tilesheet/hide&amp;seek.png" width="256" height="256"/>
- </tileset>
- <tileset firstgid="65" name="2" tilewidth="32" tileheight="32" tilecount="30" columns="5">
-  <image source="../../tilesheet/interactable assets.png" width="160" height="192"/>
- </tileset>
- <tileset firstgid="95" name="3" tilewidth="32" tileheight="32" tilecount="10" columns="5">
-  <image source="../../tilesheet/objects_old.png" width="160" height="64"/>
- </tileset>
- <tileset firstgid="105" name="4" tilewidth="32" tileheight="32" tilecount="9" columns="3">
-  <image source="../../tilesheet/door old.png" width="96" height="96"/>
- </tileset>
- <tileset firstgid="114" name="5" tilewidth="32" tileheight="32" tilecount="1" columns="1">
-  <image source="../../img/flashlight.png" width="32" height="32"/>
- </tileset>
- <tileset firstgid="115" name="6" tilewidth="32" tileheight="32" tilecount="100" columns="10">
-  <image source="../../tilesheet/decorations.png" width="320" height="320"/>
+<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="8" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" name="objects" tilewidth="32" tileheight="32" tilecount="240" columns="8">
+  <image source="../../tilesheet/objects.png" width="256" height="960"/>
  </tileset>
  <layer id="1" name="Tile Layer 1" width="8" height="30">
   <data encoding="csv">
@@ -31,19 +16,17 @@
 65,66,67,68,69,70,71,72,
 73,74,75,76,77,78,79,80,
 81,82,83,84,85,86,87,88,
-89,90,114,0,0,0,0,0,
-95,96,97,98,99,100,101,102,
-103,104,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,
+89,90,91,92,93,94,95,96,
+97,98,99,100,101,102,103,104,
+105,106,107,108,109,110,111,112,
+113,114,115,116,117,118,119,120,
+121,122,123,124,125,126,127,128,
+129,130,131,132,133,134,135,136,
+137,138,139,140,141,142,143,144,
+145,146,147,148,149,150,151,152,
+153,154,155,156,157,158,159,160,
+161,162,163,164,165,166,167,168,
+169,170,171,172,173,174,175,176,
 0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,
