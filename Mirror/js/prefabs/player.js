@@ -347,8 +347,17 @@ Player.prototype.updateSurroundingObject = function (directions) {
 	}
 	if (this.frontObject !== null)
 		this.frontObjectIndex = this.frontObject.index;
+	if (this.leftObject !== null)
+		this.leftObjectIndex = this.leftObject.index;
+	if (this.rightObject !== null)
+		this.rightObjectIndex = this.rightObject.index;
+	if (this.backObject !== null)
+		this.backObjectIndex = this.backObject.index;
 	else
 		this.frontObjectIndex = -1;
+		this.leftObjectIndex = -1;
+		this.rightObjectIndex = -1;
+		this.backObjectIndex = -1;
 }
 Player.prototype.updatePlayerXY = function () {
 	this.lastX = this.x;
