@@ -48,6 +48,9 @@ debugPlugin.prototype.render = function () {
 		game.debug.text('Current tile layer: ' + this.currentLayer, 32, game.camera.height - 80);
 		game.debug.text('Target tile index: ' + this.tileIndex, 32, game.camera.height - 60);
 		game.debug.text('Front object: ' + player.frontObjectIndex, 32, game.camera.height - 40);
+		game.debug.text('                   Right object: ' + player.rightObjectIndex, 32, game.camera.height - 40);
+		game.debug.text('                                        Left object: ' + player.leftObjectIndex, 32, game.camera.height - 40);
+		game.debug.text('                                                            Back object: ' + player.backObjectIndex, 32, game.camera.height - 40);
 		game.debug.text('Player tween stoped: ' + player.tweenCompleted.toString(), 32, game.camera.height - 20);
 	} else {
 		game.debug.text('', 32, 664);

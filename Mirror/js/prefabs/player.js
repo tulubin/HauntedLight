@@ -264,36 +264,6 @@ Player.prototype.update = function () {
 		footstep.stop();
 		this.animations.stop();
 	}
-
-	//update mirror
-	if(!this.switchToFlashLight){
-		if((this.frontObject.index == MIRROR_1_INDEX)){
-			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 1, this.leftObject.x, this.leftObject.y, 1, 1, objectLayer);
-		}
-		if((this.leftObject.index == MIRROR_1_INDEX)){
-			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 2, this.leftObject.x, this.leftObject.y, 1, 1, objectLayer);
-		}
-		if((this.rightObject.index == MIRROR_1_INDEX)){
-			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 3, this.leftObject.x, this.leftObject.y, 1, 1, objectLayer);
-		}
-		if((this.backObject.index == MIRROR_1_INDEX)){
-			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 4, this.leftObject.x, this.leftObject.y, 1, 1, objectLayer);
-		}
-	}
-	else{
-		if((this.frontObject.index == MIRROR_1_INDEX)){
-			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 5, this.leftObject.x, this.leftObject.y, 1, 1, objectLayer);
-		}
-		if((this.leftObject.index == MIRROR_1_INDEX)){
-			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 6, this.leftObject.x, this.leftObject.y, 1, 1, objectLayer);
-		}
-		if((this.rightObject.index == MIRROR_1_INDEX)){
-			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 7, this.leftObject.x, this.leftObject.y, 1, 1, objectLayer);
-		}
-		if((this.backObject.index == MIRROR_1_INDEX)){
-			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 8, this.leftObject.x, this.leftObject.y, 1, 1, objectLayer);
-		}
-	}
 }
 
 // move Player:
@@ -499,3 +469,34 @@ Player.prototype.flashlightPickupEvent = function () {
 	}
 }
 
+Player.prototype.mirrorUpdate = function () {
+	//update mirror
+	if(!this.switchToFlashLight){
+		if((this.frontObject.index == MIRROR_1_INDEX)){
+			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 1, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
+		}
+		if((this.leftObject.index == MIRROR_1_INDEX)){
+			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 2, this.leftObject.x, this.leftObject.y, 1, 1, objectLayer);
+		}
+		if((this.rightObject.index == MIRROR_1_INDEX)){
+			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 3, this.rightObject.x, this.rightObject.y, 1, 1, objectLayer);
+		}
+		if((this.backObject.index == MIRROR_1_INDEX)){
+			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 4, this.backObject.x, this.backObject.y, 1, 1, objectLayer);
+		}
+	}
+	else{
+		if((this.frontObject.index == MIRROR_1_INDEX)){
+			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 5, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
+		}
+		if((this.leftObject.index == MIRROR_1_INDEX)){
+			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 6, this.leftObject.x, this.leftObject.y, 1, 1, objectLayer);
+		}
+		if((this.rightObject.index == MIRROR_1_INDEX)){
+			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 7, this.rightObject.x, this.rightObject.y, 1, 1, objectLayer);
+		}
+		if((this.backObject.index == MIRROR_1_INDEX)){
+			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 8, this.backObject.x, this.backObject.y, 1, 1, objectLayer);
+		}
+	}
+}
