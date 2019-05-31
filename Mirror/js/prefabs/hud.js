@@ -142,7 +142,7 @@ HUD.prototype.update = function () {
 	} else {
 		this.eKey.visible = false;
 	}
-	if (inTutorial) {
+	if (player.inTutorial) {
 		if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
 			this.upKey.tint = PRESS_TINT;
 			this.downKey.tint = RESET_TINT;
@@ -177,9 +177,7 @@ HUD.prototype.update = function () {
 		if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
 			if (player.hasFlashlight) {
 				this.spacebar.tint = PRESS_TINT;
-				console.log(player.hasFlashlight);
 			} else {
-				console.log(player.hasFlashlight);
 				this.spacebar.tint = RED_TINT;
 			}
 		} else {

@@ -14,7 +14,6 @@ var game;
 var player;
 var shadow;
 var footstep;
-var hud;
 var debug;
 var light;
 var map;
@@ -29,10 +28,11 @@ var gradient;
 var timer;
 var decorations;
 // Variables:
-var inTutorial = true;
+// var inTutorial = true;
 // Tile-Map Constants:
-var DOOR_1_INDEX = 159; // closed door index is + 1
-var CLOSET_1_INDEX = 119; // those are 64x64 objects and placed in order in the tileset, so +1 means right half of this whole object, +2 +3 stand for closed version.
+var PRISON_DOOR_INDEX = 159;
+var DOOR_1_INDEX = 163; // closed door index is this +1, broken version is this +2 and +3
+var CLOSET_1_INDEX = 119; // those are 64x64 objects and placed in order in the tileset, so this +1 means right half of this whole object, this +2 +3 stand for closed version.
 var CLOSET_2_INDEX = 123;
 var DESK_1_INDEX = 135;
 var DESK_2_INDEX = 139;
