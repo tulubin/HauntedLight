@@ -28,7 +28,7 @@ Title.prototype = {
 		
 		game.load.image('ArrowKey', 'assets/img/arrow_up.png');
 		game.load.image('E_key', 'assets/img/e_key.png');
-		game.load.image('SprintKey', 'assets/img/temp.png');
+		game.load.image('SprintKey', 'assets/img/sprintKey.png');
 		game.load.image('Spacebar', 'assets/img/spacebar.png');
 		
 		//preload texture atlas for player

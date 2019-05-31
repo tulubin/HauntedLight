@@ -164,6 +164,7 @@ Player.prototype.update = function () {
 					this.x -= 100 * GRID_SIZE;
 					if (this.endTutorialEvent) {
 						shadow.x -= 112 * GRID_SIZE;
+						shadow.y += 4 * GRID_SIZE;
 						this.inTutorial = false;
 						this.endTutorialEvent = false;
 						this.hud.upKey.destroy();
