@@ -58,8 +58,9 @@ window.onload = function () {
 	game = new Phaser.Game(640, 480, Phaser.AUTO, 'myGame');
 
 	// define states
+	game.state.add('Boost', Boost);
 	game.state.add('Title', Title);
 	game.state.add('Play', Play);
 	game.state.add('End', End);
-	game.state.start('Title');
+	game.state.start('Boost');
 }

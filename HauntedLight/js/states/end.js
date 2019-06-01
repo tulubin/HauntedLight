@@ -10,8 +10,9 @@ End.prototype = {
 		var playText = game.add.text(game.width / 2, game.height * 0.6, 'You die', { font: 'Helvetica', fontSize: '24px', fill: '#fff' });
 		playText.anchor.set(0.5);
 
-		var playText = game.add.text(game.width / 2, game.height * .8, 'Press SPACEBAR to go back to title', { font: 'Helvetica', fontSize: '24px', fill: '#fff' });
-		playText.anchor.set(0.5);
+		this.spacebar = game.add.sprite(game.width / 2, game.height - 50, 'Spacebar');
+		this.spacebarText_f = game.add.text(game.width / 2 - 35, game.height - 50, 'Press', { font: 'Helvetica', fontSize: '12px', fill: '#FFFFFF' });
+		this.spacebarText_b = game.add.text(game.width / 2 + 35, game.height - 50, 'to Restart', { font: 'Helvetica', fontSize: '12px', fill: '#FFFFFF' });
 
 
 	},
