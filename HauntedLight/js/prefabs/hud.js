@@ -55,9 +55,9 @@ function HUD(game) {
 	this.leftKey = game.add.sprite(40, game.height - 120, 'ArrowKey');
 	this.rightKey = game.add.sprite(80, game.height - 120, 'ArrowKey');
 	this.sprintKey = game.add.sprite(40, game.height - 80, 'SprintKey');
-	this.sprintText = game.add.text(80, game.height - 90, 'Hold to Sprint', { font: 'Helvetica', fontSize: '12px', fill: '#FFFFFF' });
+	this.sprintText = game.add.bitmapText(60, game.height - 85, 'bitmapFont', 'Hold to Sprint', 14);
 	this.spacebar = game.add.sprite(40, game.height - 40, 'Spacebar');
-	this.spacebarText = game.add.text(80, game.height - 50, 'Toggle Flash Light', { font: 'Helvetica', fontSize: '12px', fill: '#FFFFFF' });
+	this.spacebarText = game.add.bitmapText(60, game.height - 45, 'bitmapFont', 'Toggle Flash Light', 14);
 	this.upKey.anchor.set(0.5);
 	this.downKey.anchor.set(0.5);
 	this.leftKey.anchor.set(0.5);

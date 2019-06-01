@@ -20,12 +20,16 @@ Boost.prototype = {
 		this.loadingBar_b.drawRect(32, game.height - 50, 104, 14);
 		this.loadingBar_b.endFill();
 
+		// Loading necassary assets:
+		game.load.bitmapFont('bitmapFont', 'assets/font/font.png', 'assets/font/font.fnt');
+	},
+	create: function() {
 		//	Listen to loading progress
 		game.load.onLoadStart.add(this.loadStart, this);
 		game.load.onFileComplete.add(this.fileComplete, this);
 		game.load.onLoadComplete.add(this.loadComplete, this);
 
-		// Loading assets:
+		// Loading other assets:
 		game.load.tilemap('level', 'assets/level/map.json', null, Phaser.Tilemap.TILED_JSON);
 		game.load.spritesheet('objects', 'assets/tilesheet/objects.png', 32, 32);
 		game.load.spritesheet('wall', 'assets/tilesheet/wall.png', 32, 32);
@@ -46,7 +50,7 @@ Boost.prototype = {
 		game.load.start();
 	},
 	loadStart: function () {
-		text = game.add.text(32, game.height - 32, 'Loading...', { font: 'Helvetica', fontSize: '12px', fill: '#fff' });
+		text = game.add.bitmapText(32, game.height - 32, 'bitmapFont', 'Loading...', 12);
 	},
 	fileComplete: function (progress) {
 		this.loadingBar_f.clear();
