@@ -3,7 +3,8 @@
 function Player(game) {
 	// call Sprite constructor within this object
 	// new Sprite(game, x, y, key, frame)
-	Phaser.Sprite.call(this, game, GRID_SIZE * 52 + GRID_SIZE / 2, GRID_SIZE * 82 + GRID_SIZE / 2, 'Player');
+	// Phaser.Sprite.call(this, game, GRID_SIZE * 52 + GRID_SIZE / 2, GRID_SIZE * 82 + GRID_SIZE / 2, 'Player');
+	Phaser.Sprite.call(this, game, GRID_SIZE * 55 + GRID_SIZE / 2, GRID_SIZE * 42 + GRID_SIZE / 2, 'Player');
 	this.anchor.set(0.5);
 	this.tint = DARK_TINT;
 	this.currentHP = 100; // horror point
@@ -41,9 +42,11 @@ function Player(game) {
 	this.switchToHUD = false;
 	this.endTutorialEvent = false;
 	this.inTutorial = true;
+	this.color_puzzle_trigger = false;
+	this.nextColorBlock = -1;
 	// Player sounds:
 	footstep = game.add.audio('footstep');
-
+	
 	game.camera.follow(this, 0, 1, 1);
 
 	//Add Player animation
@@ -102,6 +105,45 @@ Player.prototype = Object.create(Phaser.Sprite.prototype);
 Player.prototype.constructor = Player;
 
 Player.prototype.update = function () {
+	if(this.color_puzzle_trigger) {
+		var tileX = floorLayer.getTileX(player.centerX);
+		var tileY = floorLayer.getTileY(player.centerY);
+		var tile = map.getTile(tileX, tileY, floorLayer, true);
+		if (this.nextColorBlock === -1 && tile.index === PUZZLE_COLOR_BLOCK_YELLOW_INDEX)
+			this.nextColorBlock = PUZZLE_COLOR_BLOCK_YELLOW_INDEX;
+		switch (tile) {
+			case PUZZLE_COLOR_BLOCK_YELLOW_INDEX:
+				if (this.nextColorBlock === PUZZLE_COLOR_BLOCK_YELLOW_INDEX){
+					this.nextColorBlock = PUZZLE_COLOR_BLOCK_BLUE_INDEX;
+				} else {
+					this.resetColorPuzzleTrigger();
+				}
+				break;
+			case PUZZLE_COLOR_BLOCK_BLUE_INDEX:
+				if (this.nextColorBlock === PUZZLE_COLOR_BLOCK_BLUE_INDEX) {
+					this.nextColorBlock = PUZZLE_COLOR_BLOCK_GREEN_INDEX;
+				} else {
+					this.resetColorPuzzleTrigger();
+				}
+				break;
+			case PUZZLE_COLOR_BLOCK_GREEN_INDEX:
+				if (this.nextColorBlock === PUZZLE_COLOR_BLOCK_GREEN_INDEX) {
+					this.nextColorBlock = PUZZLE_COLOR_BLOCK_RED_INDEX;
+				} else {
+					this.resetColorPuzzleTrigger();
+				}
+				break;
+			case PUZZLE_COLOR_BLOCK_RED_INDEX:
+				if (this.nextColorBlock === PUZZLE_COLOR_BLOCK_RED_INDEX) {
+					this.nextColorBlock = PUZZLE_COLOR_BLOCK_YELLOW_INDEX;
+				} else {
+					this.resetColorPuzzleTrigger();
+				}
+				break;
+			default:
+				break;
+		}
+	}
 	if (Phaser.Math.distance(this.lastX, this.lastY, shadow.x, shadow.y) < shadow.moveDis)
 		this.updatePlayerXY();
 	this.updateLight();
@@ -187,6 +229,10 @@ Player.prototype.update = function () {
 				break;
 			case DOOR_1_INDEX + 1:
 				map.replace(DOOR_1_INDEX + 1, DOOR_1_INDEX, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
+				break;
+			case PUZZLE_TRIGGER_1_INDEX:
+				map.replace(PUZZLE_TRIGGER_1_INDEX, PUZZLE_TRIGGER_1_INDEX + 1, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
+				this.color_puzzle_trigger = true;
 				break;
 			case CLOSET_1_INDEX:
 			case CLOSET_1_INDEX + 1:
@@ -356,9 +402,9 @@ Player.prototype.updateSurroundingObject = function (directions) {
 		this.backObjectIndex = this.backObject.index;
 	else
 		this.frontObjectIndex = -1;
-		this.leftObjectIndex = -1;
-		this.rightObjectIndex = -1;
-		this.backObjectIndex = -1;
+	this.leftObjectIndex = -1;
+	this.rightObjectIndex = -1;
+	this.backObjectIndex = -1;
 }
 Player.prototype.updatePlayerXY = function () {
 	this.lastX = this.x;
@@ -472,7 +518,7 @@ Player.prototype.toggleFlashLight = function () {
 // 	this.switchToHUD = !this.switchToHUD;
 // }
 Player.prototype.flashlightPickupEvent = function () {
-	if(!this.hasFlashlight) {
+	if (!this.hasFlashlight) {
 		console.log('you picked up a flashlight!');
 		this.hasFlashlight = true;
 		this.switchToFlashLight = true;
@@ -485,34 +531,40 @@ Player.prototype.flashlightPickupEvent = function () {
 
 Player.prototype.mirrorUpdate = function () {
 	//update mirror for approching
-	if(!this.switchToFlashLight){
-		if((this.frontObject.index == MIRROR_1_INDEX)){
+	if (!this.switchToFlashLight) {
+		if ((this.frontObject.index == MIRROR_1_INDEX)) {
 			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 1, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
 		}
-		if((this.leftObject.index == MIRROR_1_INDEX)){
+		if ((this.leftObject.index == MIRROR_1_INDEX)) {
 			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 2, this.leftObject.x, this.leftObject.y, 1, 1, objectLayer);
 		}
-		if((this.rightObject.index == MIRROR_1_INDEX)){
+		if ((this.rightObject.index == MIRROR_1_INDEX)) {
 			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 3, this.rightObject.x, this.rightObject.y, 1, 1, objectLayer);
 		}
-		if((this.backObject.index == MIRROR_1_INDEX)){
+		if ((this.backObject.index == MIRROR_1_INDEX)) {
 			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 4, this.backObject.x, this.backObject.y, 1, 1, objectLayer);
 		}
 	}
-	else{
-		if((this.frontObject.index == MIRROR_1_INDEX)){
+	else {
+		if ((this.frontObject.index == MIRROR_1_INDEX)) {
 			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 5, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
 		}
-		if((this.leftObject.index == MIRROR_1_INDEX)){
+		if ((this.leftObject.index == MIRROR_1_INDEX)) {
 			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 6, this.leftObject.x, this.leftObject.y, 1, 1, objectLayer);
 		}
-		if((this.rightObject.index == MIRROR_1_INDEX)){
+		if ((this.rightObject.index == MIRROR_1_INDEX)) {
 			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 7, this.rightObject.x, this.rightObject.y, 1, 1, objectLayer);
 		}
-		if((this.backObject.index == MIRROR_1_INDEX)){
+		if ((this.backObject.index == MIRROR_1_INDEX)) {
 			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 8, this.backObject.x, this.backObject.y, 1, 1, objectLayer);
 		}
 	}
 	//update mirror for leaving
-	
+
+}
+Player.prototype.resetColorPuzzleTrigger = function () {
+	this.nextColorBlock = -1;
+	this.color_puzzle_trigger === false;
+	map.replace(PUZZLE_TRIGGER_1_INDEX, PUZZLE_TRIGGER_1_INDEX + 1, 0, 0, 1000, 1000, objectLayer);
+	console.log('trigger reseted.');
 }

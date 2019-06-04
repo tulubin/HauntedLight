@@ -63,18 +63,18 @@ debugPlugin.prototype.updateMarker = function () {
 debugPlugin.prototype.getTileProperties = function () {
 	this.tileX = wallLayer.getTileX(game.input.activePointer.worldX);
 	this.tileY = wallLayer.getTileY(game.input.activePointer.worldY);
-	var tile = map.getTile(this.tileX, this.tileY, wallLayer, true);
+	var tile = map.getTile(this.tileX, this.tileY, objectLayer, true);
 	// Note: JSON.stringify will convert the object tile properties to a string
 	// currentDataString = JSON.stringify(tile.properties);
 	if (tile.index !== -1) {
-		this.currentLayer = 'wall';
+		this.currentLayer = 'Object';
 		this.tileIndex = tile.index;
 	} else {
 		this.tileX = objectLayer.getTileX(game.input.activePointer.worldX);
 		this.tileY = objectLayer.getTileY(game.input.activePointer.worldY);
-		tile = map.getTile(this.tileX, this.tileY, objectLayer, true);
+		tile = map.getTile(this.tileX, this.tileY, wallLayer, true);
 		if (tile.index !== -1) {
-			this.currentLayer = 'Object';
+			this.currentLayer = 'Wall';
 			this.tileIndex = tile.index;
 		} else {
 			this.tileX = floorLayer.getTileX(game.input.activePointer.worldX);
