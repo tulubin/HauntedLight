@@ -38,9 +38,12 @@ function Player(game) {
 	this.inTutorial = true;
 	this.colorPuzzleTrigger = false;
 	this.nextColorBlock = -1;
+
+	// for debugging:
+	this.thisColorBlock = -1;
 	// Player sounds:
 	footstep = game.add.audio('footstep');
-	
+
 	game.camera.follow(this, 0, 1, 1);
 
 	//Add Player animation
@@ -99,45 +102,6 @@ Player.prototype = Object.create(Phaser.Sprite.prototype);
 Player.prototype.constructor = Player;
 
 Player.prototype.update = function () {
-	if(this.colorPuzzleTrigger) {
-		var tileX = floorLayer.getTileX(player.centerX);
-		var tileY = floorLayer.getTileY(player.centerY);
-		var tile = map.getTile(tileX, tileY, floorLayer, true);
-		if (this.nextColorBlock === -1 && tile.index === PUZZLE_COLOR_BLOCK_YELLOW_INDEX)
-			this.nextColorBlock = PUZZLE_COLOR_BLOCK_YELLOW_INDEX;
-		switch (tile) {
-			case PUZZLE_COLOR_BLOCK_YELLOW_INDEX:
-				if (this.nextColorBlock === PUZZLE_COLOR_BLOCK_YELLOW_INDEX){
-					this.nextColorBlock = PUZZLE_COLOR_BLOCK_BLUE_INDEX;
-				} else {
-					this.resetColorPuzzleTrigger();
-				}
-				break;
-			case PUZZLE_COLOR_BLOCK_BLUE_INDEX:
-				if (this.nextColorBlock === PUZZLE_COLOR_BLOCK_BLUE_INDEX) {
-					this.nextColorBlock = PUZZLE_COLOR_BLOCK_GREEN_INDEX;
-				} else {
-					this.resetColorPuzzleTrigger();
-				}
-				break;
-			case PUZZLE_COLOR_BLOCK_GREEN_INDEX:
-				if (this.nextColorBlock === PUZZLE_COLOR_BLOCK_GREEN_INDEX) {
-					this.nextColorBlock = PUZZLE_COLOR_BLOCK_RED_INDEX;
-				} else {
-					this.resetColorPuzzleTrigger();
-				}
-				break;
-			case PUZZLE_COLOR_BLOCK_RED_INDEX:
-				if (this.nextColorBlock === PUZZLE_COLOR_BLOCK_RED_INDEX) {
-					this.nextColorBlock = PUZZLE_COLOR_BLOCK_YELLOW_INDEX;
-				} else {
-					this.resetColorPuzzleTrigger();
-				}
-				break;
-			default:
-				break;
-		}
-	}
 	if (Phaser.Math.distance(this.lastX, this.lastY, shadow.x, shadow.y) < shadow.moveDis)
 		this.updatePlayerXY();
 	this.updateLight();
@@ -211,7 +175,7 @@ Player.prototype.update = function () {
 						this.hud.sprintText.destroy();
 						this.hud.spacebar.destroy();
 						this.hud.spacebarText.destroy();
-						map.replace(PRISON_DOOR_INDEX, PRISON_DOOR_INDEX + 1, 0, 0, 1000, 1000, objectLayer);
+						map.replace(PRISON_DOOR_INDEX, PRISON_DOOR_INDEX + 1, 42, 75, 1, 1, objectLayer);
 					}
 				} else {
 					this.x += 100 * GRID_SIZE;
@@ -226,7 +190,13 @@ Player.prototype.update = function () {
 				break;
 			case PUZZLE_TRIGGER_1_INDEX:
 				map.replace(PUZZLE_TRIGGER_1_INDEX, PUZZLE_TRIGGER_1_INDEX + 1, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
+				map.replace(PRISON_DOOR_INDEX, PRISON_DOOR_INDEX + 1, 35, 38, 1, 1, objectLayer);
 				this.colorPuzzleTrigger = true;
+				break;
+			case PUZZLE_TRIGGER_1_INDEX + 1:
+				map.replace(PUZZLE_TRIGGER_1_INDEX + 1, PUZZLE_TRIGGER_1_INDEX, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
+				map.replace(PRISON_DOOR_INDEX + 1, PRISON_DOOR_INDEX, 35, 38, 1, 1, objectLayer);
+				this.colorPuzzleTrigger = false;
 				break;
 			case CLOSET_1_INDEX:
 			case CLOSET_1_INDEX + 1:
@@ -302,6 +272,7 @@ Player.prototype.update = function () {
 				break;
 			// default:
 		}
+		this.updateFrontObject(this.orientation);
 	}
 
 	// Play footsetps while moving:
@@ -359,6 +330,8 @@ Player.prototype.checkCollision = function (x, y, directions) {
 Player.prototype.playerTweenComplete = function () {
 	this.tweenCompleted = true;
 	this.updateFrontObject(this.orientation);
+	if (this.colorPuzzleTrigger)
+		this.colorPuzzle();
 }
 Player.prototype.updateFrontObject = function (directions) {
 	if (directions.up === true) {
@@ -517,9 +490,51 @@ Player.prototype.flashlightPickupEvent = function () {
 // 	//update mirror for leaving
 
 // }
+
+Player.prototype.colorPuzzle = function () {
+	var tileX = floorLayer.getTileX(player.centerX);
+	var tileY = floorLayer.getTileY(player.centerY);
+	var tile = map.getTile(tileX, tileY, floorLayer, true);
+	this.thisColorBlock = tile.index;
+	if (this.nextColorBlock === -1 && tile.index === PUZZLE_COLOR_BLOCK_YELLOW_INDEX)
+		this.nextColorBlock = PUZZLE_COLOR_BLOCK_YELLOW_INDEX;
+	switch (tile.index) {
+		case PUZZLE_COLOR_BLOCK_YELLOW_INDEX:
+			if (this.nextColorBlock === PUZZLE_COLOR_BLOCK_YELLOW_INDEX) {
+				this.nextColorBlock = PUZZLE_COLOR_BLOCK_BLUE_INDEX;
+			} else {
+				this.resetColorPuzzleTrigger();
+			}
+			break;
+		case PUZZLE_COLOR_BLOCK_BLUE_INDEX:
+			if (this.nextColorBlock === PUZZLE_COLOR_BLOCK_BLUE_INDEX) {
+				this.nextColorBlock = PUZZLE_COLOR_BLOCK_GREEN_INDEX;
+			} else {
+				this.resetColorPuzzleTrigger();
+			}
+			break;
+		case PUZZLE_COLOR_BLOCK_GREEN_INDEX:
+			if (this.nextColorBlock === PUZZLE_COLOR_BLOCK_GREEN_INDEX) {
+				this.nextColorBlock = PUZZLE_COLOR_BLOCK_RED_INDEX;
+			} else {
+				this.resetColorPuzzleTrigger();
+			}
+			break;
+		case PUZZLE_COLOR_BLOCK_RED_INDEX:
+			if (this.nextColorBlock === PUZZLE_COLOR_BLOCK_RED_INDEX) {
+				this.nextColorBlock = PUZZLE_COLOR_BLOCK_YELLOW_INDEX;
+			} else {
+				this.resetColorPuzzleTrigger();
+			}
+			break;
+		default:
+			break;
+	}
+}
 Player.prototype.resetColorPuzzleTrigger = function () {
 	this.nextColorBlock = -1;
-	this.colorPuzzleTrigger === false;
-	map.replace(PUZZLE_TRIGGER_1_INDEX, PUZZLE_TRIGGER_1_INDEX + 1, 0, 0, 1000, 1000, objectLayer);
+	this.colorPuzzleTrigger = false;
+	map.replace(PUZZLE_TRIGGER_1_INDEX + 1, PUZZLE_TRIGGER_1_INDEX, 54, 39, 1, 1, objectLayer);
+	map.replace(PRISON_DOOR_INDEX + 1, PRISON_DOOR_INDEX, 35, 38, 1, 1, objectLayer);
 	console.log('trigger reseted.');
 }

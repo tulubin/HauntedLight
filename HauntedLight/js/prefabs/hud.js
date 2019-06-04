@@ -101,6 +101,7 @@ HUD.prototype.update = function () {
 			case DOOR_1_INDEX:
 			case DOOR_1_INDEX + 1:
 			case PUZZLE_TRIGGER_1_INDEX:
+			case PUZZLE_TRIGGER_1_INDEX + 1:
 			case CLOSET_1_INDEX:
 			case CLOSET_1_INDEX + 1:
 			case CLOSET_1_INDEX + 2:
@@ -143,7 +144,6 @@ HUD.prototype.update = function () {
 				}
 				break;
 			case PRISON_DOOR_INDEX:
-			case PUZZLE_TRIGGER_1_INDEX + 1:
 				this.eKey.visible = false;
 				this.crossEKey.visible = true;
 				if (player.orientation.up) {
