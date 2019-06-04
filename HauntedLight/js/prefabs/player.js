@@ -32,17 +32,11 @@ function Player(game) {
 	this.lightSourceX = this.x;
 	this.lightSourceY = this.y + 3;
 	this.frontObject = map.getTile(objectLayer.getTileX(this.centerX), objectLayer.getTileY(this.centerY + 32), objectLayer, true);
-	this.leftObject = map.getTile(objectLayer.getTileX(this.centerX + 32), objectLayer.getTileY(this.centerY), objectLayer, true);
-	this.rightObject = map.getTile(objectLayer.getTileX(this.centerX - 32), objectLayer.getTileY(this.centerY), objectLayer, true);
-	this.backObject = map.getTile(objectLayer.getTileX(this.centerX), objectLayer.getTileY(this.centerY - 32), objectLayer, true);
 	this.frontObjectIndex = -1;
-	this.leftObjectIndex = -1;
-	this.rightObjectIndex = -1;
-	this.backObjectIndex = -1;
 	this.switchToHUD = false;
 	this.endTutorialEvent = false;
 	this.inTutorial = true;
-	this.color_puzzle_trigger = false;
+	this.colorPuzzleTrigger = false;
 	this.nextColorBlock = -1;
 	// Player sounds:
 	footstep = game.add.audio('footstep');
@@ -105,7 +99,7 @@ Player.prototype = Object.create(Phaser.Sprite.prototype);
 Player.prototype.constructor = Player;
 
 Player.prototype.update = function () {
-	if(this.color_puzzle_trigger) {
+	if(this.colorPuzzleTrigger) {
 		var tileX = floorLayer.getTileX(player.centerX);
 		var tileY = floorLayer.getTileY(player.centerY);
 		var tile = map.getTile(tileX, tileY, floorLayer, true);
@@ -159,7 +153,7 @@ Player.prototype.update = function () {
 		if (game.input.keyboard.isDown(Phaser.Keyboard.UP) && this.tweenCompleted) {
 			this.animations.play("walkUp");
 			this.orientation = { up: true, down: false, left: false, right: false }
-			this.updateSurroundingObject(this.orientation);
+			this.updateFrontObject(this.orientation);
 			//call mirrorUpdate here
 			if (!game.input.keyboard.downDuration(Phaser.Keyboard.UP, CONTROL_RESPONSE_DELAY)) {
 				this.checkCollision(this.centerX, this.centerY - 32, this.orientation);
@@ -167,7 +161,7 @@ Player.prototype.update = function () {
 		} else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN) && this.tweenCompleted) {
 			this.animations.play("walkDown");
 			this.orientation = { up: false, down: true, left: false, right: false }
-			this.updateSurroundingObject(this.orientation);
+			this.updateFrontObject(this.orientation);
 			//call mirrorUpdate here
 			if (!game.input.keyboard.downDuration(Phaser.Keyboard.DOWN, CONTROL_RESPONSE_DELAY)) {
 				this.checkCollision(this.centerX, this.centerY + 32, this.orientation);
@@ -175,7 +169,7 @@ Player.prototype.update = function () {
 		} else if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT) && this.tweenCompleted) {
 			this.animations.play("walkLeft");
 			this.orientation = { up: false, down: false, left: true, right: false }
-			this.updateSurroundingObject(this.orientation);
+			this.updateFrontObject(this.orientation);
 			//call mirrorUpdate here
 			if (!game.input.keyboard.downDuration(Phaser.Keyboard.LEFT, CONTROL_RESPONSE_DELAY)) {
 				this.checkCollision(this.centerX - 32, this.centerY, this.orientation);
@@ -183,7 +177,7 @@ Player.prototype.update = function () {
 		} else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) && this.tweenCompleted) {
 			this.animations.play("walkRight");
 			this.orientation = { up: false, down: false, left: false, right: true }
-			this.updateSurroundingObject(this.orientation);
+			this.updateFrontObject(this.orientation);
 			//call mirrorUpdate here
 			if (!game.input.keyboard.downDuration(Phaser.Keyboard.RIGHT, CONTROL_RESPONSE_DELAY)) {
 				this.checkCollision(this.centerX + 32, this.centerY, this.orientation);
@@ -232,7 +226,7 @@ Player.prototype.update = function () {
 				break;
 			case PUZZLE_TRIGGER_1_INDEX:
 				map.replace(PUZZLE_TRIGGER_1_INDEX, PUZZLE_TRIGGER_1_INDEX + 1, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
-				this.color_puzzle_trigger = true;
+				this.colorPuzzleTrigger = true;
 				break;
 			case CLOSET_1_INDEX:
 			case CLOSET_1_INDEX + 1:
@@ -364,47 +358,26 @@ Player.prototype.checkCollision = function (x, y, directions) {
 }
 Player.prototype.playerTweenComplete = function () {
 	this.tweenCompleted = true;
-	this.updateSurroundingObject(this.orientation);
+	this.updateFrontObject(this.orientation);
 }
-Player.prototype.updateSurroundingObject = function (directions) {
+Player.prototype.updateFrontObject = function (directions) {
 	if (directions.up === true) {
 		this.frontObject = map.getTile(objectLayer.getTileX(this.centerX), objectLayer.getTileY(this.centerY - 32), objectLayer, true);
-		this.leftObject = map.getTile(objectLayer.getTileX(this.centerX - 32), objectLayer.getTileY(this.centerY), objectLayer, true);
-		this.rightObject = map.getTile(objectLayer.getTileX(this.centerX + 32), objectLayer.getTileY(this.centerY), objectLayer, true);
-		this.backObject = map.getTile(objectLayer.getTileX(this.centerX), objectLayer.getTileY(this.centerY + 32), objectLayer, true);
 		this.directionAngle = 90 * Math.PI / 180;
 	} else if (directions.down === true) {
 		this.frontObject = map.getTile(objectLayer.getTileX(this.centerX), objectLayer.getTileY(this.centerY + 32), objectLayer, true);
-		this.leftObject = map.getTile(objectLayer.getTileX(this.centerX + 32), objectLayer.getTileY(this.centerY), objectLayer, true);
-		this.rightObject = map.getTile(objectLayer.getTileX(this.centerX - 32), objectLayer.getTileY(this.centerY), objectLayer, true);
-		this.backObject = map.getTile(objectLayer.getTileX(this.centerX), objectLayer.getTileY(this.centerY - 32), objectLayer, true);
 		this.directionAngle = 270 * Math.PI / 180;
 	} else if (directions.left === true) {
 		this.frontObject = map.getTile(objectLayer.getTileX(this.centerX - 32), objectLayer.getTileY(this.centerY), objectLayer, true);
-		this.leftObject = map.getTile(objectLayer.getTileX(this.centerX), objectLayer.getTileY(this.centerY - 32), objectLayer, true);
-		this.rightObject = map.getTile(objectLayer.getTileX(this.centerX), objectLayer.getTileY(this.centerY + 32), objectLayer, true);
-		this.backObject = map.getTile(objectLayer.getTileX(this.centerX + 32), objectLayer.getTileY(this.centerY), objectLayer, true);
 		this.directionAngle = 0 * Math.PI / 180;
 	} else if (directions.right === true) {
 		this.frontObject = map.getTile(objectLayer.getTileX(this.centerX + 32), objectLayer.getTileY(this.centerY), objectLayer, true);
-		this.leftObject = map.getTile(objectLayer.getTileX(this.centerX), objectLayer.getTileY(this.centerY + 32), objectLayer, true);
-		this.rightObject = map.getTile(objectLayer.getTileX(this.centerX), objectLayer.getTileY(this.centerY - 32), objectLayer, true);
-		this.backObject = map.getTile(objectLayer.getTileX(this.centerX - 32), objectLayer.getTileY(this.centerY), objectLayer, true);
 		this.directionAngle = 180 * Math.PI / 180;
 	}
 	if (this.frontObject !== null)
 		this.frontObjectIndex = this.frontObject.index;
-	if (this.leftObject !== null)
-		this.leftObjectIndex = this.leftObject.index;
-	if (this.rightObject !== null)
-		this.rightObjectIndex = this.rightObject.index;
-	if (this.backObject !== null)
-		this.backObjectIndex = this.backObject.index;
 	else
 		this.frontObjectIndex = -1;
-	this.leftObjectIndex = -1;
-	this.rightObjectIndex = -1;
-	this.backObjectIndex = -1;
 }
 Player.prototype.updatePlayerXY = function () {
 	this.lastX = this.x;
@@ -529,42 +502,24 @@ Player.prototype.flashlightPickupEvent = function () {
 	}
 }
 
-Player.prototype.mirrorUpdate = function () {
-	//update mirror for approching
-	if (!this.switchToFlashLight) {
-		if ((this.frontObject.index == MIRROR_1_INDEX)) {
-			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 1, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
-		}
-		if ((this.leftObject.index == MIRROR_1_INDEX)) {
-			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 2, this.leftObject.x, this.leftObject.y, 1, 1, objectLayer);
-		}
-		if ((this.rightObject.index == MIRROR_1_INDEX)) {
-			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 3, this.rightObject.x, this.rightObject.y, 1, 1, objectLayer);
-		}
-		if ((this.backObject.index == MIRROR_1_INDEX)) {
-			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 4, this.backObject.x, this.backObject.y, 1, 1, objectLayer);
-		}
-	}
-	else {
-		if ((this.frontObject.index == MIRROR_1_INDEX)) {
-			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 5, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
-		}
-		if ((this.leftObject.index == MIRROR_1_INDEX)) {
-			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 6, this.leftObject.x, this.leftObject.y, 1, 1, objectLayer);
-		}
-		if ((this.rightObject.index == MIRROR_1_INDEX)) {
-			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 7, this.rightObject.x, this.rightObject.y, 1, 1, objectLayer);
-		}
-		if ((this.backObject.index == MIRROR_1_INDEX)) {
-			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 8, this.backObject.x, this.backObject.y, 1, 1, objectLayer);
-		}
-	}
-	//update mirror for leaving
+// Player.prototype.mirrorUpdate = function () {
+// 	//update mirror for approching
+// 	if (!this.switchToFlashLight) {
+// 		if ((this.frontObject.index == MIRROR_1_INDEX)) {
+// 			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 1, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
+// 		}
+// 	}
+// 	else {
+// 		if ((this.frontObject.index == MIRROR_1_INDEX)) {
+// 			map.replace(MIRROR_1_INDEX, MIRROR_1_INDEX + 5, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
+// 		}
+// 	}
+// 	//update mirror for leaving
 
-}
+// }
 Player.prototype.resetColorPuzzleTrigger = function () {
 	this.nextColorBlock = -1;
-	this.color_puzzle_trigger === false;
+	this.colorPuzzleTrigger === false;
 	map.replace(PUZZLE_TRIGGER_1_INDEX, PUZZLE_TRIGGER_1_INDEX + 1, 0, 0, 1000, 1000, objectLayer);
 	console.log('trigger reseted.');
 }
