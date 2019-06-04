@@ -41,6 +41,7 @@ Boost.prototype = {
 		game.load.image('Flashlight_icon', 'assets/img/flashlight_icon.png');
 		game.load.image('ArrowKey', 'assets/img/arrow_up.png');
 		game.load.image('E_key', 'assets/img/e_key.png');
+		game.load.image('Cross_E_key', 'assets/img/e_key.png');
 		game.load.image('SprintKey', 'assets/img/sprintKey.png');
 		game.load.image('Spacebar', 'assets/img/spacebar.png');
 		game.load.atlas('Player', 'assets/img/kid.png', 'assets/img/kid.json');

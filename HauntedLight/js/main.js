@@ -31,7 +31,7 @@ var decorations;
 // var inTutorial = true;
 // Tile-Map Constants:
 var PRISON_DOOR_INDEX = 159;
-var DOOR_1_INDEX = 163; // closed door index is this +1, broken version is this +2 and +3
+var DOOR_1_INDEX = 165; // closed door index is this +1, broken version is this +2 and +3
 var CLOSET_1_INDEX = 119; // those are 64x64 objects and placed in order in the tileset, so this +1 means right half of this whole object, this +2 +3 stand for closed version.
 var CLOSET_2_INDEX = 123;
 var DESK_1_INDEX = 135;
@@ -40,6 +40,11 @@ var BED_1_INDEX = 151;
 var BED_2_INDEX = 155;
 var MIRROR_1_INDEX = 192;
 var CHEST_FLASHLIGHT_INDEX = 185;
+var PUZZLE_COLOR_BLOCK_YELLOW_INDEX = 34;
+var PUZZLE_COLOR_BLOCK_BLUE_INDEX = 35;
+var PUZZLE_COLOR_BLOCK_GREEN_INDEX = 29;
+var PUZZLE_COLOR_BLOCK_RED_INDEX = 30;
+var PUZZLE_TRIGGER_1_INDEX = 175;
 // Other Constants:
 var GRID_SIZE = 32;
 var CONTROL_RESPONSE_DELAY = 150;

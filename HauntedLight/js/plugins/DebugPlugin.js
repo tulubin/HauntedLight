@@ -32,8 +32,9 @@ debugPlugin.prototype.render = function () {
 		game.debug.text('FPS: ' + game.time.fps || 'FPS: --', 40, 40, "#00ff00");
 		game.debug.cameraInfo(game.camera, GRID_SIZE, GRID_SIZE);
 		// game.debug.spriteCoords(player, GRID_SIZE, 500);
-		game.debug.text('player.battery: ' + player.currentBattery, 32, game.camera.height - 200);
-		game.debug.text('flashLightOn: ' + player.flashLightOn, 32, game.camera.height - 180);
+		game.debug.text('colorPuzzleTrigger: ' + player.colorPuzzleTrigger, 32, game.camera.height - 220);
+		game.debug.text('nextColorBlock: ' + player.nextColorBlock, 32, game.camera.height - 200);
+		game.debug.text('thisColorBlock: ' + player.thisColorBlock, 32, game.camera.height - 180);
 		if (player.orientation.up)
 			game.debug.text('player orientation: ' + 'UP', 32, game.camera.height - 160);
 		else if (player.orientation.down)
@@ -63,18 +64,18 @@ debugPlugin.prototype.updateMarker = function () {
 debugPlugin.prototype.getTileProperties = function () {
 	this.tileX = wallLayer.getTileX(game.input.activePointer.worldX);
 	this.tileY = wallLayer.getTileY(game.input.activePointer.worldY);
-	var tile = map.getTile(this.tileX, this.tileY, wallLayer, true);
+	var tile = map.getTile(this.tileX, this.tileY, objectLayer, true);
 	// Note: JSON.stringify will convert the object tile properties to a string
 	// currentDataString = JSON.stringify(tile.properties);
 	if (tile.index !== -1) {
-		this.currentLayer = 'wall';
+		this.currentLayer = 'Object';
 		this.tileIndex = tile.index;
 	} else {
 		this.tileX = objectLayer.getTileX(game.input.activePointer.worldX);
 		this.tileY = objectLayer.getTileY(game.input.activePointer.worldY);
-		tile = map.getTile(this.tileX, this.tileY, objectLayer, true);
+		tile = map.getTile(this.tileX, this.tileY, wallLayer, true);
 		if (tile.index !== -1) {
-			this.currentLayer = 'Object';
+			this.currentLayer = 'Wall';
 			this.tileIndex = tile.index;
 		} else {
 			this.tileX = floorLayer.getTileX(game.input.activePointer.worldX);

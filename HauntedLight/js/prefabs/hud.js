@@ -49,6 +49,11 @@ function HUD(game) {
 	this.eKey.alpha = 0.5;
 	this.add(this.eKey);
 	this.eKey.visible = false;
+	this.crossEKey = game.add.sprite(game.width / 2 + 16, game.height / 2 - 32, 'Cross_E_key');
+	this.crossEKey.anchor.set(0.5);
+	this.crossEKey.alpha = 0.5;
+	this.add(this.crossEKey);
+	this.crossEKey.visible = false;
 	// --------------tutorial HUD-----------------
 	this.upKey = game.add.sprite(60, game.height - 140, 'ArrowKey');
 	this.downKey = game.add.sprite(60, game.height - 120, 'ArrowKey');
@@ -95,6 +100,8 @@ HUD.prototype.update = function () {
 		switch (player.frontObject.index) {
 			case DOOR_1_INDEX:
 			case DOOR_1_INDEX + 1:
+			case PUZZLE_TRIGGER_1_INDEX:
+			case PUZZLE_TRIGGER_1_INDEX + 1:
 			case CLOSET_1_INDEX:
 			case CLOSET_1_INDEX + 1:
 			case CLOSET_1_INDEX + 2:
@@ -120,13 +127,14 @@ HUD.prototype.update = function () {
 			case BED_2_INDEX + 2:
 			case BED_2_INDEX + 3:
 			case MIRROR_1_INDEX:
+				this.crossEKey.visible = false;
 				this.eKey.visible = true;
 				if (player.orientation.up) {
-					this.eKey.x = game.width / 2 + 16;
-					this.eKey.y = game.height / 2 - 32 + 16;
+					this.eKey.x = game.width / 2;
+					this.eKey.y = game.height / 2 - 32 + 8;
 				} else if (player.orientation.down) {
-					this.eKey.x = game.width / 2 + 16;
-					this.eKey.y = game.height / 2 + 32 - 16;
+					this.eKey.x = game.width / 2;
+					this.eKey.y = game.height / 2 + 32 - 8;
 				} else if (player.orientation.left) {
 					this.eKey.x = game.width / 2 - 32 + 16;
 					this.eKey.y = game.height / 2 - 16;
@@ -135,12 +143,31 @@ HUD.prototype.update = function () {
 					this.eKey.y = game.height / 2 - 16;
 				}
 				break;
+			case PRISON_DOOR_INDEX:
+				this.eKey.visible = false;
+				this.crossEKey.visible = true;
+				if (player.orientation.up) {
+					this.crossEKey.x = game.width / 2;
+					this.crossEKey.y = game.height / 2 - 32 + 8;
+				} else if (player.orientation.down) {
+					this.crossEKey.x = game.width / 2;
+					this.crossEKey.y = game.height / 2 + 32 - 8;
+				} else if (player.orientation.left) {
+					this.crossEKey.x = game.width / 2 - 32 + 16;
+					this.crossEKey.y = game.height / 2 - 16;
+				} else if (player.orientation.right) {
+					this.crossEKey.x = game.width / 2 + 32 - 16;
+					this.crossEKey.y = game.height / 2 - 16;
+				}
+				break;
 			default:
 				this.eKey.visible = false;
+				this.crossEKey.visible = false;
 				break;
 		}
 	} else {
 		this.eKey.visible = false;
+		this.crossEKey.visible = false;
 	}
 	if (player.inTutorial) {
 		if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
@@ -186,8 +213,10 @@ HUD.prototype.update = function () {
 	}
 	if (game.input.keyboard.isDown(Phaser.Keyboard.E)) {
 		this.eKey.tint = PRESS_TINT;
+		this.crossEKey.tint = RED_TINT;
 	} else {
 		this.eKey.tint = RESET_TINT;
+		this.crossEKey.tint = RESET_TINT;
 	}
 	switch (true) {
 		case (player.currentBattery > 66):
