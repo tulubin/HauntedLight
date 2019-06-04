@@ -3,8 +3,8 @@
 function Player(game) {
 	// call Sprite constructor within this object
 	// new Sprite(game, x, y, key, frame)
-	// Phaser.Sprite.call(this, game, GRID_SIZE * 52 + GRID_SIZE / 2, GRID_SIZE * 82 + GRID_SIZE / 2, 'Player');
-	Phaser.Sprite.call(this, game, GRID_SIZE * 55 + GRID_SIZE / 2, GRID_SIZE * 42 + GRID_SIZE / 2, 'Player');
+	Phaser.Sprite.call(this, game, GRID_SIZE * 52 + GRID_SIZE / 2, GRID_SIZE * 82 + GRID_SIZE / 2, 'Player');
+	// Phaser.Sprite.call(this, game, GRID_SIZE * 55 + GRID_SIZE / 2, GRID_SIZE * 42 + GRID_SIZE / 2, 'Player');
 	this.anchor.set(0.5);
 	this.tint = DARK_TINT;
 	this.currentHP = 100; // horror point
