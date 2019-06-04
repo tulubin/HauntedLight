@@ -4,7 +4,7 @@ function Player(game) {
 	// call Sprite constructor within this object
 	// new Sprite(game, x, y, key, frame)
 	Phaser.Sprite.call(this, game, GRID_SIZE * 45 + GRID_SIZE / 2, GRID_SIZE * 77 + GRID_SIZE / 2, 'Player');
-	// Phaser.Sprite.call(this, game, GRID_SIZE * 55 + GRID_SIZE / 2, GRID_SIZE * 42 + GRID_SIZE / 2, 'Player');
+	// Phaser.Sprite.call(this, game, GRID_SIZE * 51 + GRID_SIZE / 2, GRID_SIZE * 66 + GRID_SIZE / 2, 'Player');
 	this.anchor.set(0.5);
 	this.tint = DARK_TINT;
 	this.maxHP = playerMaxHP; // horror point
@@ -188,6 +188,12 @@ Player.prototype.update = function () {
 			case DOOR_1_INDEX + 1:
 				map.replace(DOOR_1_INDEX + 1, DOOR_1_INDEX, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
 				break;
+			case HIDDEN_DOOR_INDEX:
+				map.replace(HIDDEN_DOOR_INDEX, HIDDEN_DOOR_INDEX + 1, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
+				break;
+			case HIDDEN_DOOR_INDEX + 1:
+				map.replace(HIDDEN_DOOR_INDEX + 1, HIDDEN_DOOR_INDEX, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
+				break;
 			case PUZZLE_TRIGGER_1_INDEX:
 				map.replace(PUZZLE_TRIGGER_1_INDEX, PUZZLE_TRIGGER_1_INDEX + 1, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
 				map.replace(PRISON_DOOR_INDEX, PRISON_DOOR_INDEX + 1, 35, 38, 1, 1, objectLayer);
@@ -314,6 +320,7 @@ Player.prototype.checkCollision = function (x, y, directions) {
 		switch (objectTile.index) { // check certain object for collision
 			case DOOR_1_INDEX + 1:	// open door pass through
 			case PRISON_DOOR_INDEX + 1:
+			case HIDDEN_DOOR_INDEX + 1:
 				this.movePlayer(directions);
 				break;
 			case CHEST_FLASHLIGHT_INDEX: // collect chest flashlight
@@ -394,11 +401,11 @@ Player.prototype.updateLight = function () {
 					}
 				}
 			}
-			if (lightThrough && (k >= 12 || (wallTile.index === -1 && objectTile.index !== DOOR_1_INDEX))) {
+			if (lightThrough && (k >= 12 || (wallTile.index === -1 && objectTile.index !== DOOR_1_INDEX && objectTile.index !== HIDDEN_DOOR_INDEX))) {
 				maskGraphics.lineTo(lastX, lastY);
 				break;
 			} else {
-				if (wallTile.index !== -1 || objectTile.index === DOOR_1_INDEX) {
+				if (wallTile.index !== -1 || objectTile.index === DOOR_1_INDEX || objectTile.index === HIDDEN_DOOR_INDEX) {
 					lightThrough = true;
 				}
 				if (lightThrough)
