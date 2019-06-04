@@ -28,7 +28,9 @@ var gradient;
 var timer;
 var decorations;
 // Variables:
-// var inTutorial = true;
+var playerMaxHP = 100;
+var playerMaxMP = 100;
+var playerMaxBattery = 100;
 // Tile-Map Constants:
 var PRISON_DOOR_INDEX = 159;
 var DOOR_1_INDEX = 165; // closed door index is this +1, broken version is this +2 and +3
@@ -66,6 +68,6 @@ window.onload = function () {
 	game.state.add('Boost', Boost);
 	game.state.add('Title', Title);
 	game.state.add('Play', Play);
-	game.state.add('End', End);
+	game.state.add('Death', Death);
 	game.state.start('Boost');
 }

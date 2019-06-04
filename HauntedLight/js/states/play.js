@@ -44,7 +44,7 @@ Play.prototype = {
 	update: function () {
 		debug.updateDebug();
 		if ((player.currentHP <= 0) && (debug.toggle === false)) {
-			game.state.start('End');
+			game.state.start('Death');
 		}
 	}
 };

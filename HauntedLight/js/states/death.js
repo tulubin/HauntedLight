@@ -1,9 +1,13 @@
-// End state
+// Death state
 
-var End = function (game) { };
-End.prototype = {
+var Death = function (game) { };
+Death.prototype = {
 	create: function () {
-		// add End screen text
+		// reduce difficulty:
+		playerMaxHP = playerMaxHP * 0.1;
+		playerMaxMP = playerMaxHP * 0.1;
+		playerMaxBattery = playerMaxHP * 0.1;
+		// add Death screen text
 		var endText = game.add.text(game.width / 2, game.height / 2, 'Haunted Light', { font: 'Helvetica', fontSize: '48px', fill: '#0000FF' });
 		endText.anchor.set(0.5);
 

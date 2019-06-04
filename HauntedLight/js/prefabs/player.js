@@ -3,16 +3,16 @@
 function Player(game) {
 	// call Sprite constructor within this object
 	// new Sprite(game, x, y, key, frame)
-	Phaser.Sprite.call(this, game, GRID_SIZE * 52 + GRID_SIZE / 2, GRID_SIZE * 82 + GRID_SIZE / 2, 'Player');
+	Phaser.Sprite.call(this, game, GRID_SIZE * 45 + GRID_SIZE / 2, GRID_SIZE * 77 + GRID_SIZE / 2, 'Player');
 	// Phaser.Sprite.call(this, game, GRID_SIZE * 55 + GRID_SIZE / 2, GRID_SIZE * 42 + GRID_SIZE / 2, 'Player');
 	this.anchor.set(0.5);
 	this.tint = DARK_TINT;
-	this.currentHP = 100; // horror point
-	this.maxHP = 100;
-	this.currentMP = 100; // movement point
-	this.maxMP = 100;
-	this.currentBattery = 100;
-	this.maxBattery = 100;
+	this.maxHP = playerMaxHP; // horror point
+	this.currentHP = this.maxHP;
+	this.maxMP = playerMaxMP; // movement point
+	this.currentMP = this.maxMP;
+	this.maxBattery = playerMaxBattery;
+	this.currentBattery = this.maxBattery;
 	this.sprinting = false;
 	this.lastX = this.x;
 	this.lastY = this.y;
@@ -40,7 +40,7 @@ function Player(game) {
 	this.nextColorBlock = -1;
 
 	// for debugging:
-	this.thisColorBlock = -1;
+
 	// Player sounds:
 	footstep = game.add.audio('footstep');
 
@@ -163,8 +163,8 @@ Player.prototype.update = function () {
 				if (this.inMirror) {
 					this.x -= 100 * GRID_SIZE;
 					if (this.endTutorialEvent) {
-						shadow.x -= 112 * GRID_SIZE;
-						shadow.y += 4 * GRID_SIZE;
+						shadow.x -= 100 * GRID_SIZE;
+						shadow.y += 3 * GRID_SIZE;
 						this.inTutorial = false;
 						this.endTutorialEvent = false;
 						this.hud.upKey.destroy();
@@ -175,7 +175,7 @@ Player.prototype.update = function () {
 						this.hud.sprintText.destroy();
 						this.hud.spacebar.destroy();
 						this.hud.spacebarText.destroy();
-						map.replace(PRISON_DOOR_INDEX, PRISON_DOOR_INDEX + 1, 42, 75, 1, 1, objectLayer);
+						map.replace(PRISON_DOOR_INDEX, PRISON_DOOR_INDEX + 1, 48, 75, 1, 1, objectLayer);
 					}
 				} else {
 					this.x += 100 * GRID_SIZE;
@@ -298,7 +298,7 @@ Player.prototype.movePlayer = function (directions) {
 		this.tweenCompleted = false;
 		this.playerTween.onComplete.add(this.playerTweenComplete, this);
 		if (this.sprinting) {
-			this.currentMP -= 10;
+			this.currentMP -= 5;
 			this.recoverMP = false;
 		}
 	}
@@ -394,7 +394,7 @@ Player.prototype.updateLight = function () {
 					}
 				}
 			}
-			if (lightThrough && (k >= GRID_SIZE / 2 || (wallTile.index === -1 && objectTile.index !== DOOR_1_INDEX))) {
+			if (lightThrough && (k >= 12 || (wallTile.index === -1 && objectTile.index !== DOOR_1_INDEX))) {
 				maskGraphics.lineTo(lastX, lastY);
 				break;
 			} else {
@@ -495,7 +495,6 @@ Player.prototype.colorPuzzle = function () {
 	var tileX = floorLayer.getTileX(player.centerX);
 	var tileY = floorLayer.getTileY(player.centerY);
 	var tile = map.getTile(tileX, tileY, floorLayer, true);
-	this.thisColorBlock = tile.index;
 	if (this.nextColorBlock === -1 && tile.index === PUZZLE_COLOR_BLOCK_YELLOW_INDEX)
 		this.nextColorBlock = PUZZLE_COLOR_BLOCK_YELLOW_INDEX;
 	switch (tile.index) {

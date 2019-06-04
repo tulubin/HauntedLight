@@ -3,7 +3,7 @@
 function Shadow(game) {
 	// call Sprite constructor within this object
 	// new Sprite(game, x, y, key, frame)
-	Phaser.Sprite.call(this, game, GRID_SIZE * 154 + GRID_SIZE / 2, GRID_SIZE * 70 + GRID_SIZE / 2, 'Shadow');
+	Phaser.Sprite.call(this, game, GRID_SIZE * 148 + GRID_SIZE / 2, GRID_SIZE * 71 + GRID_SIZE / 2, 'Shadow');
 	this.anchor.set(0.5);
 	this.inSight = false;
 	this.moveDis = 80;
