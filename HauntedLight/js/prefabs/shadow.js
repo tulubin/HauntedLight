@@ -9,6 +9,23 @@ function Shadow(game) {
 	this.moveDis = 80;
 	this.alpha = 0.5;
 	this.startMove = false;
+	// particles
+	this.shadowEmitter = game.add.emitter(this.x, this.y, 100);
+	this.shadowEmitter.width = 8;
+	this.shadowEmitter.height = 16;
+	this.shadowEmitter.makeParticles('CrossParticle');
+	// this.addChild(this.shadowEmitter);
+	this.shadowEmitter.setRotation(0, 0);
+	// this.shadowEmitter.setAlpha(0.3, 0.6);
+	// this.shadowEmitter.setScale(0.02, 0.1, 0.02, 0.1);
+	this.shadowEmitter.gravity = -200;
+	this.shadowEmitter.setXSpeed(-50, 50);
+	this.shadowEmitter.setYSpeed(-50, 50);
+	// this.shadowEmitter.x = ;
+	// this.shadowEmitter.y = ;
+	this.shadowEmitter.start(false, 300, 10);
+	// this.shadowEmitter.emitParticle();
+	// this.shadowEmitter.start(true, 1000, null, 30);
 	// x = Phaser.Math.distance(this.x, this.y, player.lastX, player.lastY)-this.moveDis
 	this.game.time.events.loop(1500, function () {
 		if (this.startMove && !player.inMirror) {
@@ -34,4 +51,6 @@ Shadow.prototype = Object.create(Phaser.Sprite.prototype);
 Shadow.prototype.constructor = Shadow;
 
 Shadow.prototype.update = function () {
+	this.shadowEmitter.x = this.x;
+	this.shadowEmitter.y = this.y;
 }

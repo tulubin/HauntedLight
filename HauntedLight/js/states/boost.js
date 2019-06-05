@@ -35,6 +35,8 @@ Boost.prototype = {
 		game.load.spritesheet('wall', 'assets/tilesheet/wall.png', 32, 32);
 		game.load.spritesheet('floor', 'assets/tilesheet/floor.png', 32, 32);
 		game.load.image('Temp', 'assets/img/temp.png');
+		game.load.image('CrossParticle', 'assets/img/crossParticle.png');
+		game.load.image('Particle', 'assets/img/particle.png');
 		game.load.image('HP_1', 'assets/img/sanity00.png');
 		game.load.image('MP', 'assets/img/MP.png');
 		game.load.image('Shadow', 'assets/img/ghost0.png');

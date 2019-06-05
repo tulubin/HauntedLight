@@ -30,7 +30,7 @@ debugPlugin.prototype.updateDebug = function () {
 debugPlugin.prototype.render = function () {
 	if (this.toggle) {
 		game.debug.text('FPS: ' + game.time.fps || 'FPS: --', 40, 40, "#00ff00");
-		game.debug.cameraInfo(game.camera, GRID_SIZE, GRID_SIZE);
+		// game.debug.cameraInfo(game.camera, GRID_SIZE, GRID_SIZE);
 		// game.debug.spriteCoords(player, GRID_SIZE, 500);
 		game.debug.text('hp: ' + player.currentHP, 32, game.camera.height - 220);
 		game.debug.text('maxhp: ' + player.maxHP, 32, game.camera.height - 200);

@@ -40,14 +40,7 @@ function Player(game) {
 	this.nextColorBlock = -1;
 
 
-	this.emitter = game.add.emitter(0, 0, 100);
-	this.emitter.makeParticles('Temp');
-	// this.emitter.setRotation(0, 0);
-	this.emitter.setAlpha(0.5, 0.8);
-	this.emitter.setScale(0.02, 0.1, 0.02, 0.1);
-	this.emitter.gravity = -300;
-	// this.emitter.setXSpeed(15, 30);
-	// this.emitter.setYSpeed(15, 30);
+
 	// for debugging:
 
 	// Player sounds:
@@ -169,7 +162,7 @@ Player.prototype.update = function () {
 	if (game.input.keyboard.justPressed(Phaser.Keyboard.E) && this.tweenCompleted) {
 		switch (this.frontObject.index) {
 			case MIRROR_1_INDEX:
-				this.mirrorParticle(this.frontObject.worldX + 16, this.frontObject.worldY + 16);
+				this.mirrorParticle();
 				this.tweenCompleted = false;
 				this.animations.play("walkUp");
 				var newTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY - 32 }, this.walkingDuration, Phaser.Easing.Linear.None, true);
@@ -542,24 +535,35 @@ Player.prototype.resetColorPuzzleTrigger = function () {
 	map.replace(PRISON_DOOR_INDEX + 1, PRISON_DOOR_INDEX, 35, 38, 1, 1, objectLayer);
 	console.log('trigger reseted.');
 }
-Player.prototype.mirrorParticle = function (x, y) {
-	this.emitter.x = x;
-	this.emitter.y = y;
-	// this.emitter.start(false, 500, null);
-	this.emitter.start(true, 1000, null, 30);
-	// this.emitter.forEach(this.setUp, this);
+Player.prototype.mirrorParticle = function () {
+	this.mirrorEmitter = game.add.emitter(this.frontObject.worldX + 16, this.frontObject.worldY + 16, 100);
+	this.mirrorEmitter.width = 16;
+	this.mirrorEmitter.height = 24;
+	this.mirrorEmitter.makeParticles('Particle');
+	this.mirrorEmitter.setRotation(0, 0);
+	// this.mirrorEmitter.setAlpha(0.1, 0.2);
+	// this.mirrorEmitter.setScale(0.02, 0.1, 0.02, 0.1);
+	// this.mirrorEmitter.gravity = -300;
+	// this.mirrorEmitter.setXSpeed(0, 0);
+	// this.mirrorEmitter.setYSpeed(0, 0);
+	// this.mirrorEmitter.x = ;
+	// this.mirrorEmitter.y = ;
+	// this.mirrorEmitter.start(false, 500, null);
+	this.mirrorEmitter.start(true, 1000, null, 100);
+	this.mirrorEmitter.forEach(this.mirrorSetUp, this);
 }
-// Player.prototype.setUp = function (particle) {
-// 	if (!particle.exists) {
-// 		particle.alpha = 1;
-// 	}
-// 	game.add.tween(particle).to({ alpha: 0 }, game.rnd.integerInRange(1000, 1500), Phaser.Easing.Cubic.Out, true);
-// 	// game.add.tween(particle.scale).to({ x: 2, y: 2 }, 1000, Phaser.Easing.Cubic.Out, true);
-// 	var tween = game.add.tween(particle).to({ x: this.x, y: this.y }, game.rnd.integerInRange(100, 10000), Phaser.Easing.Linear.InOut, true);
-// 	// tween.onComplete.add(function (particle) {
-// 	// 	particle.destroy();
-// 	// }, this);
-// }
+Player.prototype.mirrorSetUp = function (particle) {
+	if (!particle.exists) {
+		particle.alpha = 1;
+	}
+	game.add.tween(particle).to({ alpha: 0 }, 1000, Phaser.Easing.Cubic.Out, true);
+	game.add.tween(particle.scale).to({ x: 4, y: 4 }, 1000, Phaser.Easing.Cubic.Out, true);
+	// var tween = game.add.tween(particle).to({ x: this.x + game.rnd.integerInRange(-8, 8), y: this.y + game.rnd.integerInRange(-8, 8) }, game.rnd.integerInRange(1000, 2000), Phaser.Easing.Linear.None, true);
+	// var tween = game.add.tween(particle).to({ x: this.x + game.rnd.integerInRange(-8, 8), y: this.y + game.rnd.integerInRange(-8, 8) }, 1000, Phaser.Easing.Linear.None, true);
+	// tween.onComplete.add(function (particle) {
+	// 	particle.destroy();
+	// }, this);
+}
 Player.prototype.touchMirror = function () {
 	if (this.inMirror) {
 		this.x -= 100 * GRID_SIZE;
