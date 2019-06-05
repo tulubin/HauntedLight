@@ -46,7 +46,7 @@ function Player(game) {
 	// Player sounds:
 	footstep = game.add.audio('footstep');
 
-	game.camera.follow(this, 0, 1, 1);
+	game.camera.follow(this, 0, 0.5, 0.5);
 
 	//Add Player animation
 	this.animations.add('walkUp', [4, 5, 6, 7], 6, true);
