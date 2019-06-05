@@ -27,6 +27,8 @@ var shadowTexture;
 var gradient;
 var timer;
 var decorations;
+var hud;
+var camera;
 // Variables:
 var playerMaxHP = 100;
 var playerMaxMP = 100;
@@ -63,7 +65,7 @@ var DEFAULT_FLASHLIGHT_ANGLE = Math.PI * 0.5;
 
 window.onload = function () {
 	// define game
-	game = new Phaser.Game(640, 480, Phaser.AUTO, 'myGame');
+	game = new Phaser.Game(480, 360, Phaser.AUTO, 'myGame');
 
 	// define states
 	game.state.add('Boost', Boost);

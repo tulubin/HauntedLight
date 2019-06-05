@@ -46,7 +46,7 @@ function Player(game) {
 	// Player sounds:
 	footstep = game.add.audio('footstep');
 
-	game.camera.follow(this, 0, 0.5, 0.5);
+	// game.camera.follow(this, 0, 0.5, 0.5);
 
 	//Add Player animation
 	this.animations.add('walkUp', [4, 5, 6, 7], 6, true);
@@ -90,11 +90,10 @@ function Player(game) {
 
 	this.addLight();
 	// HUD:
-	// this.hud = new HUD(game);
-	// this.hud.fixedToCamera = true;
+	// hud = new HUD(game);
+	// hud.fixedToCamera = true;
 	// this.toggleHUD();
-	this.hud = new HUD(game);
-	this.hud.fixedToCamera = true;
+
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to Player
@@ -165,7 +164,8 @@ Player.prototype.update = function () {
 				this.mirrorParticle();
 				this.tweenCompleted = false;
 				this.animations.play("walkUp");
-				var newTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY - 32 }, this.walkingDuration, Phaser.Easing.Linear.None, true);
+				game.camera.follow(this, 0, 0.5, 0.5);
+				var newTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY - 32 }, this.walkingDuration, Phaser.Easing.Quadratic.In, true);
 				newTween.onComplete.addOnce(this.touchMirror, this);
 				break;
 			case DOOR_1_INDEX:
@@ -433,8 +433,8 @@ Player.prototype.toggleFlashLight = function () {
 			decorations.tint = DARK_TINT;
 		}
 		this.flashLightOn = !this.flashLightOn;
-		this.hud.flashlight_icon.visible = this.switchToFlashLight && this.flashLightOn;
-		this.hud.battery_level.visible = this.switchToFlashLight && this.flashLightOn;
+		hud.flashlight_icon.visible = this.switchToFlashLight && this.flashLightOn;
+		hud.battery_level.visible = this.switchToFlashLight && this.flashLightOn;
 	} else {
 		console.log('Zero Battery!');
 		this.lightAngle = DEFAULT_VISION_ANGLE;
@@ -445,17 +445,17 @@ Player.prototype.toggleFlashLight = function () {
 		objectLayer.tint = DARK_TINT;
 		decorations.tint = DARK_TINT;
 		this.flashLightOn = false;
-		this.hud.flashlight_icon.visible = false;
-		this.hud.battery_level.visible = false;
+		hud.flashlight_icon.visible = false;
+		hud.battery_level.visible = false;
 	}
 }
 
 // Player.prototype.toggleHUD = function () {
 // 	if (!this.switchToHUD) {
-// 		this.hud = new HUD(game);
-// 		this.hud.fixedToCamera = true;
+// 		hud = new HUD(game);
+// 		hud.fixedToCamera = true;
 // 	} else {
-// 		this.hud.destroy(true);
+// 		hud.destroy(true);
 // 	}
 // 	this.switchToHUD = !this.switchToHUD;
 // }
@@ -572,14 +572,14 @@ Player.prototype.touchMirror = function () {
 			shadow.y += 3 * GRID_SIZE;
 			this.inTutorial = false;
 			this.endTutorialEvent = false;
-			this.hud.upKey.destroy();
-			this.hud.downKey.destroy();
-			this.hud.leftKey.destroy();
-			this.hud.rightKey.destroy();
-			this.hud.sprintKey.destroy();
-			this.hud.sprintText.destroy();
-			this.hud.spacebar.destroy();
-			this.hud.spacebarText.destroy();
+			hud.upKey.destroy();
+			hud.downKey.destroy();
+			hud.leftKey.destroy();
+			hud.rightKey.destroy();
+			hud.sprintKey.destroy();
+			hud.sprintText.destroy();
+			hud.spacebar.destroy();
+			hud.spacebarText.destroy();
 			map.replace(PRISON_DOOR_INDEX, PRISON_DOOR_INDEX + 1, 48, 75, 1, 1, objectLayer);
 		}
 	}
@@ -590,7 +590,10 @@ Player.prototype.touchMirror = function () {
 	this.animations.play("walkDown");
 	this.orientation = { up: false, down: true, left: false, right: false };
 	this.updateFrontObject(this.orientation);
-	var newTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY + 32 }, this.walkingDuration, Phaser.Easing.Linear.None, true);
+	var newTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY + 32 }, this.walkingDuration, Phaser.Easing.Quadratic.Out, true);
 	newTween.onComplete.addOnce(this.playerTweenComplete, this);
+	game.time.events.add(Phaser.Timer.SECOND * 1, function () {
+		game.camera.follow(this, 0, 0.2, 0.2);
+	}, this);
 }
 

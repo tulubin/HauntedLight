@@ -46,12 +46,12 @@ function HUD(game) {
 	this.eKey = game.add.sprite(game.width / 2 + 16, game.height / 2 - 32, 'E_key');
 	this.eKey.anchor.set(0.5);
 	this.eKey.alpha = 0.2;
-	this.add(this.eKey);
+	// this.add(this.eKey);
 	this.eKey.visible = false;
 	this.crossEKey = game.add.sprite(game.width / 2 + 16, game.height / 2 - 32, 'Cross_E_key');
 	this.crossEKey.anchor.set(0.5);
 	this.crossEKey.alpha = 0.2;
-	this.add(this.crossEKey);
+	// this.add(this.crossEKey);
 	this.crossEKey.visible = false;
 	// --------------tutorial HUD-----------------
 	this.upKey = game.add.sprite(60, game.height - 140, 'ArrowKey');
@@ -130,34 +130,34 @@ HUD.prototype.update = function () {
 				this.crossEKey.visible = false;
 				this.eKey.visible = true;
 				if (player.orientation.up) {
-					this.eKey.x = game.width / 2;
-					this.eKey.y = game.height / 2 - 32 + 8;
+					this.eKey.x = player.x;
+					this.eKey.y = player.y - 32 + 8;
 				} else if (player.orientation.down) {
-					this.eKey.x = game.width / 2;
-					this.eKey.y = game.height / 2 + 32 - 8;
+					this.eKey.x = player.x;
+					this.eKey.y = player.y - 32 - 8;
 				} else if (player.orientation.left) {
-					this.eKey.x = game.width / 2 - 32 + 16;
-					this.eKey.y = game.height / 2 - 16;
+					this.eKey.x = player.x - 32 + 16;
+					this.eKey.y = player.y - 16;
 				} else if (player.orientation.right) {
-					this.eKey.x = game.width / 2 + 32 - 16;
-					this.eKey.y = game.height / 2 - 16;
+					this.eKey.x = player.x + 32 - 16;
+					this.eKey.y = player.y - 16;
 				}
 				break;
 			case PRISON_DOOR_INDEX:
 				this.eKey.visible = false;
 				this.crossEKey.visible = true;
 				if (player.orientation.up) {
-					this.crossEKey.x = game.width / 2;
-					this.crossEKey.y = game.height / 2 - 32 + 8;
+					this.crossEKey.x = player.x;
+					this.crossEKey.y = player.y - 32 + 8;
 				} else if (player.orientation.down) {
-					this.crossEKey.x = game.width / 2;
-					this.crossEKey.y = game.height / 2 + 32 - 8;
+					this.crossEKey.x = player.x;
+					this.crossEKey.y = player.y - 32 - 8;
 				} else if (player.orientation.left) {
-					this.crossEKey.x = game.width / 2 - 32 + 16;
-					this.crossEKey.y = game.height / 2 - 16;
+					this.crossEKey.x = player.x - 32 + 16;
+					this.crossEKey.y = player.y - 16;
 				} else if (player.orientation.right) {
-					this.crossEKey.x = game.width / 2 + 32 - 16;
-					this.crossEKey.y = game.height / 2 - 16;
+					this.crossEKey.x = player.x + 32 - 16;
+					this.crossEKey.y = player.y - 16;
 				}
 				break;
 			default:
