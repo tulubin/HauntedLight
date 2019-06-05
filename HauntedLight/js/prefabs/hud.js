@@ -42,16 +42,15 @@ function HUD(game) {
 	this.battery_level.scale.setTo(1);
 	this.battery_level.visible = false;
 	this.add(this.battery_level);
-
 	// --------------interaction HUD-----------------
 	this.eKey = game.add.sprite(game.width / 2 + 16, game.height / 2 - 32, 'E_key');
 	this.eKey.anchor.set(0.5);
-	this.eKey.alpha = 0.5;
+	this.eKey.alpha = 0.2;
 	this.add(this.eKey);
 	this.eKey.visible = false;
 	this.crossEKey = game.add.sprite(game.width / 2 + 16, game.height / 2 - 32, 'Cross_E_key');
 	this.crossEKey.anchor.set(0.5);
-	this.crossEKey.alpha = 0.5;
+	this.crossEKey.alpha = 0.2;
 	this.add(this.crossEKey);
 	this.crossEKey.visible = false;
 	// --------------tutorial HUD-----------------
@@ -80,6 +79,7 @@ function HUD(game) {
 	this.add(this.sprintText);
 	this.add(this.spacebar);
 	this.add(this.spacebarText);
+
 };
 
 HUD.prototype = Object.create(Phaser.Group.prototype);

@@ -39,6 +39,15 @@ function Player(game) {
 	this.colorPuzzleTrigger = false;
 	this.nextColorBlock = -1;
 
+
+	this.emitter = game.add.emitter(0, 0, 100);
+	this.emitter.makeParticles('Temp');
+	// this.emitter.setRotation(0, 0);
+	this.emitter.setAlpha(0.5, 0.8);
+	this.emitter.setScale(0.02, 0.1, 0.02, 0.1);
+	this.emitter.gravity = -300;
+	// this.emitter.setXSpeed(15, 30);
+	// this.emitter.setYSpeed(15, 30);
 	// for debugging:
 
 	// Player sounds:
@@ -160,27 +169,11 @@ Player.prototype.update = function () {
 	if (game.input.keyboard.justPressed(Phaser.Keyboard.E) && this.tweenCompleted) {
 		switch (this.frontObject.index) {
 			case MIRROR_1_INDEX:
-				if (this.inMirror) {
-					this.x -= 100 * GRID_SIZE;
-					if (this.endTutorialEvent) {
-						shadow.x -= 100 * GRID_SIZE;
-						shadow.y += 3 * GRID_SIZE;
-						this.inTutorial = false;
-						this.endTutorialEvent = false;
-						this.hud.upKey.destroy();
-						this.hud.downKey.destroy();
-						this.hud.leftKey.destroy();
-						this.hud.rightKey.destroy();
-						this.hud.sprintKey.destroy();
-						this.hud.sprintText.destroy();
-						this.hud.spacebar.destroy();
-						this.hud.spacebarText.destroy();
-						map.replace(PRISON_DOOR_INDEX, PRISON_DOOR_INDEX + 1, 48, 75, 1, 1, objectLayer);
-					}
-				} else {
-					this.x += 100 * GRID_SIZE;
-				}
-				this.inMirror = !this.inMirror;
+				this.mirrorParticle(this.frontObject.worldX + 16, this.frontObject.worldY + 16);
+				this.tweenCompleted = false;
+				this.animations.play("walkUp");
+				var newTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY - 32 }, this.walkingDuration, Phaser.Easing.Linear.None, true);
+				newTween.onComplete.addOnce(this.touchMirror, this);
 				break;
 			case DOOR_1_INDEX:
 				map.replace(DOOR_1_INDEX, DOOR_1_INDEX + 1, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
@@ -324,7 +317,10 @@ Player.prototype.checkCollision = function (x, y, directions) {
 				this.movePlayer(directions);
 				break;
 			case CHEST_FLASHLIGHT_INDEX: // collect chest flashlight
+				this.animations.play("walkUp");
+				footstep.play('', 0, 1, false, true);
 				var newTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY - 32 }, this.walkingDuration, Phaser.Easing.Linear.None, true);
+				this.tweenCompleted = false;
 				newTween.onComplete.addOnce(this.flashlightPickupEvent, this);
 				break;
 			case -1: // no object infront
@@ -480,6 +476,8 @@ Player.prototype.flashlightPickupEvent = function () {
 		map.replace(CHEST_FLASHLIGHT_INDEX, -1, tile.x, tile.y, 1, 1, objectLayer);
 		this.toggleFlashLight();
 	}
+	this.tweenCompleted = true;
+	this.updateFrontObject(this.orientation);
 }
 
 // Player.prototype.mirrorUpdate = function () {
@@ -544,3 +542,51 @@ Player.prototype.resetColorPuzzleTrigger = function () {
 	map.replace(PRISON_DOOR_INDEX + 1, PRISON_DOOR_INDEX, 35, 38, 1, 1, objectLayer);
 	console.log('trigger reseted.');
 }
+Player.prototype.mirrorParticle = function (x, y) {
+	this.emitter.x = x;
+	this.emitter.y = y;
+	// this.emitter.start(false, 500, null);
+	this.emitter.start(true, 1000, null, 30);
+	// this.emitter.forEach(this.setUp, this);
+}
+// Player.prototype.setUp = function (particle) {
+// 	if (!particle.exists) {
+// 		particle.alpha = 1;
+// 	}
+// 	game.add.tween(particle).to({ alpha: 0 }, game.rnd.integerInRange(1000, 1500), Phaser.Easing.Cubic.Out, true);
+// 	// game.add.tween(particle.scale).to({ x: 2, y: 2 }, 1000, Phaser.Easing.Cubic.Out, true);
+// 	var tween = game.add.tween(particle).to({ x: this.x, y: this.y }, game.rnd.integerInRange(100, 10000), Phaser.Easing.Linear.InOut, true);
+// 	// tween.onComplete.add(function (particle) {
+// 	// 	particle.destroy();
+// 	// }, this);
+// }
+Player.prototype.touchMirror = function () {
+	if (this.inMirror) {
+		this.x -= 100 * GRID_SIZE;
+		if (this.endTutorialEvent) {
+			shadow.x -= 100 * GRID_SIZE;
+			shadow.y += 3 * GRID_SIZE;
+			this.inTutorial = false;
+			this.endTutorialEvent = false;
+			this.hud.upKey.destroy();
+			this.hud.downKey.destroy();
+			this.hud.leftKey.destroy();
+			this.hud.rightKey.destroy();
+			this.hud.sprintKey.destroy();
+			this.hud.sprintText.destroy();
+			this.hud.spacebar.destroy();
+			this.hud.spacebarText.destroy();
+			map.replace(PRISON_DOOR_INDEX, PRISON_DOOR_INDEX + 1, 48, 75, 1, 1, objectLayer);
+		}
+	}
+	else {
+		this.x += 100 * GRID_SIZE;
+	}
+	this.inMirror = !this.inMirror;
+	this.animations.play("walkDown");
+	this.orientation = { up: false, down: true, left: false, right: false };
+	this.updateFrontObject(this.orientation);
+	var newTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY + 32 }, this.walkingDuration, Phaser.Easing.Linear.None, true);
+	newTween.onComplete.addOnce(this.playerTweenComplete, this);
+}
+
