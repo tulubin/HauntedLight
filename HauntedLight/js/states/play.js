@@ -4,6 +4,7 @@ var Play = function (game) {
 };
 Play.prototype = {
 	create: function () {
+		game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		game.time.advancedTiming = true;
 		// Physics:
 		// game.physics.startSystem(Phaser.Physics.ARCADE);
