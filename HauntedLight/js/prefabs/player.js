@@ -6,6 +6,7 @@ function Player(game) {
 	Phaser.Sprite.call(this, game, GRID_SIZE * 47 + GRID_SIZE / 2, GRID_SIZE * 77 + GRID_SIZE / 2, 'Player');
 	// Phaser.Sprite.call(this, game, GRID_SIZE * 51 + GRID_SIZE / 2, GRID_SIZE * 66 + GRID_SIZE / 2, 'Player');
 	this.anchor.set(0.5);
+	game.camera.follow(this, 0, 1, 1);
 	this.tint = DARK_TINT;
 	this.maxHP = playerMaxHP; // horror point
 	this.currentHP = this.maxHP;
@@ -458,9 +459,9 @@ Player.prototype.touchMirror = function () {
 	this.updateFrontObject(this.orientation);
 	var newTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY + 32 }, this.walkingDuration, Phaser.Easing.Quadratic.Out, true);
 	newTween.onComplete.addOnce(this.playerTweenComplete, this);
-	newTween.onComplete.addOnce(function () {
-		game.camera.follow(camera, 0, CAMERA_SPEED, CAMERA_SPEED);
-	}, this);
+	// newTween.onComplete.addOnce(function () {
+	// 	game.camera.follow(camera, 0, CAMERA_SPEED, CAMERA_SPEED);
+	// }, this);
 }
 
 Player.prototype.playerControls = function () {
@@ -520,7 +521,7 @@ Player.prototype.interactObjects = function () {
 			this.mirrorParticle();
 			this.actionCompleted = false;
 			this.animations.play("walkUp");
-			game.camera.follow(this, 0, 0.5, 0.5);
+			// game.camera.follow(this, 0, 0.5, 0.5);
 			var newTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY - 32 }, this.walkingDuration, Phaser.Easing.Quadratic.In, true);
 			newTween.onComplete.addOnce(this.touchMirror, this);
 			break;

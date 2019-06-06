@@ -70,12 +70,12 @@ var DEFAULT_VISION_LENGTH = 35;
 var DEFAULT_FLISHLIGHT_LENGTH = 120;
 var DEFAULT_VISION_ANGLE = Math.PI * 2;
 var DEFAULT_FLASHLIGHT_ANGLE = Math.PI * 0.5;
-var CAMERA_OFFSET = 0;
-var CAMERA_SPEED = 1;
+// var CAMERA_OFFSET = 0;
+// var CAMERA_SPEED = 1;
 
 window.onload = function () {
 	// define game
-	game = new Phaser.Game(480, 360, Phaser.AUTO, 'myGame');
+	game = new Phaser.Game(560, 420, Phaser.AUTO, 'myGame');
 
 	// define states
 	game.state.add('Boost', Boost);
