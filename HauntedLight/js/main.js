@@ -29,6 +29,7 @@ var timer;
 var decorations;
 var hud;
 var camera;
+var huanted;
 // Variables:
 var playerMaxHP = 100;
 var playerMaxMP = 100;

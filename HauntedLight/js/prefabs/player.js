@@ -44,7 +44,8 @@ function Player(game) {
 	// for debugging:
 
 	// Player sounds:
-	footstep = game.add.audio('footstep');
+	footstep = game.add.audio('Footstep');
+	huanted = game.add.audio('Huanted');
 
 	// game.camera.follow(this, 0, 0.5, 0.5);
 
@@ -56,8 +57,15 @@ function Player(game) {
 
 	timer = game.time.create(false);
 	timer.loop(Phaser.Timer.SECOND, function () {
-		if ((Phaser.Math.distance(this.x, this.y, shadow.x, shadow.y) < 100) && !this.isHided)
-			this.currentHP -= 2;
+		if ((Phaser.Math.distance(this.x, this.y, shadow.x, shadow.y) < 200) && !this.isHided) {
+			this.currentHP -= (200 - Phaser.Math.distance(this.x, this.y, shadow.x, shadow.y)) / 20;
+			if (huanted.isPlaying) {
+			} else {
+				huanted.play('', 0, 1, false, true);
+			}
+		} else {
+			huanted.stop();
+		}
 		if (this.currentMP < this.maxHP && this.recoverMP)
 			this.currentMP += 15;
 		if ((this.isHided) && (this.currentHP < this.maxHP))
@@ -126,7 +134,7 @@ Player.prototype.update = function () {
 // move Player:
 Player.prototype.movePlayer = function (directions) {
 	if (!this.isHided) {
-		footstep.play('', 0, 1, false, true);
+		footstep.play('', 0, 0.5, false, true);
 		if (directions.up === true) {
 			this.playerTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY - 32 }, this.walkingDuration, Phaser.Easing.Linear.None, true);
 		} else if (directions.down === true) {

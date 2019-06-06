@@ -6,7 +6,7 @@ var Boost = function (game) { };
 Boost.prototype = {
 	preload: function () {
 		// scale the game:
-		
+		// game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		game.scale.pageAlignHorizontally = true;
 		game.scale.pageAlignVertically = true;
 		game.scale.refresh();
@@ -52,7 +52,8 @@ Boost.prototype = {
 		game.load.atlas('Player', 'assets/img/kid.png', 'assets/img/kid.json');
 		game.load.atlas('Player_f', 'assets/img/kid_flash.png', "assets/img/kid_flash.json");
 		game.load.atlas('Battery_level', 'assets/img/battery_level.png', "assets/img/battery_level.json");
-		game.load.audio('footstep', 'assets/audio/footstep.wav');
+		game.load.audio('Footstep', 'assets/audio/footstep.wav');
+		game.load.audio('Huanted', 'assets/audio/huanted_No_slime.wav');
 		game.load.start();
 	},
 	loadStart: function () {
