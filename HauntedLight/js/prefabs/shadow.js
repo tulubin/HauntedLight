@@ -6,7 +6,7 @@ function Shadow(game) {
 	Phaser.Sprite.call(this, game, GRID_SIZE * 148 + GRID_SIZE / 2, GRID_SIZE * 71 + GRID_SIZE / 2, 'Shadow');
 	this.anchor.set(0.5);
 	this.inSight = false;
-	this.moveDis = 80;
+	this.moveDis = 50;
 	this.alpha = 0.5;
 	this.startMove = false;
 	// particles

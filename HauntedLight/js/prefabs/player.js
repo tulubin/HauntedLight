@@ -593,7 +593,7 @@ Player.prototype.touchMirror = function () {
 	var newTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY + 32 }, this.walkingDuration, Phaser.Easing.Quadratic.Out, true);
 	newTween.onComplete.addOnce(this.playerTweenComplete, this);
 	game.time.events.add(Phaser.Timer.SECOND * 1, function () {
-		game.camera.follow(this, 0, 0.2, 0.2);
+		game.camera.follow(this, 0, 0.08, 0.08);
 	}, this);
 }
 

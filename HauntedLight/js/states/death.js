@@ -3,6 +3,7 @@
 var Death = function (game) { };
 Death.prototype = {
 	create: function () {
+		this.moveOn = false;
 		// reduce difficulty:
 		playerMaxHP = playerMaxHP * 1.1;
 		playerMaxMP = playerMaxHP * 1.1;
@@ -43,15 +44,17 @@ Death.prototype = {
 			default:
 				break;
 		}
-
-		this.spacebar = game.add.sprite(game.width / 2, game.height - 50, 'Spacebar');
-		this.spacebar.anchor.set(0.5);
-		this.spacebarText_f = game.add.bitmapText(game.width / 2 - 60, game.height - 58, 'bitmapFont', 'Press', 16);
-		this.spacebarText_b = game.add.bitmapText(game.width / 2 + 20, game.height - 58, 'bitmapFont', 'to Restart', 16);
+		game.time.events.add(Phaser.Timer.SECOND * 2, function () {
+			this.spacebar = game.add.sprite(game.width / 2, game.height - 50, 'Spacebar');
+			this.spacebar.anchor.set(0.5);
+			this.spacebarText_f = game.add.bitmapText(game.width / 2 - 60, game.height - 58, 'bitmapFont', 'Press', 16);
+			this.spacebarText_b = game.add.bitmapText(game.width / 2 + 20, game.height - 58, 'bitmapFont', 'to Restart', 16);
+			this.moveOn = true;
+		}, this);
 	},
 	update: function () {
 		// input to continue
-		if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR)) {
+		if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && this.moveOn) {
 			game.state.start('Play');
 		}
 	}

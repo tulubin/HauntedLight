@@ -10,7 +10,7 @@ function Camera(game) {
 
 	game.camera.follow(this, 0, 1, 1);
 	game.time.events.add(Phaser.Timer.SECOND * 0.5, function () {
-		game.camera.follow(this, 0, 0.2, 0.2);
+		game.camera.follow(this, Phaser.Camera.FOLLOW_TOPDOWN, 0.08, 0.08);
 	}, this);
 }
 
