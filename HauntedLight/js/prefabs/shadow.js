@@ -7,7 +7,7 @@ function Shadow(game) {
 	this.anchor.set(0.5);
 	this.inSight = false;
 	this.moveDis = 50;
-	this.alpha = 0.5;
+	// this.alpha = 0.5;
 	this.startMove = false;
 	// particles
 	this.shadowEmitter = game.add.emitter(this.x, this.y, 1000);
