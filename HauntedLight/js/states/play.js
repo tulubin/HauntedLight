@@ -45,6 +45,28 @@ Play.prototype = {
 
 		debug = new debugPlugin(game);
 		debug.addDebug();
+
+		if (!tutorialOn) {
+			player.hasFlashlight = true;
+			player.loadTexture('Player_f', 4);
+			map.replace(CHEST_FLASHLIGHT_INDEX, -1, 148, 76, 1, 1, objectLayer);
+			shadow.x -= 100 * GRID_SIZE;
+			shadow.y += 3 * GRID_SIZE;
+			player.inTutorial = false;
+			shadow.startMove = true;
+			player.endTutorialEvent = false;
+			map.replace(PRISON_DOOR_INDEX, PRISON_DOOR_INDEX + 1, 48, 75, 1, 1, objectLayer);
+			game.time.events.add(Phaser.Timer.SECOND * 10, function () {
+				hud.upKey.destroy();
+				hud.downKey.destroy();
+				hud.leftKey.destroy();
+				hud.rightKey.destroy();
+				hud.sprintKey.destroy();
+				hud.sprintText.destroy();
+				hud.spacebar.destroy();
+				hud.spacebarText.destroy();
+			}, this);
+		}
 	},
 	update: function () {
 		debug.updateDebug();

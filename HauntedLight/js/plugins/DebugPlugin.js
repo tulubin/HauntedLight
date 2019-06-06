@@ -32,7 +32,7 @@ debugPlugin.prototype.render = function () {
 		game.debug.text('FPS: ' + game.time.fps || 'FPS: --', 40, 40, "#00ff00");
 		// game.debug.cameraInfo(game.camera, GRID_SIZE, GRID_SIZE);
 		// game.debug.spriteCoords(player, GRID_SIZE, 500);
-		game.debug.text('hp: ' + player.currentHP, 32, game.camera.height - 220);
+		game.debug.text('shadow x: ' + shadow.x, 32, game.camera.height - 220);
 		game.debug.text('maxhp: ' + player.maxHP, 32, game.camera.height - 200);
 		game.debug.text('thisColorBlock: ' + player.thisColorBlock, 32, game.camera.height - 180);
 		if (player.orientation.up)
@@ -52,7 +52,7 @@ debugPlugin.prototype.render = function () {
 		game.debug.text('                   Right object: ' + player.rightObjectIndex, 32, game.camera.height - 40);
 		game.debug.text('                                        Left object: ' + player.leftObjectIndex, 32, game.camera.height - 40);
 		game.debug.text('                                                            Back object: ' + player.backObjectIndex, 32, game.camera.height - 40);
-		game.debug.text('Player tween stoped: ' + player.tweenCompleted.toString(), 32, game.camera.height - 20);
+		game.debug.text('Player tween stoped: ' + player.actionCompleted.toString(), 32, game.camera.height - 20);
 	} else {
 		game.debug.text('', 32, 664);
 	}

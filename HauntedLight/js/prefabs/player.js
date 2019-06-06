@@ -3,7 +3,7 @@
 function Player(game) {
 	// call Sprite constructor within this object
 	// new Sprite(game, x, y, key, frame)
-	Phaser.Sprite.call(this, game, GRID_SIZE * 45 + GRID_SIZE / 2, GRID_SIZE * 77 + GRID_SIZE / 2, 'Player');
+	Phaser.Sprite.call(this, game, GRID_SIZE * 47 + GRID_SIZE / 2, GRID_SIZE * 77 + GRID_SIZE / 2, 'Player');
 	// Phaser.Sprite.call(this, game, GRID_SIZE * 51 + GRID_SIZE / 2, GRID_SIZE * 66 + GRID_SIZE / 2, 'Player');
 	this.anchor.set(0.5);
 	this.tint = DARK_TINT;
@@ -17,7 +17,7 @@ function Player(game) {
 	this.lastX = this.x;
 	this.lastY = this.y;
 	this.walkingDuration = 500;
-	this.tweenCompleted = true;
+	this.actionCompleted = true;
 	this.orientation = { up: false, down: true, left: false, right: false };
 	this.directionAngle = 270 * Math.PI / 180;
 	this.lightAngle = DEFAULT_VISION_ANGLE;
@@ -57,7 +57,7 @@ function Player(game) {
 	timer = game.time.create(false);
 	timer.loop(Phaser.Timer.SECOND, function () {
 		if ((Phaser.Math.distance(this.x, this.y, shadow.x, shadow.y) < 100) && !this.isHided)
-			this.currentHP -= 5;
+			this.currentHP -= 2;
 		if (this.currentMP < this.maxHP && this.recoverMP)
 			this.currentMP += 15;
 		if ((this.isHided) && (this.currentHP < this.maxHP))
@@ -103,172 +103,21 @@ Player.prototype = Object.create(Phaser.Sprite.prototype);
 Player.prototype.constructor = Player;
 
 Player.prototype.update = function () {
+	this.updateLight();
 	if (Phaser.Math.distance(this.lastX, this.lastY, shadow.x, shadow.y) < shadow.moveDis)
 		this.updatePlayerXY();
-	this.updateLight();
 	// Player Controls:
-	if (!this.isHided) {
-		if ((game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)) && (this.currentMP > 10)) {
-			this.walkingDuration = 250;
-			this.sprinting = true;
-		} else {
-			this.sprinting = false;
-			this.walkingDuration = 500;
-		}
-		if (game.input.keyboard.isDown(Phaser.Keyboard.UP) && this.tweenCompleted) {
-			this.animations.play("walkUp");
-			this.orientation = { up: true, down: false, left: false, right: false }
-			this.updateFrontObject(this.orientation);
-			//call mirrorUpdate here
-			if (!game.input.keyboard.downDuration(Phaser.Keyboard.UP, CONTROL_RESPONSE_DELAY)) {
-				this.checkCollision(this.centerX, this.centerY - 32, this.orientation);
-			}
-		} else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN) && this.tweenCompleted) {
-			this.animations.play("walkDown");
-			this.orientation = { up: false, down: true, left: false, right: false }
-			this.updateFrontObject(this.orientation);
-			//call mirrorUpdate here
-			if (!game.input.keyboard.downDuration(Phaser.Keyboard.DOWN, CONTROL_RESPONSE_DELAY)) {
-				this.checkCollision(this.centerX, this.centerY + 32, this.orientation);
-			}
-		} else if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT) && this.tweenCompleted) {
-			this.animations.play("walkLeft");
-			this.orientation = { up: false, down: false, left: true, right: false }
-			this.updateFrontObject(this.orientation);
-			//call mirrorUpdate here
-			if (!game.input.keyboard.downDuration(Phaser.Keyboard.LEFT, CONTROL_RESPONSE_DELAY)) {
-				this.checkCollision(this.centerX - 32, this.centerY, this.orientation);
-			}
-		} else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) && this.tweenCompleted) {
-			this.animations.play("walkRight");
-			this.orientation = { up: false, down: false, left: false, right: true }
-			this.updateFrontObject(this.orientation);
-			//call mirrorUpdate here
-			if (!game.input.keyboard.downDuration(Phaser.Keyboard.RIGHT, CONTROL_RESPONSE_DELAY)) {
-				this.checkCollision(this.centerX + 32, this.centerY, this.orientation);
-			}
-		}
-		if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && this.hasFlashlight) {
-			// toggle flashlight
-			this.switchToFlashLight = !this.switchToFlashLight;
-			this.toggleFlashLight();
-		}
-	}
+	if (!this.isHided)
+		this.playerControls();
 	// if (game.input.keyboard.justPressed(Phaser.Keyboard.U)) {
 	// 	// toggle HUD
 	// 	this.toggleHUD();
 	// }
-	if (game.input.keyboard.justPressed(Phaser.Keyboard.E) && this.tweenCompleted) {
-		switch (this.frontObject.index) {
-			case MIRROR_1_INDEX:
-				this.mirrorParticle();
-				this.tweenCompleted = false;
-				this.animations.play("walkUp");
-				game.camera.follow(this, 0, 0.5, 0.5);
-				var newTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY - 32 }, this.walkingDuration, Phaser.Easing.Quadratic.In, true);
-				newTween.onComplete.addOnce(this.touchMirror, this);
-				break;
-			case DOOR_1_INDEX:
-				map.replace(DOOR_1_INDEX, DOOR_1_INDEX + 1, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
-				break;
-			case DOOR_1_INDEX + 1:
-				map.replace(DOOR_1_INDEX + 1, DOOR_1_INDEX, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
-				break;
-			case HIDDEN_DOOR_INDEX:
-				map.replace(HIDDEN_DOOR_INDEX, HIDDEN_DOOR_INDEX + 1, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
-				break;
-			case HIDDEN_DOOR_INDEX + 1:
-				map.replace(HIDDEN_DOOR_INDEX + 1, HIDDEN_DOOR_INDEX, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
-				break;
-			case PUZZLE_TRIGGER_1_INDEX:
-				map.replace(PUZZLE_TRIGGER_1_INDEX, PUZZLE_TRIGGER_1_INDEX + 1, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
-				map.replace(PRISON_DOOR_INDEX, PRISON_DOOR_INDEX + 1, 35, 38, 1, 1, objectLayer);
-				this.colorPuzzleTrigger = true;
-				break;
-			case PUZZLE_TRIGGER_1_INDEX + 1:
-				map.replace(PUZZLE_TRIGGER_1_INDEX + 1, PUZZLE_TRIGGER_1_INDEX, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
-				map.replace(PRISON_DOOR_INDEX + 1, PRISON_DOOR_INDEX, 35, 38, 1, 1, objectLayer);
-				this.colorPuzzleTrigger = false;
-				break;
-			case CLOSET_1_INDEX:
-			case CLOSET_1_INDEX + 1:
-				map.replace(CLOSET_1_INDEX, CLOSET_1_INDEX + 2, this.frontObject.x - 1, this.frontObject.y, 2, 1, objectLayer);
-				map.replace(CLOSET_1_INDEX + 1, CLOSET_1_INDEX + 3, this.frontObject.x, this.frontObject.y, 2, 1, objectLayer);
-				this.toggleHide();
-				break;
-			case CLOSET_1_INDEX + 2:
-			case CLOSET_1_INDEX + 3:
-				map.replace(CLOSET_1_INDEX + 2, CLOSET_1_INDEX, this.frontObject.x - 1, this.frontObject.y, 2, 1, objectLayer);
-				map.replace(CLOSET_1_INDEX + 3, CLOSET_1_INDEX + 1, this.frontObject.x, this.frontObject.y, 2, 1, objectLayer);
-				this.toggleHide();
-				break;
-			case CLOSET_2_INDEX:
-			case CLOSET_2_INDEX + 1:
-				map.replace(CLOSET_2_INDEX, CLOSET_2_INDEX + 2, this.frontObject.x - 1, this.frontObject.y, 2, 1, objectLayer);
-				map.replace(CLOSET_2_INDEX + 1, CLOSET_2_INDEX + 3, this.frontObject.x, this.frontObject.y, 2, 1, objectLayer);
-				this.toggleHide();
-				break;
-			case CLOSET_2_INDEX + 2:
-			case CLOSET_2_INDEX + 3:
-				map.replace(CLOSET_2_INDEX + 2, CLOSET_2_INDEX, this.frontObject.x - 1, this.frontObject.y, 2, 1, objectLayer);
-				map.replace(CLOSET_2_INDEX + 3, CLOSET_2_INDEX + 1, this.frontObject.x, this.frontObject.y, 2, 1, objectLayer);
-				this.toggleHide();
-				break;
-			case DESK_1_INDEX:
-			case DESK_1_INDEX + 1:
-				map.replace(DESK_1_INDEX, DESK_1_INDEX + 2, this.frontObject.x - 1, this.frontObject.y, 2, 1, objectLayer);
-				map.replace(DESK_1_INDEX + 1, DESK_1_INDEX + 3, this.frontObject.x, this.frontObject.y, 2, 1, objectLayer);
-				this.toggleHide();
-				break;
-			case DESK_1_INDEX + 2:
-			case DESK_1_INDEX + 3:
-				map.replace(DESK_1_INDEX + 2, DESK_1_INDEX, this.frontObject.x - 1, this.frontObject.y, 2, 1, objectLayer);
-				map.replace(DESK_1_INDEX + 3, DESK_1_INDEX + 1, this.frontObject.x, this.frontObject.y, 2, 1, objectLayer);
-				this.toggleHide();
-				break;
-			case DESK_2_INDEX:
-			case DESK_2_INDEX + 1:
-				map.replace(DESK_2_INDEX, DESK_2_INDEX + 2, this.frontObject.x - 1, this.frontObject.y, 2, 1, objectLayer);
-				map.replace(DESK_2_INDEX + 1, DESK_2_INDEX + 3, this.frontObject.x, this.frontObject.y, 2, 1, objectLayer);
-				this.toggleHide();
-				break;
-			case DESK_2_INDEX + 2:
-			case DESK_2_INDEX + 3:
-				map.replace(DESK_2_INDEX + 2, DESK_2_INDEX, this.frontObject.x - 1, this.frontObject.y, 2, 1, objectLayer);
-				map.replace(DESK_2_INDEX + 3, DESK_2_INDEX + 1, this.frontObject.x, this.frontObject.y, 2, 1, objectLayer);
-				this.toggleHide();
-				break;
-			case BED_1_INDEX:
-			case BED_1_INDEX + 1:
-				map.replace(BED_1_INDEX, BED_1_INDEX + 2, this.frontObject.x - 1, this.frontObject.y, 2, 1, objectLayer);
-				map.replace(BED_1_INDEX + 1, BED_1_INDEX + 3, this.frontObject.x, this.frontObject.y, 2, 1, objectLayer);
-				this.toggleHide();
-				break;
-			case BED_1_INDEX + 2:
-			case BED_1_INDEX + 3:
-				map.replace(BED_1_INDEX + 2, BED_1_INDEX, this.frontObject.x - 1, this.frontObject.y, 2, 1, objectLayer);
-				map.replace(BED_1_INDEX + 3, BED_1_INDEX + 1, this.frontObject.x, this.frontObject.y, 2, 1, objectLayer);
-				this.toggleHide();
-				break;
-			case BED_2_INDEX:
-			case BED_2_INDEX + 1:
-				map.replace(BED_2_INDEX, BED_2_INDEX + 2, this.frontObject.x - 1, this.frontObject.y, 2, 1, objectLayer);
-				map.replace(BED_2_INDEX + 1, BED_2_INDEX + 3, this.frontObject.x, this.frontObject.y, 2, 1, objectLayer);
-				this.toggleHide();
-				break;
-			case BED_2_INDEX + 2:
-			case BED_2_INDEX + 3:
-				map.replace(BED_2_INDEX + 2, BED_2_INDEX, this.frontObject.x - 1, this.frontObject.y, 2, 1, objectLayer);
-				map.replace(BED_2_INDEX + 3, BED_2_INDEX + 1, this.frontObject.x, this.frontObject.y, 2, 1, objectLayer);
-				this.toggleHide();
-				break;
-			// default:
-		}
-		this.updateFrontObject(this.orientation);
-	}
+	if (game.input.keyboard.justPressed(Phaser.Keyboard.E) && this.actionCompleted)
+		this.interactObjects();
 
 	// Play footsetps while moving:
-	if (this.tweenCompleted === true) {
+	if (this.actionCompleted === true) {
 		footstep.stop();
 		this.animations.stop();
 	}
@@ -287,7 +136,7 @@ Player.prototype.movePlayer = function (directions) {
 		} else if (directions.right === true) {
 			this.playerTween = game.add.tween(this).to({ x: this.centerX + 32, y: this.centerY }, this.walkingDuration, Phaser.Easing.Linear.None, true);
 		}
-		this.tweenCompleted = false;
+		this.actionCompleted = false;
 		this.playerTween.onComplete.add(this.playerTweenComplete, this);
 		if (this.sprinting) {
 			this.currentMP -= 5;
@@ -313,7 +162,7 @@ Player.prototype.checkCollision = function (x, y, directions) {
 				this.animations.play("walkUp");
 				footstep.play('', 0, 1, false, true);
 				var newTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY - 32 }, this.walkingDuration, Phaser.Easing.Linear.None, true);
-				this.tweenCompleted = false;
+				this.actionCompleted = false;
 				newTween.onComplete.addOnce(this.flashlightPickupEvent, this);
 				break;
 			case -1: // no object infront
@@ -324,7 +173,7 @@ Player.prototype.checkCollision = function (x, y, directions) {
 	}
 }
 Player.prototype.playerTweenComplete = function () {
-	this.tweenCompleted = true;
+	this.actionCompleted = true;
 	this.updateFrontObject(this.orientation);
 	if (this.colorPuzzleTrigger)
 		this.colorPuzzle();
@@ -382,7 +231,10 @@ Player.prototype.updateLight = function () {
 			var wallTile = map.getTile(wallLayer.getTileX(lastX), wallLayer.getTileY(lastY), wallLayer, true);
 			var objectTile = map.getTile(objectLayer.getTileX(lastX), objectLayer.getTileY(lastY), objectLayer, true);
 			if ((Phaser.Math.distance(lastX, lastY, shadow.x, shadow.y) < 8) && (this.currentHP > 0) && !this.isHided) {
-				this.currentHP -= 0.3 / game.time.fps;
+				if (this.switchToFlashLight)
+					this.currentHP -= 0.3 / game.time.fps;
+				else
+					this.currentHP -= 1 / game.time.fps;
 				if (!shadow.startMove) {
 					this.endTutorialEvent = true;
 					if (!this.inTutorial) {
@@ -436,7 +288,6 @@ Player.prototype.toggleFlashLight = function () {
 		hud.flashlight_icon.visible = this.switchToFlashLight && this.flashLightOn;
 		hud.battery_level.visible = this.switchToFlashLight && this.flashLightOn;
 	} else {
-		console.log('Zero Battery!');
 		this.lightAngle = DEFAULT_VISION_ANGLE;
 		this.rayLength = DEFAULT_VISION_LENGTH;
 		this.tint = DARK_TINT;
@@ -460,17 +311,18 @@ Player.prototype.toggleFlashLight = function () {
 // 	this.switchToHUD = !this.switchToHUD;
 // }
 Player.prototype.flashlightPickupEvent = function () {
-	if (!this.hasFlashlight) {
-		console.log('you picked up a flashlight!');
-		this.hasFlashlight = true;
-		this.switchToFlashLight = true;
-		this.loadTexture('Player_f', 4);
-		var tile = map.getTile(wallLayer.getTileX(player.centerX), wallLayer.getTileY(player.centerY), objectLayer, true);
-		map.replace(CHEST_FLASHLIGHT_INDEX, -1, tile.x, tile.y, 1, 1, objectLayer);
-		this.toggleFlashLight();
-	}
-	this.tweenCompleted = true;
+	this.hasFlashlight = true;
+	this.switchToFlashLight = true;
+	this.loadTexture('Player_f', 4);
+	var tile = map.getTile(wallLayer.getTileX(player.centerX), wallLayer.getTileY(player.centerY), objectLayer, true);
+	map.replace(CHEST_FLASHLIGHT_INDEX, -1, tile.x, tile.y, 1, 1, objectLayer);
+	this.toggleFlashLight();
+	this.actionCompleted = true;
 	this.updateFrontObject(this.orientation);
+	hud.warningBatteryText.visible = true;
+	game.time.events.add(Phaser.Timer.SECOND * 10, function () {
+		hud.warningBatteryText.destroy();
+	}, this);
 }
 
 // Player.prototype.mirrorUpdate = function () {
@@ -537,11 +389,12 @@ Player.prototype.resetColorPuzzleTrigger = function () {
 }
 Player.prototype.mirrorParticle = function () {
 	this.mirrorEmitter = game.add.emitter(this.frontObject.worldX + 16, this.frontObject.worldY + 16, 100);
+	this.mirrorEmitter.mask = maskGraphics;
 	this.mirrorEmitter.width = 16;
 	this.mirrorEmitter.height = 24;
 	this.mirrorEmitter.makeParticles('Particle');
 	this.mirrorEmitter.setRotation(0, 0);
-	// this.mirrorEmitter.setAlpha(0.1, 0.2);
+	this.mirrorEmitter.setAlpha(0.2, 0.4);
 	// this.mirrorEmitter.setScale(0.02, 0.1, 0.02, 0.1);
 	// this.mirrorEmitter.gravity = -300;
 	// this.mirrorEmitter.setXSpeed(0, 0);
@@ -550,9 +403,9 @@ Player.prototype.mirrorParticle = function () {
 	// this.mirrorEmitter.y = ;
 	// this.mirrorEmitter.start(false, 500, null);
 	this.mirrorEmitter.start(true, 1000, null, 100);
-	this.mirrorEmitter.forEach(this.mirrorSetUp, this);
+	this.mirrorEmitter.forEach(this.mirrorParticleSetUp, this);
 }
-Player.prototype.mirrorSetUp = function (particle) {
+Player.prototype.mirrorParticleSetUp = function (particle) {
 	if (!particle.exists) {
 		particle.alpha = 1;
 	}
@@ -567,20 +420,24 @@ Player.prototype.mirrorSetUp = function (particle) {
 Player.prototype.touchMirror = function () {
 	if (this.inMirror) {
 		this.x -= 100 * GRID_SIZE;
-		if (this.endTutorialEvent) {
+		if (this.endTutorialEvent && this.inTutorial) {
 			shadow.x -= 100 * GRID_SIZE;
 			shadow.y += 3 * GRID_SIZE;
 			this.inTutorial = false;
 			this.endTutorialEvent = false;
-			hud.upKey.destroy();
-			hud.downKey.destroy();
-			hud.leftKey.destroy();
-			hud.rightKey.destroy();
-			hud.sprintKey.destroy();
-			hud.sprintText.destroy();
-			hud.spacebar.destroy();
-			hud.spacebarText.destroy();
 			map.replace(PRISON_DOOR_INDEX, PRISON_DOOR_INDEX + 1, 48, 75, 1, 1, objectLayer);
+			hud.warningHPText.visible = true;
+			game.time.events.add(Phaser.Timer.SECOND * 10, function () {
+				hud.upKey.destroy();
+				hud.downKey.destroy();
+				hud.leftKey.destroy();
+				hud.rightKey.destroy();
+				hud.sprintKey.destroy();
+				hud.sprintText.destroy();
+				hud.spacebar.destroy();
+				hud.spacebarText.destroy();
+				hud.warningHPText.destroy();
+			}, this);
 		}
 	}
 	else {
@@ -592,8 +449,169 @@ Player.prototype.touchMirror = function () {
 	this.updateFrontObject(this.orientation);
 	var newTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY + 32 }, this.walkingDuration, Phaser.Easing.Quadratic.Out, true);
 	newTween.onComplete.addOnce(this.playerTweenComplete, this);
-	game.time.events.add(Phaser.Timer.SECOND * 1, function () {
-		game.camera.follow(this, 0, 0.08, 0.08);
+	newTween.onComplete.addOnce(function () {
+		game.camera.follow(camera, 0, 0.08, 0.08);
 	}, this);
 }
 
+Player.prototype.playerControls = function () {
+	if ((game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)) && (this.currentMP > 10)) {
+		this.walkingDuration = 250;
+		this.sprinting = true;
+	}
+	else {
+		this.sprinting = false;
+		this.walkingDuration = 500;
+	}
+	if (game.input.keyboard.isDown(Phaser.Keyboard.UP) && this.actionCompleted) {
+		this.animations.play("walkUp");
+		this.orientation = { up: true, down: false, left: false, right: false };
+		this.updateFrontObject(this.orientation);
+		//call mirrorUpdate here
+		if (!game.input.keyboard.downDuration(Phaser.Keyboard.UP, CONTROL_RESPONSE_DELAY)) {
+			this.checkCollision(this.centerX, this.centerY - 32, this.orientation);
+		}
+	}
+	else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN) && this.actionCompleted) {
+		this.animations.play("walkDown");
+		this.orientation = { up: false, down: true, left: false, right: false };
+		this.updateFrontObject(this.orientation);
+		//call mirrorUpdate here
+		if (!game.input.keyboard.downDuration(Phaser.Keyboard.DOWN, CONTROL_RESPONSE_DELAY)) {
+			this.checkCollision(this.centerX, this.centerY + 32, this.orientation);
+		}
+	}
+	else if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT) && this.actionCompleted) {
+		this.animations.play("walkLeft");
+		this.orientation = { up: false, down: false, left: true, right: false };
+		this.updateFrontObject(this.orientation);
+		//call mirrorUpdate here
+		if (!game.input.keyboard.downDuration(Phaser.Keyboard.LEFT, CONTROL_RESPONSE_DELAY)) {
+			this.checkCollision(this.centerX - 32, this.centerY, this.orientation);
+		}
+	}
+	else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) && this.actionCompleted) {
+		this.animations.play("walkRight");
+		this.orientation = { up: false, down: false, left: false, right: true };
+		this.updateFrontObject(this.orientation);
+		//call mirrorUpdate here
+		if (!game.input.keyboard.downDuration(Phaser.Keyboard.RIGHT, CONTROL_RESPONSE_DELAY)) {
+			this.checkCollision(this.centerX + 32, this.centerY, this.orientation);
+		}
+	}
+	if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && this.hasFlashlight) {
+		// toggle flashlight
+		this.switchToFlashLight = !this.switchToFlashLight;
+		this.toggleFlashLight();
+	}
+}
+Player.prototype.interactObjects = function () {
+	switch (this.frontObject.index) {
+		case MIRROR_1_INDEX:
+			this.mirrorParticle();
+			this.actionCompleted = false;
+			this.animations.play("walkUp");
+			game.camera.follow(this, 0, 0.5, 0.5);
+			var newTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY - 32 }, this.walkingDuration, Phaser.Easing.Quadratic.In, true);
+			newTween.onComplete.addOnce(this.touchMirror, this);
+			break;
+		case DOOR_1_INDEX:
+			map.replace(DOOR_1_INDEX, DOOR_1_INDEX + 1, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
+			break;
+		case DOOR_1_INDEX + 1:
+			map.replace(DOOR_1_INDEX + 1, DOOR_1_INDEX, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
+			break;
+		case HIDDEN_DOOR_INDEX:
+			map.replace(HIDDEN_DOOR_INDEX, HIDDEN_DOOR_INDEX + 1, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
+			break;
+		case HIDDEN_DOOR_INDEX + 1:
+			map.replace(HIDDEN_DOOR_INDEX + 1, HIDDEN_DOOR_INDEX, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
+			break;
+		case PUZZLE_TRIGGER_1_INDEX:
+			map.replace(PUZZLE_TRIGGER_1_INDEX, PUZZLE_TRIGGER_1_INDEX + 1, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
+			map.replace(PRISON_DOOR_INDEX, PRISON_DOOR_INDEX + 1, 35, 38, 1, 1, objectLayer);
+			this.colorPuzzleTrigger = true;
+			break;
+		case PUZZLE_TRIGGER_1_INDEX + 1:
+			map.replace(PUZZLE_TRIGGER_1_INDEX + 1, PUZZLE_TRIGGER_1_INDEX, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
+			map.replace(PRISON_DOOR_INDEX + 1, PRISON_DOOR_INDEX, 35, 38, 1, 1, objectLayer);
+			this.colorPuzzleTrigger = false;
+			break;
+		case CLOSET_1_INDEX:
+		case CLOSET_1_INDEX + 2:
+			this.replaceHidingSpot(CLOSET_1_INDEX, this.frontObject.x, this.frontObject.y);
+			break;
+		case CLOSET_1_INDEX + 1:
+		case CLOSET_1_INDEX + 3:
+			this.replaceHidingSpot(CLOSET_1_INDEX, this.frontObject.x - 1, this.frontObject.y);
+			break;
+		case CLOSET_2_INDEX:
+		case CLOSET_2_INDEX + 2:
+			this.replaceHidingSpot(CLOSET_2_INDEX, this.frontObject.x, this.frontObject.y);
+			break;
+		case CLOSET_2_INDEX + 1:
+		case CLOSET_2_INDEX + 3:
+			this.replaceHidingSpot(CLOSET_2_INDEX, this.frontObject.x - 1, this.frontObject.y);
+			break;
+		case DESK_1_INDEX:
+		case DESK_1_INDEX + 2:
+			this.replaceHidingSpot(DESK_1_INDEX, this.frontObject.x, this.frontObject.y);
+			break;
+		case DESK_1_INDEX + 1:
+		case DESK_1_INDEX + 3:
+			this.replaceHidingSpot(DESK_1_INDEX, this.frontObject.x - 1, this.frontObject.y);
+			break;
+		case DESK_2_INDEX:
+		case DESK_2_INDEX + 2:
+			this.replaceHidingSpot(DESK_2_INDEX, this.frontObject.x, this.frontObject.y);
+			break;
+		case DESK_2_INDEX + 1:
+		case DESK_2_INDEX + 3:
+			this.replaceHidingSpot(DESK_2_INDEX, this.frontObject.x - 1, this.frontObject.y);
+			break;
+		case DESK_2_INDEX - 8:
+		case DESK_2_INDEX - 6:
+			this.replaceHidingSpot(DESK_2_INDEX, this.frontObject.x, this.frontObject.y + 1);
+			break;
+		case DESK_2_INDEX - 7:
+		case DESK_2_INDEX - 5:
+			this.replaceHidingSpot(DESK_2_INDEX, this.frontObject.x - 1, this.frontObject.y + 1);
+			break;
+		case BED_1_INDEX:
+		case BED_1_INDEX + 2:
+			this.replaceHidingSpot(BED_1_INDEX, this.frontObject.x, this.frontObject.y);
+			break;
+		case BED_1_INDEX + 1:
+		case BED_1_INDEX + 3:
+			this.replaceHidingSpot(BED_1_INDEX, this.frontObject.x - 1, this.frontObject.y);
+			break;
+		case BED_2_INDEX:
+		case BED_2_INDEX + 2:
+			this.replaceHidingSpot(BED_2_INDEX, this.frontObject.x, this.frontObject.y);
+			break;
+		case BED_2_INDEX + 1:
+		case BED_2_INDEX + 3:
+			this.replaceHidingSpot(BED_2_INDEX, this.frontObject.x - 1, this.frontObject.y);
+			break;
+		case BED_2_INDEX - 8:
+		case BED_2_INDEX - 6:
+			this.replaceHidingSpot(BED_2_INDEX, this.frontObject.x, this.frontObject.y + 1);
+			break;
+		case BED_2_INDEX - 7:
+		case BED_2_INDEX - 5:
+			this.replaceHidingSpot(BED_2_INDEX, this.frontObject.x - 1, this.frontObject.y + 1);
+			break;
+		// default:
+	}
+	this.updateFrontObject(this.orientation);
+}
+Player.prototype.replaceHidingSpot = function (index, x, y) {
+	if (this.isHided) {
+		map.replace(index + 2, index, x, y, 2, 1, objectLayer);
+		map.replace(index + 3, index + 1, x, y, 2, 1, objectLayer);
+	} else {
+		map.replace(index, index + 2, x, y, 2, 1, objectLayer);
+		map.replace(index + 1, index + 3, x, y, 2, 1, objectLayer);
+	}
+	this.toggleHide();
+}

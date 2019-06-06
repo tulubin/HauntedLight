@@ -45,12 +45,12 @@ function HUD(game) {
 	// --------------interaction HUD-----------------
 	this.eKey = game.add.sprite(game.width / 2 + 16, game.height / 2 - 32, 'E_key');
 	this.eKey.anchor.set(0.5);
-	this.eKey.alpha = 0.2;
+	this.eKey.alpha = 0.3;
 	// this.add(this.eKey);
 	this.eKey.visible = false;
 	this.crossEKey = game.add.sprite(game.width / 2 + 16, game.height / 2 - 32, 'Cross_E_key');
 	this.crossEKey.anchor.set(0.5);
-	this.crossEKey.alpha = 0.2;
+	this.crossEKey.alpha = 0.3;
 	// this.add(this.crossEKey);
 	this.crossEKey.visible = false;
 	// --------------tutorial HUD-----------------
@@ -80,6 +80,14 @@ function HUD(game) {
 	this.add(this.spacebar);
 	this.add(this.spacebarText);
 
+	this.warningHPText = game.add.bitmapText(game.width / 2, game.height - 120, 'bitmapFont', 'Hide into some objects to recover your sanity', 16);
+	this.warningHPText.anchor.set(0.5);
+	this.warningHPText.visible = false;
+	this.add(this.warningHPText);
+	this.warningBatteryText = game.add.bitmapText(game.width / 2, game.height - 100, 'bitmapFont', 'Turn off your light to save batter', 16);
+	this.warningBatteryText.anchor.set(0.5);
+	this.warningBatteryText.visible = false;
+	this.add(this.warningBatteryText);
 };
 
 HUD.prototype = Object.create(Phaser.Group.prototype);
@@ -118,6 +126,10 @@ HUD.prototype.update = function () {
 			case DESK_2_INDEX + 1:
 			case DESK_2_INDEX + 2:
 			case DESK_2_INDEX + 3:
+			case DESK_2_INDEX - 8:
+			case DESK_2_INDEX - 7:
+			case DESK_2_INDEX - 6:
+			case DESK_2_INDEX - 5:
 			case BED_1_INDEX:
 			case BED_1_INDEX + 1:
 			case BED_1_INDEX + 2:
@@ -126,6 +138,10 @@ HUD.prototype.update = function () {
 			case BED_2_INDEX + 1:
 			case BED_2_INDEX + 2:
 			case BED_2_INDEX + 3:
+			case BED_2_INDEX - 8:
+			case BED_2_INDEX - 7:
+			case BED_2_INDEX - 6:
+			case BED_2_INDEX - 5:
 			case MIRROR_1_INDEX:
 				this.crossEKey.visible = false;
 				this.eKey.visible = true;
@@ -134,7 +150,7 @@ HUD.prototype.update = function () {
 					this.eKey.y = player.y - 32 + 8;
 				} else if (player.orientation.down) {
 					this.eKey.x = player.x;
-					this.eKey.y = player.y - 32 - 8;
+					this.eKey.y = player.y + 32 - 8;
 				} else if (player.orientation.left) {
 					this.eKey.x = player.x - 32 + 16;
 					this.eKey.y = player.y - 16;
@@ -143,7 +159,12 @@ HUD.prototype.update = function () {
 					this.eKey.y = player.y - 16;
 				}
 				break;
-			case PRISON_DOOR_INDEX:
+			case -1:
+			case CHEST_FLASHLIGHT_INDEX:
+				this.eKey.visible = false;
+				this.crossEKey.visible = false;
+				break;
+			default:
 				this.eKey.visible = false;
 				this.crossEKey.visible = true;
 				if (player.orientation.up) {
@@ -151,7 +172,7 @@ HUD.prototype.update = function () {
 					this.crossEKey.y = player.y - 32 + 8;
 				} else if (player.orientation.down) {
 					this.crossEKey.x = player.x;
-					this.crossEKey.y = player.y - 32 - 8;
+					this.crossEKey.y = player.y + 32 - 8;
 				} else if (player.orientation.left) {
 					this.crossEKey.x = player.x - 32 + 16;
 					this.crossEKey.y = player.y - 16;
@@ -159,10 +180,6 @@ HUD.prototype.update = function () {
 					this.crossEKey.x = player.x + 32 - 16;
 					this.crossEKey.y = player.y - 16;
 				}
-				break;
-			default:
-				this.eKey.visible = false;
-				this.crossEKey.visible = false;
 				break;
 		}
 	} else {
