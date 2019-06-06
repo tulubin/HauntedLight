@@ -6,10 +6,11 @@ Death.prototype = {
 		this.moveOn = false;
 		this.diffReduced = false;
 		// add Death screen text
-		var endText = game.add.text(game.width / 2, game.height / 2, 'Haunted Light', { font: 'Helvetica', fontSize: '48px', fill: '#0000FF' });
-		endText.anchor.set(0.5);
+		this.titleText = game.add.sprite(game.width / 2, game.height / 2, 'Title_HL');
+		this.titleText.anchor.set(0.5);
+		this.titleText.scale.setTo(0.5);
 
-		var playText = game.add.text(game.width / 2, game.height * 0.6, 'You die', { font: 'Helvetica', fontSize: '24px', fill: '#fff' });
+		var playText = game.add.text(game.width / 2, game.height * 0.6, 'You died', { font: 'Helvetica', fontSize: '24px', fill: '#fff' });
 		playText.anchor.set(0.5);
 
 		this.nextTipsText = game.add.bitmapText(game.width / 2, game.height - 100, 'bitmapFont', 'Press Enter to show the next tips', 10);

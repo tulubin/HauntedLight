@@ -70,6 +70,8 @@ var DEFAULT_VISION_LENGTH = 35;
 var DEFAULT_FLISHLIGHT_LENGTH = 120;
 var DEFAULT_VISION_ANGLE = Math.PI * 2;
 var DEFAULT_FLASHLIGHT_ANGLE = Math.PI * 0.5;
+var CAMERA_OFFSET = 0;
+var CAMERA_SPEED = 1;
 
 window.onload = function () {
 	// define game

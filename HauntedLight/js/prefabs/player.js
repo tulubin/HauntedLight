@@ -111,6 +111,7 @@ Player.prototype = Object.create(Phaser.Sprite.prototype);
 Player.prototype.constructor = Player;
 
 Player.prototype.update = function () {
+	maskGraphics.moveTo(this.x, this.y + 3);
 	this.updateLight();
 	if (Phaser.Math.distance(this.lastX, this.lastY, shadow.x, shadow.y) < shadow.moveDis)
 		this.updatePlayerXY();
@@ -228,7 +229,7 @@ Player.prototype.updateLight = function () {
 	maskGraphics.beginFill(RESET_TINT);
 	this.lightSourceX = this.x;
 	this.lightSourceY = this.y + 3;
-	maskGraphics.moveTo(this.lightSourceX, this.lightSourceY);
+	
 	for (var i = 0; i < this.numberOfRays; i++) {
 		var rayAngle = this.directionAngle - (this.lightAngle / 2) + (this.lightAngle / this.numberOfRays) * i;
 		var lastX = this.lightSourceX;
@@ -458,7 +459,7 @@ Player.prototype.touchMirror = function () {
 	var newTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY + 32 }, this.walkingDuration, Phaser.Easing.Quadratic.Out, true);
 	newTween.onComplete.addOnce(this.playerTweenComplete, this);
 	newTween.onComplete.addOnce(function () {
-		game.camera.follow(camera, 0, 0.08, 0.08);
+		game.camera.follow(camera, 0, CAMERA_SPEED, CAMERA_SPEED);
 	}, this);
 }
 
