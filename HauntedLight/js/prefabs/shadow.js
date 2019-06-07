@@ -1,5 +1,5 @@
 // Shadow prefab
-
+"use strict";
 function Shadow(game) {
 	// call Sprite constructor within this object
 	// new Sprite(game, x, y, key, frame)
@@ -23,7 +23,7 @@ function Shadow(game) {
 	this.shadowEmitter.setYSpeed(-5, 20);
 	// this.shadowEmitter.x = ;
 	// this.shadowEmitter.y = ;
-	this.shadowEmitter.start(false, 700, 20);
+	this.shadowEmitter.start(false, 700, 10);
 	// this.shadowEmitter.emitParticle();
 	// this.shadowEmitter.start(true, 1000, null, 30);
 	// x = Phaser.Math.distance(this.x, this.y, player.lastX, player.lastY)-this.moveDis

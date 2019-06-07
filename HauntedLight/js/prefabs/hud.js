@@ -1,7 +1,5 @@
 // HUD Group:
-
-var arrows;
-
+"use strict";
 function HUD(game) {
 	Phaser.Group.call(this, game);
 	// HUD:

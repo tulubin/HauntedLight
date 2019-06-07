@@ -1,10 +1,10 @@
 // Player prefab
-
+"use strict";
 function Player(game) {
 	// call Sprite constructor within this object
 	// new Sprite(game, x, y, key, frame)
-	Phaser.Sprite.call(this, game, GRID_SIZE * 47 + GRID_SIZE / 2, GRID_SIZE * 77 + GRID_SIZE / 2, 'Player');
-	// Phaser.Sprite.call(this, game, GRID_SIZE * 51 + GRID_SIZE / 2, GRID_SIZE * 66 + GRID_SIZE / 2, 'Player');
+	// Phaser.Sprite.call(this, game, GRID_SIZE * 47 + GRID_SIZE / 2, GRID_SIZE * 77 + GRID_SIZE / 2, 'Player');
+	Phaser.Sprite.call(this, game, GRID_SIZE * 54 + GRID_SIZE / 2, GRID_SIZE * 38 + GRID_SIZE / 2, 'Player');
 	this.anchor.set(0.5);
 	game.camera.follow(this, 0, 1, 1);
 	this.tint = DARK_TINT;
@@ -41,12 +41,14 @@ function Player(game) {
 	this.nextColorBlock = -1;
 	this.trapTriggered = false;
 	this.trapBotton = 0;
-
+	this.jumpscared = false;
 	// for debugging:
 
 	// Player sounds:
-	footstep = game.add.audio('Footstep');
-	huanted = game.add.audio('Huanted');
+
+
+
+
 
 	// game.camera.follow(this, 0, 0.5, 0.5);
 
@@ -62,10 +64,11 @@ function Player(game) {
 			this.currentHP -= (200 - Phaser.Math.distance(this.x, this.y, shadow.x, shadow.y)) / 20;
 			if (huanted.isPlaying) {
 			} else {
-				huanted.play('', 0, 1, false, true);
+				huanted.play();
 			}
 		} else {
 			huanted.stop();
+			this.jumpscared = false;
 		}
 		if (this.currentMP < this.maxHP && this.recoverMP)
 			this.currentMP += 15;
@@ -103,6 +106,7 @@ function Player(game) {
 	// hud.fixedToCamera = true;
 	// this.toggleHUD();
 
+
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to Player
@@ -112,7 +116,7 @@ Player.prototype = Object.create(Phaser.Sprite.prototype);
 Player.prototype.constructor = Player;
 
 Player.prototype.update = function () {
-	maskGraphics.moveTo(this.x, this.y + 3);
+	this.maskGraphics.moveTo(this.x, this.y + 3);
 	this.updateLight();
 	if (Phaser.Math.distance(this.lastX, this.lastY, shadow.x, shadow.y) < shadow.moveDis)
 		this.updatePlayerXY();
@@ -128,7 +132,6 @@ Player.prototype.update = function () {
 
 	// Play footsetps while moving:
 	if (this.actionCompleted === true) {
-		footstep.stop();
 		this.animations.stop();
 	}
 
@@ -137,7 +140,7 @@ Player.prototype.update = function () {
 // move Player:
 Player.prototype.movePlayer = function (directions) {
 	if (!this.isHided) {
-		footstep.play('', 0, 0.5, false, true);
+		footstep.play();
 		if (directions.up === true) {
 			this.playerTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY - 32 }, this.walkingDuration, Phaser.Easing.Linear.None, true);
 		} else if (directions.down === true) {
@@ -165,14 +168,16 @@ Player.prototype.checkCollision = function (x, y, directions) {
 		var objectTile = map.getTile(frontTileX, frontTileY, objectLayer, true);
 		switch (objectTile.index) { // check certain object for collision
 			case DOOR_1_INDEX + 1:	// open door pass through
-			// case DOOR_2_INDEX + 1:
-			case PRISON_DOOR_INDEX + 1:
+			case DOOR_2_R_INDEX + 1:
+			case PRISONDOOR_1_INDEX + 1:
 			case HIDDEN_DOOR_INDEX + 1:
+			case PRISONDOOR_2_INDEX + 1:
+			case PRISONDOOR_2_R_INDEX + 1:
 				this.movePlayer(directions);
 				break;
 			case CHEST_FLASHLIGHT_INDEX: // collect chest flashlight
 				this.animations.play("walkUp");
-				footstep.play('', 0, 1, false, true);
+				footstep.play();
 				var newTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY - 32 }, this.walkingDuration, Phaser.Easing.Linear.None, true);
 				this.actionCompleted = false;
 				newTween.onComplete.addOnce(this.flashlightPickupEvent, this);
@@ -185,6 +190,7 @@ Player.prototype.checkCollision = function (x, y, directions) {
 	}
 }
 Player.prototype.playerTweenComplete = function () {
+	this.animations.stop();
 	this.actionCompleted = true;
 	this.updateFrontObject(this.orientation);
 	if (this.colorPuzzleTrigger)
@@ -196,6 +202,15 @@ Player.prototype.playerTweenComplete = function () {
 	} else {
 		console.log(this.trapTriggered);
 		this.trapPuzzle();
+	}
+	if (this.orientation.up) {
+		this.frame = 4;
+	} else if (this.orientation.down) {
+		this.frame = 0;
+	} else if (this.orientation.left) {
+		this.frame = 8;
+	} else if (this.orientation.right) {
+		this.frame = 12;
 	}
 }
 Player.prototype.updateFrontObject = function (directions) {
@@ -227,17 +242,17 @@ Player.prototype.toggleHide = function () {
 	this.toggleFlashLight();
 }
 Player.prototype.addLight = function () {
-	maskGraphics = this.game.add.graphics(0, 0);
-	floorLayer.mask = maskGraphics;
-	wallLayer.mask = maskGraphics;
-	objectLayer.mask = maskGraphics;
-	decorations.mask = maskGraphics;
-	shadow.mask = maskGraphics;
+	this.maskGraphics = game.add.graphics(0, 0);
+	floorLayer.mask = this.maskGraphics;
+	wallLayer.mask = this.maskGraphics;
+	objectLayer.mask = this.maskGraphics;
+	decorations.mask = this.maskGraphics;
+	shadow.mask = this.maskGraphics;
 }
 Player.prototype.updateLight = function () {
-	maskGraphics.clear();
-	maskGraphics.lineStyle(2, RESET_TINT, 1);
-	maskGraphics.beginFill(RESET_TINT);
+	this.maskGraphics.clear();
+	this.maskGraphics.lineStyle(2, RESET_TINT, 1);
+	this.maskGraphics.beginFill(RESET_TINT);
 	this.lightSourceX = this.x;
 	this.lightSourceY = this.y + 3;
 
@@ -250,7 +265,11 @@ Player.prototype.updateLight = function () {
 		for (var j = 1; j <= this.rayLength; j++) {
 			var wallTile = map.getTile(wallLayer.getTileX(lastX), wallLayer.getTileY(lastY), wallLayer, true);
 			var objectTile = map.getTile(objectLayer.getTileX(lastX), objectLayer.getTileY(lastY), objectLayer, true);
-			if ((Phaser.Math.distance(lastX, lastY, shadow.x, shadow.y) < 8) && (this.currentHP > 0) && !this.isHided) {
+			if ((Phaser.Math.distance(lastX, lastY, shadow.x, shadow.y) < 8) && (this.currentHP >= 0) && !this.isHided) {
+				if (!this.jumpscared) {
+					this.jumpscared = true;
+					jumpscare.play();
+				}
 				if (this.switchToFlashLight)
 					this.currentHP -= 0.3 / game.time.fps;
 				else
@@ -263,7 +282,7 @@ Player.prototype.updateLight = function () {
 				}
 			}
 			if (lightThrough && (k >= 12 || (wallTile.index === -1 && objectTile.index !== DOOR_1_INDEX && objectTile.index !== HIDDEN_DOOR_INDEX))) {
-				maskGraphics.lineTo(lastX, lastY);
+				this.maskGraphics.lineTo(lastX, lastY);
 				break;
 			} else {
 				if (wallTile.index !== -1 || objectTile.index === DOOR_1_INDEX || objectTile.index === HIDDEN_DOOR_INDEX) {
@@ -277,10 +296,10 @@ Player.prototype.updateLight = function () {
 				lastY = landingY;
 			}
 		}
-		maskGraphics.lineTo(lastX, lastY);
+		this.maskGraphics.lineTo(lastX, lastY);
 	}
-	maskGraphics.lineTo(this.lightSourceX, this.lightSourceY);
-	maskGraphics.endFill();
+	this.maskGraphics.lineTo(this.lightSourceX, this.lightSourceY);
+	this.maskGraphics.endFill();
 	if (this.switchToFlashLight && this.flashLightOn) {
 		var ran = Math.random();
 		floorLayer.tint = (ran < 0.5) ? RESET_TINT : LIGHT_TINT;
@@ -404,12 +423,12 @@ Player.prototype.resetColorPuzzleTrigger = function () {
 	this.nextColorBlock = -1;
 	this.colorPuzzleTrigger = false;
 	map.replace(PUZZLE_TRIGGER_1_INDEX + 1, PUZZLE_TRIGGER_1_INDEX, 54, 37, 1, 1, objectLayer);
-	map.replace(PRISON_DOOR_INDEX + 1, PRISON_DOOR_INDEX, 35, 38, 1, 1, objectLayer);
-	console.log('trigger reseted.');
+	map.replace(PRISONDOOR_1_INDEX + 1, PRISONDOOR_1_INDEX, 35, 38, 1, 1, objectLayer);
+	closePrisonDoor.play();
 }
 Player.prototype.mirrorParticle = function () {
 	this.mirrorEmitter = game.add.emitter(this.frontObject.worldX + 16, this.frontObject.worldY + 16, 100);
-	this.mirrorEmitter.mask = maskGraphics;
+	this.mirrorEmitter.mask = this.maskGraphics;
 	this.mirrorEmitter.width = 16;
 	this.mirrorEmitter.height = 24;
 	this.mirrorEmitter.makeParticles('Particle');
@@ -445,7 +464,8 @@ Player.prototype.touchMirror = function () {
 			shadow.y += 3 * GRID_SIZE;
 			this.inTutorial = false;
 			this.endTutorialEvent = false;
-			map.replace(PRISON_DOOR_INDEX, PRISON_DOOR_INDEX + 1, 48, 75, 1, 1, objectLayer);
+			map.replace(PRISONDOOR_1_INDEX, PRISONDOOR_1_INDEX + 1, 48, 75, 1, 1, objectLayer);
+			openPrisonDoor.play();
 			hud.warningHPText.visible = true;
 			game.time.events.add(Phaser.Timer.SECOND * 10, function () {
 				hud.upKey.destroy();
@@ -521,13 +541,25 @@ Player.prototype.playerControls = function () {
 	}
 	if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && this.hasFlashlight) {
 		// toggle flashlight
+		flashlight.play('', 0, 0.05, false, true);
 		this.switchToFlashLight = !this.switchToFlashLight;
 		this.toggleFlashLight();
 	}
 }
 Player.prototype.interactObjects = function () {
 	switch (this.frontObject.index) {
+		case PRISONDOOR_1_INDEX:
+		case PRISONDOOR_1_INDEX + 1:
+		case DOOR_2_R_INDEX:
+		case DOOR_2_R_INDEX + 1:
+		case PRISONDOOR_2_INDEX:
+		case PRISONDOOR_2_INDEX + 1:
+		case PRISONDOOR_2_R_INDEX:
+		case PRISONDOOR_2_R_INDEX + 1:
+			interact.play('', 0, 0.02, false, true);
+			break;
 		case MIRROR_1_INDEX:
+			mirror.play('', 0, 0.1, false, true);
 			this.mirrorParticle();
 			this.actionCompleted = false;
 			this.animations.play("walkUp");
@@ -536,44 +568,81 @@ Player.prototype.interactObjects = function () {
 			newTween.onComplete.addOnce(this.touchMirror, this);
 			break;
 		case DOOR_1_INDEX:
-			map.replace(DOOR_1_INDEX, DOOR_1_INDEX + 1, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
+			this.actionCompleted = false;
+			openDoor.play();
+			game.time.events.add(Phaser.Timer.SECOND * 1, function () {
+				map.replace(DOOR_1_INDEX, DOOR_1_INDEX + DOOR_OPENING_TIME, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
+				this.actionCompleted = true;
+			}, this);
 			break;
 		case DOOR_1_INDEX + 1:
+			closeDoor.play();
 			map.replace(DOOR_1_INDEX + 1, DOOR_1_INDEX, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
 			break;
 		case DOOR_2_INDEX:
+			openDoor.play();
 			game.state.start('End');
 			break;
 		case HIDDEN_DOOR_INDEX:
-			map.replace(HIDDEN_DOOR_INDEX, HIDDEN_DOOR_INDEX + 1, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
+			this.actionCompleted = false;
+			openDoor.play();
+			game.time.events.add(Phaser.Timer.SECOND * 1, function () {
+				map.replace(HIDDEN_DOOR_INDEX, HIDDEN_DOOR_INDEX + 1, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
+				this.actionCompleted = true;
+			}, this);
 			break;
 		case HIDDEN_DOOR_INDEX + 1:
+			closeDoor.play();
 			map.replace(HIDDEN_DOOR_INDEX + 1, HIDDEN_DOOR_INDEX, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
 			break;
 		case PUZZLE_TRIGGER_1_INDEX:
+			trigger.play('', 0, 0.1, false, true);
 			map.replace(PUZZLE_TRIGGER_1_INDEX, PUZZLE_TRIGGER_1_INDEX + 1, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
-			map.replace(PRISON_DOOR_INDEX, PRISON_DOOR_INDEX + 1, 35, 38, 1, 1, objectLayer);
+			game.time.events.add(Phaser.Timer.SECOND * 1, function () {
+				openPrisonDoor.play('', 0, 0.1, false, true);
+			}, this);
+			map.replace(PRISONDOOR_1_INDEX, PRISONDOOR_1_INDEX + 1, 35, 38, 1, 1, objectLayer);
 			this.colorPuzzleTrigger = true;
 			break;
 		case PUZZLE_TRIGGER_1_INDEX + 1:
+			trigger.play('', 0, 0.1, false, true);
 			map.replace(PUZZLE_TRIGGER_1_INDEX + 1, PUZZLE_TRIGGER_1_INDEX, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
-			map.replace(PRISON_DOOR_INDEX + 1, PRISON_DOOR_INDEX, 35, 38, 1, 1, objectLayer);
+			game.time.events.add(Phaser.Timer.SECOND * 1, function () {
+				closePrisonDoor.play('', 0, 0.1, false, true);
+			}, this);
+			map.replace(PRISONDOOR_1_INDEX + 1, PRISONDOOR_1_INDEX, 35, 38, 1, 1, objectLayer);
 			this.colorPuzzleTrigger = false;
 			break;
 		case CLOSET_1_INDEX:
 		case CLOSET_1_INDEX + 2:
+			if (this.isHided)
+				openCloset.play('', 0, 0.3, false, true);
+			else
+				closeCloset.play('', 0, 0.3, false, true);
 			this.replaceHidingSpot(CLOSET_1_INDEX, this.frontObject.x, this.frontObject.y);
 			break;
 		case CLOSET_1_INDEX + 1:
 		case CLOSET_1_INDEX + 3:
+			if (this.isHided)
+				openCloset.play('', 0, 0.3, false, true);
+			else
+				closeCloset.play('', 0, 0.3, false, true);
 			this.replaceHidingSpot(CLOSET_1_INDEX, this.frontObject.x - 1, this.frontObject.y);
 			break;
 		case CLOSET_2_INDEX:
 		case CLOSET_2_INDEX + 2:
+			if (this.isHided)
+				openCloset.play('', 0, 0.3, false, true);
+			else
+				closeCloset.play('', 0, 0.3, false, true);
 			this.replaceHidingSpot(CLOSET_2_INDEX, this.frontObject.x, this.frontObject.y);
 			break;
 		case CLOSET_2_INDEX + 1:
 		case CLOSET_2_INDEX + 3:
+			if (this.isHided)
+				openCloset.play('', 0, 0.3, false, true);
+			else
+				closeCloset.play('', 0, 0.3, false, true);
 			this.replaceHidingSpot(CLOSET_2_INDEX, this.frontObject.x - 1, this.frontObject.y);
 			break;
 		case DESK_1_INDEX:
@@ -640,8 +709,9 @@ Player.prototype.replaceHidingSpot = function (index, x, y) {
 }
 Player.prototype.trapTriggers = function () {
 	this.trapTriggered = true;
-	map.replace(PRISON_DOOR_INDEX + 1, PRISON_DOOR_INDEX, 64, 51, 1, 1, objectLayer);
-	map.replace(PRISON_DOOR_INDEX + 1, PRISON_DOOR_INDEX, 64, 64, 1, 1, objectLayer);
+	closePrisonDoor.play();
+	map.replace(PRISONDOOR_1_INDEX + 1, PRISONDOOR_1_INDEX, 64, 51, 1, 1, objectLayer);
+	map.replace(PRISONDOOR_1_INDEX + 1, PRISONDOOR_1_INDEX, 64, 64, 1, 1, objectLayer);
 }
 Player.prototype.trapPuzzle = function () {
 	var tileX = floorLayer.getTileX(this.centerX);
@@ -650,10 +720,12 @@ Player.prototype.trapPuzzle = function () {
 	if (tile.index === TRAP_BUTTON_INDEX) {
 		console.log(this.trapBotton);
 		this.trapBotton++;
+		trapButton.play();
 		map.replace(TRAP_BUTTON_INDEX, TRAP_BUTTON_INDEX + 1, tile.x, tile.y, 1, 1, floorLayer);
 		if (this.trapBotton === 4) {
-			map.replace(PRISON_DOOR_INDEX, PRISON_DOOR_INDEX + 1, 64, 51, 1, 1, objectLayer);
-			map.replace(PRISON_DOOR_INDEX, PRISON_DOOR_INDEX + 1, 64, 64, 1, 1, objectLayer);
+			openPrisonDoor.play();
+			map.replace(PRISONDOOR_1_INDEX, PRISONDOOR_1_INDEX + 1, 64, 51, 1, 1, objectLayer);
+			map.replace(PRISONDOOR_1_INDEX, PRISONDOOR_1_INDEX + 1, 64, 64, 1, 1, objectLayer);
 		}
 	}
 }

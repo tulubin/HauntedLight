@@ -1,5 +1,5 @@
 // End state
-
+"use strict";
 var End = function (game) { };
 End.prototype = {
     create: function () {

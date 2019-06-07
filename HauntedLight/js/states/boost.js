@@ -1,5 +1,5 @@
 // Boost state
-
+"use strict";
 var text;
 
 var Boost = function (game) { };
@@ -56,6 +56,18 @@ Boost.prototype = {
 		game.load.atlas('Battery_level', 'assets/img/battery_level.png', "assets/img/battery_level.json");
 		game.load.audio('Footstep', 'assets/audio/footstep.wav');
 		game.load.audio('Huanted', 'assets/audio/huanted_No_slime.wav');
+		game.load.audio('OpenDoor', 'assets/audio/openDoor.wav');
+		game.load.audio('CloseDoor', 'assets/audio/closeDoor.wav');
+		game.load.audio('OpenPrisonDoor', 'assets/audio/openPrisonDoor.wav');
+		game.load.audio('ClosePrisonDoor', 'assets/audio/closePrisonDoor.wav');
+		game.load.audio('Interact', 'assets/audio/interact.wav');
+		game.load.audio('Mirror', 'assets/audio/mirror.wav');
+		game.load.audio('Jumpscare', 'assets/audio/jumpscare.wav');
+		game.load.audio('Trigger', 'assets/audio/trigger.wav');
+		game.load.audio('TrapButton', 'assets/audio/trapButton.wav');
+		game.load.audio('Flashlight', 'assets/audio/flashlight.wav');
+		game.load.audio('OpenCloset', 'assets/audio/openCloset.wav');
+		game.load.audio('CloseCloset', 'assets/audio/closeCloset.wav');
 		game.load.start();
 	},
 	loadStart: function () {

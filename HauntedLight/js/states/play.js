@@ -1,10 +1,9 @@
 // Play state
-
-var Play = function (game) {
-};
+"use strict";
+var Play = function (game) { };
 Play.prototype = {
 	create: function () {
-		
+
 		game.time.advancedTiming = true;
 		// Physics:
 		// game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -31,13 +30,13 @@ Play.prototype = {
 		wallLayer.tint = DARK_TINT;
 		objectLayer.tint = DARK_TINT;
 		decorations.tint = DARK_TINT;
-
+		// Sounds:
+		sounds = new Sounds(game);
+		game.add.existing(sounds);
 		// Player:
 		player = new Player(game);
 		game.add.existing(player);
-		
-		// camera = new Camera(game);
-		// game.add.existing(camera);
+
 
 		hud = new HUD(game);
 		hud.fixedToCamera = true;
@@ -54,7 +53,7 @@ Play.prototype = {
 			player.inTutorial = false;
 			shadow.startMove = true;
 			player.endTutorialEvent = false;
-			map.replace(PRISON_DOOR_INDEX, PRISON_DOOR_INDEX + 1, 48, 75, 1, 1, objectLayer);
+			map.replace(PRISONDOOR_1_INDEX, PRISONDOOR_1_INDEX + 1, 48, 75, 1, 1, objectLayer);
 			game.time.events.add(Phaser.Timer.SECOND * 10, function () {
 				hud.upKey.destroy();
 				hud.downKey.destroy();

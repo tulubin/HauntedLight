@@ -1,5 +1,5 @@
 // Death state
-
+"use strict";
 var Death = function (game) { };
 Death.prototype = {
 	create: function () {

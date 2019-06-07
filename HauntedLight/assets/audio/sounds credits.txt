@@ -1,0 +1,32 @@
+"footstep.wav" by swuing of Freesound.org
+https://freesound.org/people/swuing/sounds/38876/
+
+"openDoor.wav" by _stubb of Freesound.org
+https://freesound.org/people/InspectorJ/sounds/431117/
+
+"closeDoor.wav" by Checkseven of Freesound.org
+https://freesound.org/people/Checkseven/sounds/245823/
+
+"openPrisonDoor.wav""closePrisonDoor.wav" by corpocracy of Freesound.org
+https://freesound.org/people/corpocracy/sounds/403352/
+
+"interact.wav" by davidmenke of Freesound.org
+https://freesound.org/people/davidmenke/sounds/351997/
+
+"mirror.wav" by ZenithInfinitiveStudios of Freesound.org
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/401757/
+
+"jumpscare.wav" by dangthaiduy007 of Freesound.org
+https://freesound.org/people/dangthaiduy007/sounds/341669/
+
+"trigger.wav" by Breviceps of Freesound.org
+https://freesound.org/people/Breviceps/sounds/457036/
+
+"trapButton.wav" by TheBuilder15 of Freesound.org
+https://freesound.org/people/TheBuilder15/sounds/434898/
+
+"flashlight.wav" by Rudmer_Rotteveel of Freesound.org
+https://freesound.org/people/Rudmer_Rotteveel/sounds/457462/
+
+"openCloset" "closeCloset.wav" by tim.kahn of Freesound.org
+https://freesound.org/people/tim.kahn/sounds/24250/
