@@ -33,7 +33,7 @@ debugPlugin.prototype.render = function () {
 		// game.debug.cameraInfo(game.camera, GRID_SIZE, GRID_SIZE);
 		// game.debug.spriteCoords(player, GRID_SIZE, 500);
 		game.debug.text('shadow x: ' + shadow.x, 32, game.camera.height - 220);
-		game.debug.text('maxhp: ' + player.maxHP, 32, game.camera.height - 200);
+		game.debug.text('player centerX: ' + player.centerX, 32, game.camera.height - 200);
 		game.debug.text('thisColorBlock: ' + player.thisColorBlock, 32, game.camera.height - 180);
 		if (player.orientation.up)
 			game.debug.text('player orientation: ' + 'UP', 32, game.camera.height - 160);

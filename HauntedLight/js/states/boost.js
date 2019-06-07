@@ -35,7 +35,7 @@ Boost.prototype = {
 		game.load.spritesheet('wall', 'assets/tilesheet/wall.png', 32, 32);
 		game.load.spritesheet('floor', 'assets/tilesheet/floor.png', 32, 32);
 		game.load.image('Temp', 'assets/img/temp.png');
-		game.load.image('Title_background', 'assets/img/title_background.png');
+		game.load.image('Title_background', 'assets/img/1.jpg');
 		game.load.image('Titlekid', 'assets/img/titlekid.png');
 		// game.load.image('Camera', 'assets/img/camera.png');
 		game.load.image('Title_instruction', 'assets/img/title_instruction.png');

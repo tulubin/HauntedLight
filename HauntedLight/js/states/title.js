@@ -6,6 +6,7 @@ Title.prototype = {
 
 		this.titleBackground = game.add.sprite(game.width / 2, game.height * 5 / 14 - 10, 'Title_background');
 		this.titleBackground.anchor.set(0.5);
+		this.titleBackground.tint = DARK_TINT;
 		// this.titleBackground.scale.setTo(0.5);
 
 		this.titleText = game.add.sprite(game.width / 2, game.height * 5 / 14, 'Title_HL');
@@ -40,7 +41,7 @@ Title.prototype = {
 			this.createLight(150);
 			// this.spacebarText_f.destroy();
 			// this.spacebarText_b.destroy();
-			game.time.events.add(Phaser.Timer.SECOND * 2, function () {
+			game.time.events.add(Phaser.Timer.SECOND * 3, function () {
 				game.state.start('Play');
 			}, this);
 		}

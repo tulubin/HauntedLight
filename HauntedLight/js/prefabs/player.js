@@ -39,8 +39,8 @@ function Player(game) {
 	this.inTutorial = true;
 	this.colorPuzzleTrigger = false;
 	this.nextColorBlock = -1;
-
-
+	this.trapTriggered = false;
+	this.trapBotton = 0;
 
 	// for debugging:
 
@@ -131,6 +131,7 @@ Player.prototype.update = function () {
 		footstep.stop();
 		this.animations.stop();
 	}
+
 }
 
 // move Player:
@@ -164,6 +165,7 @@ Player.prototype.checkCollision = function (x, y, directions) {
 		var objectTile = map.getTile(frontTileX, frontTileY, objectLayer, true);
 		switch (objectTile.index) { // check certain object for collision
 			case DOOR_1_INDEX + 1:	// open door pass through
+			// case DOOR_2_INDEX + 1:
 			case PRISON_DOOR_INDEX + 1:
 			case HIDDEN_DOOR_INDEX + 1:
 				this.movePlayer(directions);
@@ -187,6 +189,13 @@ Player.prototype.playerTweenComplete = function () {
 	this.updateFrontObject(this.orientation);
 	if (this.colorPuzzleTrigger)
 		this.colorPuzzle();
+	if (!this.trapTriggered) {
+		if ((this.x > 61 * GRID_SIZE) && (this.x < 67 * GRID_SIZE) && (this.y > 51 * GRID_SIZE) && (this.y < 63 * GRID_SIZE)) {
+			this.trapTriggers();
+		}
+	} else {
+		this.trapPuzzle();
+	}
 }
 Player.prototype.updateFrontObject = function (directions) {
 	if (directions.up === true) {
@@ -230,7 +239,7 @@ Player.prototype.updateLight = function () {
 	maskGraphics.beginFill(RESET_TINT);
 	this.lightSourceX = this.x;
 	this.lightSourceY = this.y + 3;
-	
+
 	for (var i = 0; i < this.numberOfRays; i++) {
 		var rayAngle = this.directionAngle - (this.lightAngle / 2) + (this.lightAngle / this.numberOfRays) * i;
 		var lastX = this.lightSourceX;
@@ -393,7 +402,7 @@ Player.prototype.colorPuzzle = function () {
 Player.prototype.resetColorPuzzleTrigger = function () {
 	this.nextColorBlock = -1;
 	this.colorPuzzleTrigger = false;
-	map.replace(PUZZLE_TRIGGER_1_INDEX + 1, PUZZLE_TRIGGER_1_INDEX, 54, 39, 1, 1, objectLayer);
+	map.replace(PUZZLE_TRIGGER_1_INDEX + 1, PUZZLE_TRIGGER_1_INDEX, 54, 37, 1, 1, objectLayer);
 	map.replace(PRISON_DOOR_INDEX + 1, PRISON_DOOR_INDEX, 35, 38, 1, 1, objectLayer);
 	console.log('trigger reseted.');
 }
@@ -531,6 +540,9 @@ Player.prototype.interactObjects = function () {
 		case DOOR_1_INDEX + 1:
 			map.replace(DOOR_1_INDEX + 1, DOOR_1_INDEX, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
 			break;
+		case DOOR_2_INDEX:
+			game.state.start('End');
+			break;
 		case HIDDEN_DOOR_INDEX:
 			map.replace(HIDDEN_DOOR_INDEX, HIDDEN_DOOR_INDEX + 1, this.frontObject.x, this.frontObject.y, 1, 1, objectLayer);
 			break;
@@ -624,4 +636,23 @@ Player.prototype.replaceHidingSpot = function (index, x, y) {
 		map.replace(index + 1, index + 3, x, y, 2, 1, objectLayer);
 	}
 	this.toggleHide();
+}
+Player.prototype.trapTriggers = function () {
+	this.trapTriggered = true;
+	map.replace(PRISON_DOOR_INDEX + 1, PRISON_DOOR_INDEX, 64, 51, 1, 1, objectLayer);
+	map.replace(PRISON_DOOR_INDEX + 1, PRISON_DOOR_INDEX, 64, 64, 1, 1, objectLayer);
+}
+Player.prototype.trapPuzzle = function () {
+	var tileX = floorLayer.getTileX(this.centerX);
+	var tileY = floorLayer.getTileY(this.centerY);
+	var tile = map.getTile(tileX, tileY, floorLayer, true);
+	if (tile.inex === TRAP_BUTTON_INDEX) {
+		console.log(this.trapBotton);
+		this.trapBotton++;
+		map.replace(TRAP_BUTTON_INDEX, TRAP_BUTTON_INDEX + 1, tile.x, tile.y, 1, 1, floorLayer);
+		if (this.trapBotton === 3) {
+			map.replace(PRISON_DOOR_INDEX, PRISON_DOOR_INDEX + 1, 64, 51, 1, 1, objectLayer);
+			map.replace(PRISON_DOOR_INDEX, PRISON_DOOR_INDEX + 1, 64, 64, 1, 1, objectLayer);
+		}
+	}
 }
