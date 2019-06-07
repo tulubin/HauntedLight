@@ -39,6 +39,7 @@ var tutorialOn = true;
 var PRISON_DOOR_INDEX = 159;
 var HIDDEN_DOOR_INDEX = 271;
 var DOOR_1_INDEX = 165; // closed door index is this +1, broken version is this +2 and +3
+var DOOR_2_INDEX = 163;
 var CLOSET_1_INDEX = 119; // those are 64x64 objects and placed in order in the tileset, so this +1 means right half of this whole object, this +2 +3 stand for closed version.
 var CLOSET_2_INDEX = 123;
 var DESK_1_INDEX = 135;
@@ -58,6 +59,9 @@ var PUZZLE_COLOR_BLOCK_BLUE_INDEX = 35;
 var PUZZLE_COLOR_BLOCK_GREEN_INDEX = 29;
 var PUZZLE_COLOR_BLOCK_RED_INDEX = 30;
 var PUZZLE_TRIGGER_1_INDEX = 175;
+var TRAP_BUTTON_INDEX = 183;
+//new
+
 // Other Constants:
 var GRID_SIZE = 32;
 var CONTROL_RESPONSE_DELAY = 150;
@@ -70,17 +74,18 @@ var DEFAULT_VISION_LENGTH = 35;
 var DEFAULT_FLISHLIGHT_LENGTH = 120;
 var DEFAULT_VISION_ANGLE = Math.PI * 2;
 var DEFAULT_FLASHLIGHT_ANGLE = Math.PI * 0.5;
-var CAMERA_OFFSET = 0;
-var CAMERA_SPEED = 1;
+// var CAMERA_OFFSET = 0;
+// var CAMERA_SPEED = 1;
 
 window.onload = function () {
 	// define game
-	game = new Phaser.Game(480, 360, Phaser.AUTO, 'myGame');
+	game = new Phaser.Game(560, 420, Phaser.AUTO, 'myGame');
 
 	// define states
 	game.state.add('Boost', Boost);
 	game.state.add('Title', Title);
 	game.state.add('Play', Play);
 	game.state.add('Death', Death);
+	game.state.add('End', End);
 	game.state.start('Boost');
 }

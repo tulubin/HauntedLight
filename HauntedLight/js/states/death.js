@@ -10,7 +10,7 @@ Death.prototype = {
 		this.titleText.anchor.set(0.5);
 		this.titleText.scale.setTo(0.5);
 
-		var playText = game.add.text(game.width / 2, game.height * 0.6, 'You died', { font: 'Helvetica', fontSize: '24px', fill: '#fff' });
+		var playText = game.add.text(game.width / 2, game.height * 0.6, 'You died, do not look at the shadow', { font: 'Helvetica', fontSize: '24px', fill: '#fff' });
 		playText.anchor.set(0.5);
 
 		this.nextTipsText = game.add.bitmapText(game.width / 2, game.height - 100, 'bitmapFont', 'Press Enter to show the next tips', 10);
