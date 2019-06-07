@@ -3,8 +3,8 @@
 function Player(game) {
 	// call Sprite constructor within this object
 	// new Sprite(game, x, y, key, frame)
-	// Phaser.Sprite.call(this, game, GRID_SIZE * 47 + GRID_SIZE / 2, GRID_SIZE * 77 + GRID_SIZE / 2, 'Player');
-	Phaser.Sprite.call(this, game, GRID_SIZE * 54 + GRID_SIZE / 2, GRID_SIZE * 38 + GRID_SIZE / 2, 'Player');
+	Phaser.Sprite.call(this, game, GRID_SIZE * 47 + GRID_SIZE / 2, GRID_SIZE * 77 + GRID_SIZE / 2, 'Player');
+	// Phaser.Sprite.call(this, game, GRID_SIZE * 54 + GRID_SIZE / 2, GRID_SIZE * 38 + GRID_SIZE / 2, 'Player');
 	this.anchor.set(0.5);
 	game.camera.follow(this, 0, 1, 1);
 	this.tint = DARK_TINT;
@@ -42,16 +42,6 @@ function Player(game) {
 	this.trapTriggered = false;
 	this.trapBotton = 0;
 	this.jumpscared = false;
-	// for debugging:
-
-	// Player sounds:
-
-
-
-
-
-	// game.camera.follow(this, 0, 0.5, 0.5);
-
 	//Add Player animation
 	this.animations.add('walkUp', [4, 5, 6, 7], 6, true);
 	this.animations.add('walkDown', [0, 1, 2, 3], 6, true);
@@ -68,8 +58,9 @@ function Player(game) {
 			}
 		} else {
 			huanted.stop();
-			this.jumpscared = false;
 		}
+		if (Phaser.Math.distance(this.x, this.y, shadow.x, shadow.y) > 200)
+			this.jumpscared = false;
 		if (this.currentMP < this.maxHP && this.recoverMP)
 			this.currentMP += 15;
 		if ((this.isHided) && (this.currentHP < this.maxHP))
@@ -116,6 +107,7 @@ Player.prototype = Object.create(Phaser.Sprite.prototype);
 Player.prototype.constructor = Player;
 
 Player.prototype.update = function () {
+
 	this.maskGraphics.moveTo(this.x, this.y + 3);
 	this.updateLight();
 	if (Phaser.Math.distance(this.lastX, this.lastY, shadow.x, shadow.y) < shadow.moveDis)

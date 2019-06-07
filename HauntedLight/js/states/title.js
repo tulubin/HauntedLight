@@ -4,7 +4,7 @@ var Title = function (game) { };
 Title.prototype = {
 	create: function () {
 		// for debug:
-		tutorialOn = false;
+		// tutorialOn = false;
 
 		this.titleBackground = game.add.sprite(game.width / 2, game.height * 5 / 14 - 10, 'Title_background');
 		this.titleBackground.anchor.set(0.5);

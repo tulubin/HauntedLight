@@ -16,7 +16,7 @@ Boost.prototype = {
 		// Loading bar
 		this.loadingBar_b = game.add.graphics(0, 0);
 		this.loadingBar_f = game.add.graphics(0, 0);
-		this.loadingBar_b.beginFill(0x222222, 0.8);
+		this.loadingBar_b.beginFill(LIGHT_TINT, 0.8);
 		this.loadingBar_b.drawRect(32, game.height - 50, 104, 14);
 		this.loadingBar_b.endFill();
 
@@ -37,12 +37,11 @@ Boost.prototype = {
 		game.load.image('Temp', 'assets/img/temp.png');
 		game.load.image('Title_background', 'assets/img/1.jpg');
 		game.load.image('Titlekid', 'assets/img/titlekid.png');
-		// game.load.image('Camera', 'assets/img/camera.png');
+		game.load.image('Mark', 'assets/img/mark.png');
 		game.load.image('Title_instruction', 'assets/img/title_instruction.png');
 		game.load.image('Title_HL', 'assets/img/title_HL.png');
 		game.load.image('CrossParticle', 'assets/img/crossParticle.png');
 		game.load.image('Particle', 'assets/img/particle.png');
-		game.load.image('HP_1', 'assets/img/sanity00.png');
 		game.load.image('MP', 'assets/img/MP.png');
 		game.load.image('Shadow', 'assets/img/ghost0.png');
 		game.load.image('Flashlight_icon', 'assets/img/flashlight_icon.png');
@@ -52,8 +51,9 @@ Boost.prototype = {
 		game.load.image('SprintKey', 'assets/img/sprintKey.png');
 		game.load.image('Spacebar', 'assets/img/spacebar.png');
 		game.load.atlas('Player', 'assets/img/kid.png', 'assets/img/kid.json');
-		game.load.atlas('Player_f', 'assets/img/kid_flash.png', "assets/img/kid_flash.json");
-		game.load.atlas('Battery_level', 'assets/img/battery_level.png', "assets/img/battery_level.json");
+		game.load.atlas('Player_f', 'assets/img/kid_flash.png', 'assets/img/kid_flash.json');
+		game.load.atlas('Battery_level', 'assets/img/battery_level.png', 'assets/img/battery_level.json');
+		game.load.atlas('HP', 'assets/img/HP.png', 'assets/img/HP.json');
 		game.load.audio('Footstep', 'assets/audio/footstep.wav');
 		game.load.audio('Huanted', 'assets/audio/huanted_No_slime.wav');
 		game.load.audio('OpenDoor', 'assets/audio/openDoor.wav');
@@ -75,7 +75,7 @@ Boost.prototype = {
 	},
 	fileComplete: function (progress) {
 		this.loadingBar_f.clear();
-		this.loadingBar_f.beginFill(0xE8000C, 0.5);
+		this.loadingBar_f.beginFill(DARK_TINT, 0.5);
 		this.loadingBar_f.drawRect(34, game.height - 48, progress, 10);
 		this.loadingBar_f.endFill();
 	},

@@ -47,6 +47,7 @@ Play.prototype = {
 		if (!tutorialOn) {
 			player.hasFlashlight = true;
 			player.loadTexture('Player_f', 4);
+			player.frame = 0;
 			map.replace(CHEST_FLASHLIGHT_INDEX, -1, 148, 76, 1, 1, objectLayer);
 			shadow.x -= 100 * GRID_SIZE;
 			shadow.y += 3 * GRID_SIZE;

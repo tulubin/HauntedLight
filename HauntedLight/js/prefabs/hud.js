@@ -4,27 +4,27 @@ function HUD(game) {
 	Phaser.Group.call(this, game);
 	// HUD:
 	// --------------------hpIcon---------------------
-	this.hpIcon = game.add.sprite(game.width - 30, 26, 'HP_1');
+	this.hpIcon = game.add.sprite(game.width - 35, 23, 'HP');
 	this.add(this.hpIcon);
-	this.hpIcon.scale.setTo(0.7);
+	this.hpIcon.scale.setTo(1);
 	// --------------back HP bar------------------
 	this.hpBar_b = game.add.graphics(0, 0);
 	this.add(this.hpBar_b);
-	this.hpBar_b.beginFill(0x222222, 0.8);
-	this.hpBar_b.drawRect(game.width - 150, 30, 104, 14);
+	this.hpBar_b.beginFill(0x1a0000, 0.8);
+	this.hpBar_b.drawRoundedRect(game.width - 150, 30, 104, 14, RADIUS_ROUNDED_RECT);
 	this.hpBar_b.endFill();
 	// --------------front HP bar-----------------
 	this.hpBar_f = game.add.graphics(0, 0);
 	this.add(this.hpBar_f);
 	// --------------------mpIcon---------------------
-	this.mpIcon = game.add.sprite(game.width - 30, 52, 'MP');
+	this.mpIcon = game.add.sprite(game.width - 35, 52, 'MP');
 	this.add(this.mpIcon);
-	this.mpIcon.scale.setTo(0.7);
+	this.mpIcon.scale.setTo(1);
 	// --------------back MP bar------------------
 	this.mpBar_b = game.add.graphics(0, 0);
 	this.add(this.mpBar_b);
-	this.mpBar_b.beginFill(0x222222, 0.8);
-	this.mpBar_b.drawRect(game.width - 150, 60, 104, 14);
+	this.mpBar_b.beginFill(0x001a1a, 0.8);
+	this.mpBar_b.drawRoundedRect(game.width - 150, 60, 104, 14, RADIUS_ROUNDED_RECT);
 	this.mpBar_b.endFill();
 	// --------------front MP bar-----------------
 	this.mpBar_f = game.add.graphics(0, 0);
@@ -93,13 +93,13 @@ HUD.prototype.constructor = HUD;
 
 HUD.prototype.update = function () {
 	this.hpBar_f.clear();
-	this.hpBar_f.beginFill(0xE8000C, 0.5);
-	this.hpBar_f.drawRect(game.width - 148, 32, 100 * (player.currentHP / player.maxHP), 10);
+	this.hpBar_f.beginFill(RED_TINT, 0.5);
+	this.hpBar_f.drawRoundedRect(game.width - 148, 32, 100 * (player.currentHP / player.maxHP), 10, RADIUS_ROUNDED_RECT);
 	this.hpBar_f.endFill();
-
+	
 	this.mpBar_f.clear();
-	this.mpBar_f.beginFill(0x141BFF, 0.5);
-	this.mpBar_f.drawRect(game.width - 148, 62, 100 * (player.currentMP / player.maxMP), 10);
+	this.mpBar_f.beginFill(LIGHT_TINT, 0.5);
+	this.mpBar_f.drawRoundedRect(game.width - 148, 62, 100 * (player.currentMP / player.maxMP), 10, RADIUS_ROUNDED_RECT);
 	this.mpBar_f.endFill();
 
 	if (player.frontObject !== null) {
@@ -250,4 +250,31 @@ HUD.prototype.update = function () {
 		default:
 			break;
 	}
-};
+	switch (true) {
+		case (player.jumpscared):
+			this.hpIcon.frame = 2;
+			break;
+		case (huanted.isPlaying):
+			this.hpIcon.frame = 1;
+			break;
+		default:
+			this.hpIcon.frame = 0;
+			break;
+	}
+}
+// HUD.prototype.hpParticle = function () {
+// 	this.hpEmitter = game.add.emitter(game.width - 35, 23, 100);
+// 	this.hpEmitter.width = 1;
+// 	this.hpEmitter.height = 6;
+// 	this.hpEmitter.makeParticles('Particle');
+// 	this.hpEmitter.setRotation(0, 0);
+// 	this.hpEmitter.setAlpha(0.2, 0.4);
+// 	this.hpEmitter.setScale(0.02, 0.1, 0.02, 0.1);
+// 	this.hpEmitter.gravity = -300;
+// 	// this.hpEmitter.setXSpeed(0, 0);
+// 	// this.hpEmitter.setYSpeed(0, 0);
+// 	// this.hpEmitter.x = ;
+// 	// this.hpEmitter.y = ;
+// 	this.hpEmitter.start(false, 700, 10);
+// 	// this.hpEmitter.start(true, 1000, null, 100);
+// }
