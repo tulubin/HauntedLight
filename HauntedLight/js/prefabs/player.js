@@ -194,6 +194,7 @@ Player.prototype.playerTweenComplete = function () {
 			this.trapTriggers();
 		}
 	} else {
+		console.log(this.trapTriggered);
 		this.trapPuzzle();
 	}
 }
@@ -646,11 +647,11 @@ Player.prototype.trapPuzzle = function () {
 	var tileX = floorLayer.getTileX(this.centerX);
 	var tileY = floorLayer.getTileY(this.centerY);
 	var tile = map.getTile(tileX, tileY, floorLayer, true);
-	if (tile.inex === TRAP_BUTTON_INDEX) {
+	if (tile.index === TRAP_BUTTON_INDEX) {
 		console.log(this.trapBotton);
 		this.trapBotton++;
 		map.replace(TRAP_BUTTON_INDEX, TRAP_BUTTON_INDEX + 1, tile.x, tile.y, 1, 1, floorLayer);
-		if (this.trapBotton === 3) {
+		if (this.trapBotton === 4) {
 			map.replace(PRISON_DOOR_INDEX, PRISON_DOOR_INDEX + 1, 64, 51, 1, 1, objectLayer);
 			map.replace(PRISON_DOOR_INDEX, PRISON_DOOR_INDEX + 1, 64, 64, 1, 1, objectLayer);
 		}

@@ -108,6 +108,8 @@ HUD.prototype.update = function () {
 		switch (player.frontObject.index) {
 			case DOOR_1_INDEX:
 			case DOOR_1_INDEX + 1:
+			case DOOR_2_INDEX:
+			case DOOR_2_INDEX + 1:
 			case PUZZLE_TRIGGER_1_INDEX:
 			case PUZZLE_TRIGGER_1_INDEX + 1:
 			case CLOSET_1_INDEX:
@@ -161,6 +163,8 @@ HUD.prototype.update = function () {
 				break;
 			case -1:
 			case CHEST_FLASHLIGHT_INDEX:
+			case HIDDEN_DOOR_INDEX:
+			case HIDDEN_DOOR_INDEX + 1:
 				this.eKey.visible = false;
 				this.crossEKey.visible = false;
 				break;
