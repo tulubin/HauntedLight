@@ -71,7 +71,7 @@ Death.prototype = {
 				// chage tips:
 				this.randomTips();
 			}
-			if (game.input.keyboard.justPressed(Phaser.Keyboard.UP) || cheat) {
+			if (game.input.keyboard.justPressed(Phaser.Keyboard.P) || cheat) {
 				this.cheatText_f.setText('* Cheated.');
 				this.cheatText.destroy();
 				this.cheatText_b.destroy();
