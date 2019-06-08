@@ -4,7 +4,7 @@ function Player(game) {
 	// call Sprite constructor within this object
 	// new Sprite(game, x, y, key, frame)
 	Phaser.Sprite.call(this, game, GRID_SIZE * 47 + GRID_SIZE / 2, GRID_SIZE * 77 + GRID_SIZE / 2, 'Player');
-	// Phaser.Sprite.call(this, game, GRID_SIZE * 135 + GRID_SIZE / 2, GRID_SIZE * 39 + GRID_SIZE / 2, 'Player');
+	// Phaser.Sprite.call(this, game, GRID_SIZE * 158 + GRID_SIZE / 2, GRID_SIZE * 53 + GRID_SIZE / 2, 'Player');
 	this.anchor.set(0.5);
 	game.camera.follow(this, 0, 1, 1);
 	this.tint = DARK_TINT;
@@ -302,7 +302,7 @@ Player.prototype.updateLight = function () {
 					}
 				}
 			}
-			if (lightThrough && (k >= 12 || (wallTile.index === -1 && objectTile.index !== DOOR_1_INDEX && objectTile.index !== HIDDEN_DOOR_INDEX))) {
+			if (lightThrough && (k >= 12 || (wallTile.index === -1 && objectTile.index !== DOOR_1_INDEX && objectTile.index !== HIDDEN_DOOR_INDEX && objectTile.index !== DOOR_2_INDEX && objectTile.index !== DOOR_2_R_INDEX))) {
 				this.maskGraphics.lineTo(lastX, lastY);
 				break;
 			} else {
