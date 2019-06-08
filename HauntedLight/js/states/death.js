@@ -38,8 +38,8 @@ Death.prototype = {
 			this.reduceDiffText_f = game.add.bitmapText(game.width / 2 - 140, game.height / 2 + 75, 'bitmapFont', 'Press', 16);
 			this.reduceDiffText_b = game.add.bitmapText(game.width / 2 - 45, game.height / 2 + 75, 'bitmapFont', 'to Reduce the Difficulty', 16);
 			
-			this.cheatText = game.add.sprite(game.width / 2 - 90, game.height / 2 + 95, 'ArrowKey');
 			this.cheatText_f = game.add.bitmapText(game.width / 2 - 140, game.height / 2 + 95, 'bitmapFont', 'Press', 16);
+			this.cheatText = game.add.bitmapText(game.width / 2 - 90, game.height / 2 + 95, 'bitmapFont', 'P', 16);
 			this.cheatText_b = game.add.bitmapText(game.width / 2 - 45, game.height / 2 + 95, 'bitmapFont', 'to CHEAT (Only if too hard)', 16);
 
 			death.fadeOut();
