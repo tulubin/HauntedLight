@@ -19,7 +19,6 @@ var map;
 var floorLayer;
 var wallLayer;
 var objectLayer;
-var marker;
 var cursors;
 var interactText;
 var shadowTexture;
@@ -30,6 +29,7 @@ var hud;
 var camera;
 var sounds;
 // Variables:
+var cheat = false;
 var playerMaxHP = 100;
 var playerMaxMP = 100;
 var playerMaxBattery = 100;
@@ -37,7 +37,7 @@ var tutorialOn = true;
 // Tile-Map Constants:
 var PRISONDOOR_1_INDEX = 159;
 var PRISONDOOR_2_INDEX = 161;
-var HIDDEN_DOOR_INDEX = 271;
+var HIDDEN_DOOR_INDEX = 259;
 var DOOR_1_INDEX = 165; // closed door index is this +1, broken version is this +2 and +3
 var DOOR_2_INDEX = 163;
 var CLOSET_1_INDEX = 119; // those are 64x64 objects and placed in order in the tileset, so this +1 means right half of this whole object, this +2 +3 stand for closed version.
@@ -62,7 +62,8 @@ var PUZZLE_COLOR_BLOCK_GREEN_INDEX = 29;
 var PUZZLE_COLOR_BLOCK_RED_INDEX = 30;
 var PUZZLE_TRIGGER_1_INDEX = 175;
 var TRAP_BUTTON_INDEX = 183;
-//new
+var BATTERY_INDEX = 265;
+var PILL_INDEX = 275;
 
 // Other Constants:
 var GRID_SIZE = 32;
@@ -72,6 +73,10 @@ var DARK_TINT = '0x808080';
 var LIGHT_TINT = '0xd9d9d9';
 var PRESS_TINT = '0x66ff66';
 var RESET_TINT = '0xFFFFFF';
+var HP_LEVEL_1_TINT = '0xb30000';
+var HP_LEVEL_2_TINT = '0xe67300';
+var HP_LEVEL_3_TINT = '0xb37700';
+var HP_LEVEL_4_TINT = '0xffcc00';
 var DEFAULT_VISION_LENGTH = 35;
 var DEFAULT_FLISHLIGHT_LENGTH = 120;
 var DEFAULT_VISION_ANGLE = Math.PI * 2;

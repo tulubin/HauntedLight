@@ -4,27 +4,33 @@ function HUD(game) {
 	Phaser.Group.call(this, game);
 	// HUD:
 	// --------------------hpIcon---------------------
-	this.hpIcon = game.add.sprite(game.width - 35, 23, 'HP');
+	this.hpIcon = game.add.sprite(game.width - 90, 7, 'HP');
 	this.add(this.hpIcon);
 	this.hpIcon.scale.setTo(1);
 	// --------------back HP bar------------------
 	this.hpBar_b = game.add.graphics(0, 0);
 	this.add(this.hpBar_b);
 	this.hpBar_b.beginFill(0x1a0000, 0.8);
-	this.hpBar_b.drawRoundedRect(game.width - 150, 30, 104, 14, RADIUS_ROUNDED_RECT);
+	this.hpBar_b.drawRoundedRect(100, 32, 360, 7, RADIUS_ROUNDED_RECT);
 	this.hpBar_b.endFill();
 	// --------------front HP bar-----------------
 	this.hpBar_f = game.add.graphics(0, 0);
 	this.add(this.hpBar_f);
+	this.hpBar_ff = game.add.graphics(0, 0);
+	this.add(this.hpBar_ff);
+	this.hpBar_fff = game.add.graphics(0, 0);
+	this.add(this.hpBar_fff);
+	this.hpBar_ffff = game.add.graphics(0, 0);
+	this.add(this.hpBar_ffff);
 	// --------------------mpIcon---------------------
-	this.mpIcon = game.add.sprite(game.width - 35, 52, 'MP');
+	this.mpIcon = game.add.sprite(70, 35, 'MP');
 	this.add(this.mpIcon);
 	this.mpIcon.scale.setTo(1);
 	// --------------back MP bar------------------
 	this.mpBar_b = game.add.graphics(0, 0);
 	this.add(this.mpBar_b);
 	this.mpBar_b.beginFill(0x001a1a, 0.8);
-	this.mpBar_b.drawRoundedRect(game.width - 150, 60, 104, 14, RADIUS_ROUNDED_RECT);
+	this.mpBar_b.drawRoundedRect(100, 39, 360, 7, RADIUS_ROUNDED_RECT);
 	this.mpBar_b.endFill();
 	// --------------front MP bar-----------------
 	this.mpBar_f = game.add.graphics(0, 0);
@@ -32,14 +38,17 @@ function HUD(game) {
 	// --------------flashlight icon-----------------
 	this.flashlight_icon = game.add.sprite(game.width - 100, game.height - 100, 'Flashlight_icon');
 	this.flashlight_icon.anchor.set(0.5);
-	this.flashlight_icon.scale.setTo(1);
 	this.flashlight_icon.visible = false;
 	this.add(this.flashlight_icon);
 	this.battery_level = game.add.sprite(game.width - 100, game.height - 60, 'Battery_level');
 	this.battery_level.anchor.set(0.5);
-	this.battery_level.scale.setTo(1);
 	this.battery_level.visible = false;
 	this.add(this.battery_level);
+
+	this.batteryStockText = game.add.text(game.width - 70, game.height - 60, 'X 0', { fontSize: '16px', fill: '#FFF' });
+	this.batteryStockText.anchor.set(0.5);
+	this.batteryStockText.visible = false;
+	this.add(this.batteryStockText);
 	// --------------interaction HUD-----------------
 	this.eKey = game.add.sprite(game.width / 2 + 16, game.height / 2 - 32, 'E_key');
 	this.eKey.anchor.set(0.5);
@@ -77,7 +86,7 @@ function HUD(game) {
 	this.add(this.sprintText);
 	this.add(this.spacebar);
 	this.add(this.spacebarText);
-
+	//  --------------Text HUD-----------------
 	this.warningHPText = game.add.bitmapText(game.width / 2, game.height - 120, 'bitmapFont', 'Hide into some objects to recover your sanity', 16);
 	this.warningHPText.anchor.set(0.5);
 	this.warningHPText.visible = false;
@@ -92,14 +101,44 @@ HUD.prototype = Object.create(Phaser.Group.prototype);
 HUD.prototype.constructor = HUD;
 
 HUD.prototype.update = function () {
+	game.debug.text(game.time.fps || '--', 10, 20, "#00ff00");
+	this.hpRatio_1 = Math.min(player.currentHP, player.maxHP) / player.maxHP;
 	this.hpBar_f.clear();
-	this.hpBar_f.beginFill(RED_TINT, 0.5);
-	this.hpBar_f.drawRoundedRect(game.width - 148, 32, 100 * (player.currentHP / player.maxHP), 10, RADIUS_ROUNDED_RECT);
+	this.hpBar_f.beginFill(HP_LEVEL_1_TINT, 0.5);
+	this.hpBar_f.drawRoundedRect(100 + 360 * (1 - this.hpRatio_1), 32, 360 * this.hpRatio_1, 7, RADIUS_ROUNDED_RECT);
 	this.hpBar_f.endFill();
-	
+
+	if (player.hpLevel >= 2 && player.currentHP > (player.maxHP)) {
+		this.hpRatio_2 = Math.max(Math.min((player.currentHP - player.maxHP), player.maxHP), 0) / player.maxHP;
+		this.hpBar_ff.clear();
+		this.hpBar_ff.beginFill(HP_LEVEL_2_TINT, 0.5);
+		this.hpBar_ff.drawRoundedRect(100 + 360 * (1 - this.hpRatio_2), 32, 360 * this.hpRatio_2, 7, RADIUS_ROUNDED_RECT);
+		this.hpBar_ff.endFill();
+		if (player.hpLevel >= 3 && player.currentHP > (player.maxHP * 2)) {
+			this.hpRatio_3 = Math.max(Math.min((player.currentHP - player.maxHP * 2), player.maxHP), 0) / player.maxHP;
+			this.hpBar_fff.clear();
+			this.hpBar_fff.beginFill(HP_LEVEL_3_TINT, 0.5);
+			this.hpBar_fff.drawRoundedRect(100 + 360 * (1 - this.hpRatio_3), 32, 360 * this.hpRatio_3, 7, RADIUS_ROUNDED_RECT);
+			this.hpBar_fff.endFill();
+			if (player.hpLevel >= 4 && player.currentHP > (player.maxHP * 3)) {
+				this.hpRatio_4 = Math.max(Math.min((player.currentHP - player.maxHP * 3), player.maxHP), 0) / player.maxHP;
+				this.hpBar_ffff.clear();
+				this.hpBar_ffff.beginFill(HP_LEVEL_4_TINT, 0.5);
+				this.hpBar_ffff.drawRoundedRect(100 + 360 * (1 - this.hpRatio_4), 32, 360 * this.hpRatio_4, 7, RADIUS_ROUNDED_RECT);
+				this.hpBar_ffff.endFill();
+			} else {
+				this.hpBar_ffff.clear();
+			}
+		} else {
+			this.hpBar_fff.clear();
+		}
+	} else {
+		this.hpBar_ff.clear();
+	}
+
 	this.mpBar_f.clear();
-	this.mpBar_f.beginFill(LIGHT_TINT, 0.5);
-	this.mpBar_f.drawRoundedRect(game.width - 148, 62, 100 * (player.currentMP / player.maxMP), 10, RADIUS_ROUNDED_RECT);
+	this.mpBar_f.beginFill(0x40C26D, 0.5);
+	this.mpBar_f.drawRoundedRect(100, 39, 360 * (player.currentMP / player.maxMP), 7, RADIUS_ROUNDED_RECT);
 	this.mpBar_f.endFill();
 
 	if (player.frontObject !== null) {
@@ -163,6 +202,9 @@ HUD.prototype.update = function () {
 			case CHEST_FLASHLIGHT_INDEX:
 			case HIDDEN_DOOR_INDEX:
 			case HIDDEN_DOOR_INDEX + 1:
+			case BATTERY_INDEX:
+			case BATTERY_INDEX:
+			case PILL_INDEX:
 				this.eKey.visible = false;
 				this.crossEKey.visible = false;
 				break;
@@ -249,6 +291,12 @@ HUD.prototype.update = function () {
 			break;
 		default:
 			break;
+	}
+	if (this.battery_level.visible) {
+		this.batteryStockText.visible = true;
+		this.batteryStockText.setText('X ' + player.batteryStock);
+	} else {
+		this.batteryStockText.visible = false;
 	}
 	switch (true) {
 		case (player.jumpscared):

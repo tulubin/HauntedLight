@@ -35,11 +35,11 @@ Boost.prototype = {
 		game.load.spritesheet('wall', 'assets/tilesheet/wall.png', 32, 32);
 		game.load.spritesheet('floor', 'assets/tilesheet/floor.png', 32, 32);
 		game.load.image('Temp', 'assets/img/temp.png');
-		game.load.image('Title_background', 'assets/img/1.jpg');
+		game.load.image('Title_background', 'assets/img/title_background.png');
 		game.load.image('Titlekid', 'assets/img/titlekid.png');
-		game.load.image('Mark', 'assets/img/mark.png');
 		game.load.image('Title_instruction', 'assets/img/title_instruction.png');
 		game.load.image('Title_HL', 'assets/img/title_HL.png');
+		game.load.image('Title_HL_black', 'assets/img/title_HL_black.png');
 		game.load.image('CrossParticle', 'assets/img/crossParticle.png');
 		game.load.image('Particle', 'assets/img/particle.png');
 		game.load.image('MP', 'assets/img/MP.png');
@@ -50,12 +50,13 @@ Boost.prototype = {
 		game.load.image('Cross_E_key', 'assets/img/e_key.png');
 		game.load.image('SprintKey', 'assets/img/sprintKey.png');
 		game.load.image('Spacebar', 'assets/img/spacebar.png');
+		game.load.image('Enter', 'assets/img/enter.png');
 		game.load.atlas('Player', 'assets/img/kid.png', 'assets/img/kid.json');
 		game.load.atlas('Player_f', 'assets/img/kid_flash.png', 'assets/img/kid_flash.json');
 		game.load.atlas('Battery_level', 'assets/img/battery_level.png', 'assets/img/battery_level.json');
 		game.load.atlas('HP', 'assets/img/HP.png', 'assets/img/HP.json');
 		game.load.audio('Footstep', 'assets/audio/footstep.wav');
-		game.load.audio('Huanted', 'assets/audio/huanted_No_slime.wav');
+		game.load.audio('Huanted', 'assets/audio/huanted.wav');
 		game.load.audio('OpenDoor', 'assets/audio/openDoor.wav');
 		game.load.audio('CloseDoor', 'assets/audio/closeDoor.wav');
 		game.load.audio('OpenPrisonDoor', 'assets/audio/openPrisonDoor.wav');
@@ -66,8 +67,9 @@ Boost.prototype = {
 		game.load.audio('Trigger', 'assets/audio/trigger.wav');
 		game.load.audio('TrapButton', 'assets/audio/trapButton.wav');
 		game.load.audio('Flashlight', 'assets/audio/flashlight.wav');
-		game.load.audio('OpenCloset', 'assets/audio/openCloset.wav');
-		game.load.audio('CloseCloset', 'assets/audio/closeCloset.wav');
+		game.load.audio('Death', 'assets/audio/death.wav');
+		game.load.audio('Hiding', 'assets/audio/hiding.wav');
+		game.load.audio('HidingR', 'assets/audio/hidingR.wav');
 		game.load.start();
 	},
 	loadStart: function () {

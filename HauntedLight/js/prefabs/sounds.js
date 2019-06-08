@@ -12,8 +12,9 @@ var jumpscare;
 var trigger;
 var trapButton;
 var flashlight;
-var openCloset;
-var closeCloset;
+var death;
+var hiding;
+var hidingR;
 
 function Sounds(game) {
     Phaser.Group.call(this, game);
@@ -29,8 +30,9 @@ function Sounds(game) {
     trigger = game.add.audio('Trigger');
     trapButton = game.add.audio('TrapButton');
     flashlight = game.add.audio('Flashlight');
-    openCloset = game.add.audio('OpenCloset');
-    closeCloset = game.add.audio('CloseCloset');
+    death = game.add.audio('Death');
+    hiding = game.add.audio('Hiding');
+    hidingR = game.add.audio('HidingR');
     
 
 
@@ -46,8 +48,9 @@ function Sounds(game) {
     trigger.allowMultiple = true;
     trapButton.allowMultiple = true;
     flashlight.allowMultiple = true;
-    openCloset.allowMultiple = true;
-    closeCloset.allowMultiple = true;
+    death.allowMultiple = true;
+    hiding.allowMultiple = true;
+    hidingR.allowMultiple = true;
 };
 
 Sounds.prototype = Object.create(Phaser.Group.prototype);

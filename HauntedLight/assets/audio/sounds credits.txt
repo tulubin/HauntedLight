@@ -28,5 +28,11 @@ https://freesound.org/people/TheBuilder15/sounds/434898/
 "flashlight.wav" by Rudmer_Rotteveel of Freesound.org
 https://freesound.org/people/Rudmer_Rotteveel/sounds/457462/
 
-"openCloset" "closeCloset.wav" by tim.kahn of Freesound.org
+"openCloset.wav" "closeCloset.wav" by tim.kahn of Freesound.org
 https://freesound.org/people/tim.kahn/sounds/24250/
+
+"death.wav" by aumguy of Freesound.org
+https://freesound.org/people/aumguy/sounds/161419/
+
+"hiding.wav" "hidingR.wav" by Sergenious of Freesound.org
+https://freesound.org/people/Sergenious/sounds/55773/

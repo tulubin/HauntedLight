@@ -3,7 +3,8 @@
 var Play = function (game) { };
 Play.prototype = {
 	create: function () {
-
+		if (cheat)
+			tutorialOn = false;
 		game.time.advancedTiming = true;
 		// Physics:
 		// game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -32,7 +33,6 @@ Play.prototype = {
 		decorations.tint = DARK_TINT;
 		// Sounds:
 		sounds = new Sounds(game);
-		game.add.existing(sounds);
 		// Player:
 		player = new Player(game);
 		game.add.existing(player);
@@ -69,7 +69,7 @@ Play.prototype = {
 	},
 	update: function () {
 		debug.updateDebug();
-		if ((player.currentHP <= 0) && (debug.toggle === false)) {
+		if ((player.currentHP <= 0) && (!cheat)) {
 			game.state.start('Death');
 		}
 	}

@@ -3,17 +3,16 @@
 var Title = function (game) { };
 Title.prototype = {
 	create: function () {
-		// for debug:
-		// tutorialOn = false;
 
-		this.titleBackground = game.add.sprite(game.width / 2, game.height * 5 / 14 - 10, 'Title_background');
-		this.titleBackground.anchor.set(0.5);
+		this.titleBackground = game.add.sprite(0, 0, 'Title_background');
+		// this.titleBackground.anchor.set(0.5);
+		// this.titleBackground.tint = DARK_TINT;
+		this.titleBackground.scale.setTo(600);
 		this.titleBackground.tint = DARK_TINT;
-		// this.titleBackground.scale.setTo(0.5);
 
-		this.titleText = game.add.sprite(game.width / 2, game.height * 5 / 14, 'Title_HL');
+		this.titleText = game.add.sprite(game.width / 2, game.height * 5 / 14, 'Title_HL_black');
 		this.titleText.anchor.set(0.5);
-		this.titleText.scale.setTo(0.5);
+		this.titleText.scale.setTo(0.3);
 		this.titleText.visible = false;
 
 		this.titlekid = game.add.sprite(game.width * 1 / 11, game.height * 9 / 14, 'Titlekid');
@@ -28,6 +27,7 @@ Title.prototype = {
 		// this.spacebarText_b = game.add.bitmapText(game.width / 2 + 20, game.height - 58, 'bitmapFont', 'to Restart', 16);
 		this.titleInstruction = game.add.sprite(game.width / 2, game.height - 50, 'Title_instruction');
 		this.titleInstruction.anchor.set(0.5);
+		this.titleInstruction.scale.setTo(0.5);
 
 		this.maskGraphics = this.game.add.graphics(0, 0);
 		this.titleBackground.mask = this.maskGraphics;
@@ -37,6 +37,9 @@ Title.prototype = {
 	},
 	update: function () {
 		// input to continue
+		if (game.input.keyboard.justPressed(Phaser.Keyboard.UP)) {
+			cheat = true;
+		}
 		if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !this.titleText.visible) {
 			this.titleText.visible = true;
 			this.titleInstruction.destroy();

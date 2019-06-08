@@ -3,37 +3,55 @@
 var Death = function (game) { };
 Death.prototype = {
 	create: function () {
+		death.play();
+		this.line_1 = game.add.graphics(0, 0);
+		this.line_2 = game.add.graphics(0, 0);
+		this.line_3 = game.add.graphics(0, 0);
+		this.line_4 = game.add.graphics(0, 0);
+
 		this.moveOn = false;
 		this.diffReduced = false;
+
 		// add Death screen text
-		this.titleText = game.add.sprite(game.width / 2, game.height / 2, 'Title_HL');
+		this.titleText = game.add.sprite(game.width / 2, game.height / 4, 'Title_HL');
 		this.titleText.anchor.set(0.5);
 		this.titleText.scale.setTo(0.5);
 
-		var playText = game.add.text(game.width / 2, game.height * 0.6, 'You died, do not look at the shadow', { font: 'Helvetica', fontSize: '24px', fill: '#fff' });
-		playText.anchor.set(0.5);
+		this.playText = game.add.bitmapText(game.width / 2, game.height / 4 + 35, 'bitmapFont', 'You died, do not look at the shadow', 16);
+		this.playText.anchor.set(0.5);
 
-		this.nextTipsText = game.add.bitmapText(game.width / 2, game.height - 100, 'bitmapFont', 'Press Enter to show the next tips', 10);
-		this.nextTipsText.anchor.set(0.5);
-		this.tipsText = game.add.bitmapText(game.width / 2, game.height - 80, 'bitmapFont', '', 16);
+		this.tipsText = game.add.bitmapText(game.width / 2, game.height / 2 - 10, 'bitmapFont', '', 16);
 		this.tipsText.anchor.set(0.5);
 		this.randomTips();
+
 		game.time.events.add(Phaser.Timer.SECOND * 2, function () {
-			this.spacebar = game.add.sprite(game.width / 2, game.height - 50, 'Spacebar');
-			this.spacebar.anchor.set(0.5);
-			this.spacebarText_f = game.add.bitmapText(game.width / 2 - 60, game.height - 58, 'bitmapFont', 'Press', 16);
-			this.spacebarText_b = game.add.bitmapText(game.width / 2 + 20, game.height - 58, 'bitmapFont', 'to Restart', 16);
 			this.moveOn = true;
-			this.reduceDiffText = game.add.bitmapText(game.width / 2, game.height - 30, 'bitmapFont', 'Press Shift key to reduce the difficulty', 10);
-			this.reduceDiffText.anchor.set(0.5);
+			this.nextTipsText = game.add.sprite(game.width / 2 - 90, game.height / 2 + 35, 'Enter');
+			this.nextTipsText_f = game.add.bitmapText(game.width / 2 - 140, game.height / 2 + 35, 'bitmapFont', 'Press', 16);
+			this.nextTipsText_b = game.add.bitmapText(game.width / 2 - 45, game.height / 2 + 35, 'bitmapFont', 'to Show the Next Tips', 16);
+
+			this.spacebar = game.add.sprite(game.width / 2 - 90, game.height / 2 + 55, 'Spacebar');
+			this.spacebarText_f = game.add.bitmapText(game.width / 2 - 140, game.height / 2 + 55, 'bitmapFont', 'Press', 16);
+			this.spacebarText_b = game.add.bitmapText(game.width / 2 - 45, game.height / 2 + 55, 'bitmapFont', 'to Restart', 16);
+			
+			this.reduceDiffText = game.add.sprite(game.width / 2 - 90, game.height / 2 + 75, 'SprintKey');
+			this.reduceDiffText_f = game.add.bitmapText(game.width / 2 - 140, game.height / 2 + 75, 'bitmapFont', 'Press', 16);
+			this.reduceDiffText_b = game.add.bitmapText(game.width / 2 - 45, game.height / 2 + 75, 'bitmapFont', 'to Reduce the Difficulty', 16);
+			
+			this.cheatText = game.add.sprite(game.width / 2 - 90, game.height / 2 + 95, 'ArrowKey');
+			this.cheatText_f = game.add.bitmapText(game.width / 2 - 140, game.height / 2 + 95, 'bitmapFont', 'Press', 16);
+			this.cheatText_b = game.add.bitmapText(game.width / 2 - 45, game.height / 2 + 95, 'bitmapFont', 'to CHEAT (Only if too hard)', 16);
+
+			death.fadeOut();
 		}, this);
 
-		this.tutorialText = game.add.bitmapText(game.width / 2, game.height - 10, 'bitmapFont', '', 10);
+		this.tutorialText = game.add.bitmapText(game.width / 2, game.height - 30, 'bitmapFont', '', 10);
 		this.tutorialText.anchor.set(0.5);
 		tutorialOn = !tutorialOn;
 		this.toggleTutorial();
 	},
 	update: function () {
+		this.drawLine();
 		// input to continue
 		if (this.moveOn) {
 			if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR)) {
@@ -44,12 +62,20 @@ Death.prototype = {
 				playerMaxHP = playerMaxHP * 1.2;
 				playerMaxMP = playerMaxHP * 1.2;
 				playerMaxBattery = playerMaxHP * 1.2;
-				this.reduceDiffText.setText('Difficulty reduced.');
+				this.reduceDiffText_f.setText('* Difficulty reduced.');
+				this.reduceDiffText.destroy();
+				this.reduceDiffText_b.destroy();
 				this.diffReduced = true;
 			}
 			if (game.input.keyboard.justPressed(Phaser.Keyboard.ENTER)) {
 				// chage tips:
 				this.randomTips();
+			}
+			if (game.input.keyboard.justPressed(Phaser.Keyboard.UP) || cheat) {
+				this.cheatText_f.setText('* Cheated.');
+				this.cheatText.destroy();
+				this.cheatText_b.destroy();
+				cheat = true;
 			}
 		}
 		if (game.input.keyboard.justPressed(Phaser.Keyboard.T)) {
@@ -85,9 +111,32 @@ Death.prototype = {
 	toggleTutorial: function () {
 		tutorialOn = !tutorialOn;
 		if (tutorialOn) {
-			this.tutorialText.setText('Tutorial On - press T to toggle the opening tutorial');
+			this.tutorialText.setText('* Tutorial On - press T to toggle the opening tutorial');
 		} else {
-			this.tutorialText.setText('Tutorial Off - press T to toggle the opening tutorial');
+			this.tutorialText.setText('* Tutorial Off - press T to toggle the opening tutorial');
 		}
+	},
+	drawLine: function () {
+		this.ratio = 1 - (game.time.events.duration / 2000);
+		// top
+		this.line_1.clear();
+		this.line_1.beginFill(0xff4000, 0.5);
+		this.line_1.drawRect(game.width / 2 - 150, game.height / 2 + 25, 300 * this.ratio, 2);
+		this.line_1.endFill();
+		// down
+		this.line_3.clear();
+		this.line_3.beginFill(0xff4000, 0.5);
+		this.line_3.drawRect(game.width / 2 + 150, game.height / 2 + 125, -300 * this.ratio, 2);
+		this.line_3.endFill();
+		// left
+		this.line_2.clear();
+		this.line_2.beginFill(0xff4000, 0.5);
+		this.line_2.drawRect(game.width / 2 - 150, game.height / 2 + 25, 2, 100 * this.ratio);
+		this.line_2.endFill();
+		// right
+		this.line_4.clear();
+		this.line_4.beginFill(0xff4000, 0.5);
+		this.line_4.drawRect(game.width / 2 + 150, game.height / 2 + 125, 2, -100 * this.ratio);
+		this.line_4.endFill();
 	}
 };

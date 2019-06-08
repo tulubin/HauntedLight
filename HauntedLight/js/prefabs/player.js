@@ -4,7 +4,7 @@ function Player(game) {
 	// call Sprite constructor within this object
 	// new Sprite(game, x, y, key, frame)
 	Phaser.Sprite.call(this, game, GRID_SIZE * 47 + GRID_SIZE / 2, GRID_SIZE * 77 + GRID_SIZE / 2, 'Player');
-	// Phaser.Sprite.call(this, game, GRID_SIZE * 54 + GRID_SIZE / 2, GRID_SIZE * 38 + GRID_SIZE / 2, 'Player');
+	// Phaser.Sprite.call(this, game, GRID_SIZE * 135 + GRID_SIZE / 2, GRID_SIZE * 39 + GRID_SIZE / 2, 'Player');
 	this.anchor.set(0.5);
 	game.camera.follow(this, 0, 1, 1);
 	this.tint = DARK_TINT;
@@ -17,31 +17,34 @@ function Player(game) {
 	this.sprinting = false;
 	this.lastX = this.x;
 	this.lastY = this.y;
-	this.walkingDuration = 500;
-	this.actionCompleted = true;
+	this.walkingDuration = 500; // time spend for one grid movement
+	this.actionCompleted = true; // if player is finished doing any action
 	this.orientation = { up: false, down: true, left: false, right: false };
 	this.directionAngle = 270 * Math.PI / 180;
 	this.lightAngle = DEFAULT_VISION_ANGLE;
 	this.numberOfRays = this.lightAngle * 25;
 	this.rayLength = DEFAULT_VISION_LENGTH;
-	this.isHided = false;
-	this.recoverMP = true;
-	this.inMirror = false;
-	this.flashLightOn = false;
-	this.hasFlashlight = false;
-	this.switchToFlashLight = false;
+	this.isHided = false; // is hidden
+	this.recoverMP = true; // able to recover MP
+	this.inMirror = false; // if player is in mirror world
+	this.flashLightOn = false; // if player's flashlight has battery
+	this.hasFlashlight = false; // if player picked up flashlight
+	this.switchToFlashLight = false; // if player turns flashlight on
 	this.lightSourceX = this.x;
 	this.lightSourceY = this.y + 3;
 	this.frontObject = map.getTile(objectLayer.getTileX(this.centerX), objectLayer.getTileY(this.centerY + 32), objectLayer, true);
 	this.frontObjectIndex = -1;
-	this.switchToHUD = false;
-	this.endTutorialEvent = false;
-	this.inTutorial = true;
+	// this.switchToHUD = false;
+	this.endTutorialEvent = false; // trigger event once when end tutorial
+	this.inTutorial = true; // if in tutorial
 	this.colorPuzzleTrigger = false;
-	this.nextColorBlock = -1;
-	this.trapTriggered = false;
-	this.trapBotton = 0;
-	this.jumpscared = false;
+	this.nextColorBlock = -1; // next color block that player should move to, in color puzzle
+	this.trapTriggered = false; // trap puzzle trigger
+	this.trapBotton = 0; // trap puzzle floor botton
+	this.jumpscared = false; // if spot on shadow and not yet walk far from it.
+	this.batteryStock = 0; // remaining battery
+	this.hpLevel = 1; // extended HP
+	this.recoverHP = false; // if recoverHP
 	//Add Player animation
 	this.animations.add('walkUp', [4, 5, 6, 7], 6, true);
 	this.animations.add('walkDown', [0, 1, 2, 3], 6, true);
@@ -61,12 +64,12 @@ function Player(game) {
 		}
 		if (Phaser.Math.distance(this.x, this.y, shadow.x, shadow.y) > 200)
 			this.jumpscared = false;
-		if (this.currentMP < this.maxHP && this.recoverMP)
-			this.currentMP += 15;
-		if ((this.isHided) && (this.currentHP < this.maxHP))
-			this.currentHP += 15;
-		if (this.currentHP > this.maxHP)
-			this.currentHP = this.maxHP;
+		// if (this.currentMP < this.maxMP && this.recoverMP)
+		// 	this.currentMP += 15;
+		// if ((this.isHided) && (this.currentHP < this.maxHP * this.hpLevel))
+		// 	this.currentHP += 15 * this.hpLevel;
+		if (this.currentHP > this.maxHP * this.hpLevel)
+			this.currentHP = this.maxHP * this.hpLevel;
 		if (this.currentHP < 0)
 			this.currentHP = 0;
 		if (this.currentMP > this.maxMP)
@@ -78,6 +81,8 @@ function Player(game) {
 		}
 		if (this.switchToFlashLight && this.flashLightOn && this.currentBattery >= 0) {
 			if (this.currentBattery <= 0) {
+				flashlight.play('', 0, 0.05, false, true);
+				this.switchToFlashLight = !this.switchToFlashLight;
 				this.toggleFlashLight();
 			} else {
 				this.currentBattery -= 1;
@@ -90,8 +95,9 @@ function Player(game) {
 
 	shadow = new Shadow(game);
 	game.add.existing(shadow);
-
-	this.addLight();
+	if (!cheat) {
+		this.addLight();
+	}
 	// HUD:
 	// hud = new HUD(game);
 	// hud.fixedToCamera = true;
@@ -107,9 +113,10 @@ Player.prototype = Object.create(Phaser.Sprite.prototype);
 Player.prototype.constructor = Player;
 
 Player.prototype.update = function () {
-
-	this.maskGraphics.moveTo(this.x, this.y + 3);
-	this.updateLight();
+	if (!cheat) {
+		this.maskGraphics.moveTo(this.x, this.y + 3);
+		this.updateLight();
+	}
 	if (Phaser.Math.distance(this.lastX, this.lastY, shadow.x, shadow.y) < shadow.moveDis)
 		this.updatePlayerXY();
 	// Player Controls:
@@ -126,7 +133,12 @@ Player.prototype.update = function () {
 	if (this.actionCompleted === true) {
 		this.animations.stop();
 	}
-
+	if ((this.recoverHP || this.isHided) && (this.currentHP < this.maxHP * this.hpLevel)) {
+		this.currentHP += (20 / (game.time.fps || 60)) * this.hpLevel;
+	}
+	if (this.currentMP < this.maxMP && this.recoverMP) {
+		this.currentMP += 20 / (game.time.fps || 60);
+	}
 }
 
 // move Player:
@@ -144,7 +156,7 @@ Player.prototype.movePlayer = function (directions) {
 		}
 		this.actionCompleted = false;
 		this.playerTween.onComplete.add(this.playerTweenComplete, this);
-		if (this.sprinting) {
+		if (this.sprinting && !cheat) {
 			this.currentMP -= 5;
 			this.recoverMP = false;
 		}
@@ -174,6 +186,24 @@ Player.prototype.checkCollision = function (x, y, directions) {
 				this.actionCompleted = false;
 				newTween.onComplete.addOnce(this.flashlightPickupEvent, this);
 				break;
+			case BATTERY_INDEX:
+				game.time.events.add(Phaser.Timer.SECOND * 0.5, function () {
+					map.replace(BATTERY_INDEX, -1, objectTile.x, objectTile.y, 1, 1, objectLayer);
+				}, this);
+				this.movePlayer(directions);
+				this.batteryStock++;
+				break;
+			case PILL_INDEX:
+				game.time.events.add(Phaser.Timer.SECOND * 0.5, function () {
+					map.replace(PILL_INDEX, -1, objectTile.x, objectTile.y, 1, 1, objectLayer);
+				}, this);
+				this.movePlayer(directions);
+				this.hpLevel++;
+				this.recoverHP = true;
+				game.time.events.add(Phaser.Timer.SECOND * 20, function () {
+					this.recoverHP = false;
+				}, this);
+				break;
 			case -1: // no object infront
 				this.movePlayer(directions);
 				break;
@@ -192,7 +222,6 @@ Player.prototype.playerTweenComplete = function () {
 			this.trapTriggers();
 		}
 	} else {
-		console.log(this.trapTriggered);
 		this.trapPuzzle();
 	}
 	if (this.orientation.up) {
@@ -263,9 +292,9 @@ Player.prototype.updateLight = function () {
 					jumpscare.play();
 				}
 				if (this.switchToFlashLight)
-					this.currentHP -= 0.3 / game.time.fps;
+					this.currentHP -= 0.3 / (game.time.fps || 60);
 				else
-					this.currentHP -= 1 / game.time.fps;
+					this.currentHP -= 1 / (game.time.fps || 60);
 				if (!shadow.startMove) {
 					this.endTutorialEvent = true;
 					if (!this.inTutorial) {
@@ -277,7 +306,7 @@ Player.prototype.updateLight = function () {
 				this.maskGraphics.lineTo(lastX, lastY);
 				break;
 			} else {
-				if (wallTile.index !== -1 || objectTile.index === DOOR_1_INDEX || objectTile.index === HIDDEN_DOOR_INDEX) {
+				if (wallTile.index !== -1 || objectTile.index === DOOR_1_INDEX || objectTile.index === HIDDEN_DOOR_INDEX || objectTile.index === DOOR_2_INDEX || objectTile.index === DOOR_2_R_INDEX) {
 					lightThrough = true;
 				}
 				if (lightThrough)
@@ -318,6 +347,7 @@ Player.prototype.toggleFlashLight = function () {
 		this.flashLightOn = !this.flashLightOn;
 		hud.flashlight_icon.visible = this.switchToFlashLight && this.flashLightOn;
 		hud.battery_level.visible = this.switchToFlashLight && this.flashLightOn;
+		
 	} else {
 		this.lightAngle = DEFAULT_VISION_ANGLE;
 		this.rayLength = DEFAULT_VISION_LENGTH;
@@ -535,6 +565,11 @@ Player.prototype.playerControls = function () {
 		// toggle flashlight
 		flashlight.play('', 0, 0.05, false, true);
 		this.switchToFlashLight = !this.switchToFlashLight;
+		if (this.currentBattery <= 0 && this.batteryStock > 0) {
+			this.batteryStock--;
+			this.currentBattery = this.maxBattery;
+			// this.flashLightOn = true;
+		}
 		this.toggleFlashLight();
 	}
 }
@@ -548,10 +583,10 @@ Player.prototype.interactObjects = function () {
 		case PRISONDOOR_2_INDEX + 1:
 		case PRISONDOOR_2_R_INDEX:
 		case PRISONDOOR_2_R_INDEX + 1:
-			interact.play('', 0, 0.02, false, true);
+			interact.play('', 0, 0.03, false, true);
 			break;
 		case MIRROR_1_INDEX:
-			mirror.play('', 0, 0.1, false, true);
+			mirror.play('', 0, 0.2, false, true);
 			this.mirrorParticle();
 			this.actionCompleted = false;
 			this.animations.play("walkUp");
@@ -607,34 +642,18 @@ Player.prototype.interactObjects = function () {
 			break;
 		case CLOSET_1_INDEX:
 		case CLOSET_1_INDEX + 2:
-			if (this.isHided)
-				openCloset.play('', 0, 0.3, false, true);
-			else
-				closeCloset.play('', 0, 0.3, false, true);
 			this.replaceHidingSpot(CLOSET_1_INDEX, this.frontObject.x, this.frontObject.y);
 			break;
 		case CLOSET_1_INDEX + 1:
 		case CLOSET_1_INDEX + 3:
-			if (this.isHided)
-				openCloset.play('', 0, 0.3, false, true);
-			else
-				closeCloset.play('', 0, 0.3, false, true);
 			this.replaceHidingSpot(CLOSET_1_INDEX, this.frontObject.x - 1, this.frontObject.y);
 			break;
 		case CLOSET_2_INDEX:
 		case CLOSET_2_INDEX + 2:
-			if (this.isHided)
-				openCloset.play('', 0, 0.3, false, true);
-			else
-				closeCloset.play('', 0, 0.3, false, true);
 			this.replaceHidingSpot(CLOSET_2_INDEX, this.frontObject.x, this.frontObject.y);
 			break;
 		case CLOSET_2_INDEX + 1:
 		case CLOSET_2_INDEX + 3:
-			if (this.isHided)
-				openCloset.play('', 0, 0.3, false, true);
-			else
-				closeCloset.play('', 0, 0.3, false, true);
 			this.replaceHidingSpot(CLOSET_2_INDEX, this.frontObject.x - 1, this.frontObject.y);
 			break;
 		case DESK_1_INDEX:
@@ -691,9 +710,11 @@ Player.prototype.interactObjects = function () {
 }
 Player.prototype.replaceHidingSpot = function (index, x, y) {
 	if (this.isHided) {
+		hidingR.play();
 		map.replace(index + 2, index, x, y, 2, 1, objectLayer);
 		map.replace(index + 3, index + 1, x, y, 2, 1, objectLayer);
 	} else {
+		hiding.play();
 		map.replace(index, index + 2, x, y, 2, 1, objectLayer);
 		map.replace(index + 1, index + 3, x, y, 2, 1, objectLayer);
 	}
@@ -710,7 +731,6 @@ Player.prototype.trapPuzzle = function () {
 	var tileY = floorLayer.getTileY(this.centerY);
 	var tile = map.getTile(tileX, tileY, floorLayer, true);
 	if (tile.index === TRAP_BUTTON_INDEX) {
-		console.log(this.trapBotton);
 		this.trapBotton++;
 		trapButton.play();
 		map.replace(TRAP_BUTTON_INDEX, TRAP_BUTTON_INDEX + 1, tile.x, tile.y, 1, 1, floorLayer);
