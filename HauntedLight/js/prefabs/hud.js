@@ -40,11 +40,11 @@ function HUD(game) {
 	this.flashlight_icon.anchor.set(0.5);
 	this.flashlight_icon.visible = false;
 	this.add(this.flashlight_icon);
+	// --------------Battery level-----------------
 	this.battery_level = game.add.sprite(game.width - 100, game.height - 60, 'Battery_level');
 	this.battery_level.anchor.set(0.5);
 	this.battery_level.visible = false;
 	this.add(this.battery_level);
-
 	this.batteryStockText = game.add.text(game.width - 70, game.height - 60, 'X 0', { fontSize: '16px', fill: '#FFF' });
 	this.batteryStockText.anchor.set(0.5);
 	this.batteryStockText.visible = false;
@@ -53,12 +53,10 @@ function HUD(game) {
 	this.eKey = game.add.sprite(game.width / 2 + 16, game.height / 2 - 32, 'E_key');
 	this.eKey.anchor.set(0.5);
 	this.eKey.alpha = 0.3;
-	// this.add(this.eKey);
 	this.eKey.visible = false;
 	this.crossEKey = game.add.sprite(game.width / 2 + 16, game.height / 2 - 32, 'Cross_E_key');
 	this.crossEKey.anchor.set(0.5);
 	this.crossEKey.alpha = 0.3;
-	// this.add(this.crossEKey);
 	this.crossEKey.visible = false;
 	// --------------tutorial HUD-----------------
 	this.upKey = game.add.sprite(60, game.height - 140, 'ArrowKey');
@@ -310,19 +308,3 @@ HUD.prototype.update = function () {
 			break;
 	}
 }
-// HUD.prototype.hpParticle = function () {
-// 	this.hpEmitter = game.add.emitter(game.width - 35, 23, 100);
-// 	this.hpEmitter.width = 1;
-// 	this.hpEmitter.height = 6;
-// 	this.hpEmitter.makeParticles('Particle');
-// 	this.hpEmitter.setRotation(0, 0);
-// 	this.hpEmitter.setAlpha(0.2, 0.4);
-// 	this.hpEmitter.setScale(0.02, 0.1, 0.02, 0.1);
-// 	this.hpEmitter.gravity = -300;
-// 	// this.hpEmitter.setXSpeed(0, 0);
-// 	// this.hpEmitter.setYSpeed(0, 0);
-// 	// this.hpEmitter.x = ;
-// 	// this.hpEmitter.y = ;
-// 	this.hpEmitter.start(false, 700, 10);
-// 	// this.hpEmitter.start(true, 1000, null, 100);
-// }

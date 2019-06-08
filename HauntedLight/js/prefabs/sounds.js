@@ -1,5 +1,6 @@
 // Sounds Group:
 "use strict";
+// sounds:
 var footstep;
 var huanted;
 var openDoor;
@@ -18,6 +19,7 @@ var hidingR;
 
 function Sounds(game) {
     Phaser.Group.call(this, game);
+    // add aduio
     footstep = game.add.audio('Footstep');
     huanted = game.add.audio('Huanted');
     openDoor = game.add.audio('OpenDoor');
@@ -34,8 +36,7 @@ function Sounds(game) {
     hiding = game.add.audio('Hiding');
     hidingR = game.add.audio('HidingR');
     
-
-
+    // make them allow multiple to prevent warning message
     footstep.allowMultiple = true;
     huanted.allowMultiple = true;
     openDoor.allowMultiple = true;

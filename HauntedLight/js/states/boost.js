@@ -1,6 +1,6 @@
 // Boost state
 "use strict";
-var text;
+var loadingText; // for loading text
 
 var Boost = function (game) { };
 Boost.prototype = {
@@ -10,8 +10,6 @@ Boost.prototype = {
 		game.scale.pageAlignHorizontally = true;
 		game.scale.pageAlignVertically = true;
 		game.scale.refresh();
-
-		// game.stage.backgroundColor = '#182d3b';
 
 		// Loading bar
 		this.loadingBar_b = game.add.graphics(0, 0);
@@ -73,7 +71,7 @@ Boost.prototype = {
 		game.load.start();
 	},
 	loadStart: function () {
-		text = game.add.bitmapText(32, game.height - 32, 'bitmapFont', 'Loading...', 12);
+		loadingText = game.add.bitmapText(32, game.height - 32, 'bitmapFont', 'Loading...', 12);
 	},
 	fileComplete: function (progress) {
 		this.loadingBar_f.clear();
