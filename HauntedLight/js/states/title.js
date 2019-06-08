@@ -37,9 +37,9 @@ Title.prototype = {
 	},
 	update: function () {
 		// input to continue
-		if (game.input.keyboard.justPressed(Phaser.Keyboard.P)) {
-			cheat = true;
-		}
+		// if (game.input.keyboard.justPressed(Phaser.Keyboard.P)) {
+		// 	cheat = true;
+		// }
 		if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !this.titleText.visible) {
 			this.titleText.visible = true;
 			this.titleInstruction.destroy();
