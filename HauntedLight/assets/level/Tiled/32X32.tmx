@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="5" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="1">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="5" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="1">
  <tileset firstgid="1" name="objects" tilewidth="32" tileheight="32" tilecount="240" columns="8">
   <image source="../../tilesheet/objects.png" width="256" height="960"/>
  </tileset>
@@ -12,10 +12,10 @@
  <tileset firstgid="302" name="3" tilewidth="32" tileheight="32" tilecount="1" columns="1">
   <image source="../../tilesheet/original_imgs/wall.png" width="32" height="32"/>
  </tileset>
- <tileset firstgid="303" name="4" tilewidth="32" tileheight="32" tilecount="50" columns="5">
-  <image source="../../tilesheet/wall.png" width="160" height="320"/>
+ <tileset firstgid="303" name="4" tilewidth="32" tileheight="32" tilecount="150" columns="5">
+  <image source="../../tilesheet/wall.png" width="160" height="960"/>
  </tileset>
- <layer id="2" name="Tile Layer 1" width="5" height="30">
+ <layer id="3" name="Tile Layer 1" width="5" height="10">
   <data encoding="csv">
 303,304,305,306,307,
 308,309,310,311,312,
@@ -26,27 +26,7 @@
 333,334,335,336,337,
 338,339,340,341,342,
 343,344,345,346,347,
-348,349,350,302,352,
-0,0,0,0,0,
-0,0,0,0,0,
-0,0,0,0,0,
-0,0,0,0,0,
-0,0,0,0,0,
-0,0,0,0,0,
-0,0,0,0,0,
-0,0,0,0,0,
-0,0,0,0,0,
-0,0,0,0,0,
-0,0,0,0,0,
-0,0,0,0,0,
-0,0,0,0,0,
-0,0,0,0,0,
-0,0,0,0,0,
-0,0,0,0,0,
-0,0,0,0,0,
-0,0,0,0,0,
-0,0,0,0,0,
-0,0,0,0,0
+348,349,350,302,352
 </data>
  </layer>
 </map>
