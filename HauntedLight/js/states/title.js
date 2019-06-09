@@ -19,7 +19,7 @@ Title.prototype = {
 		this.titleText.visible = false;
 		// title draw of character
 		// this.titlekid = game.add.sprite(game.width * 1 / 11, game.height * 9 / 14, 'Titlekid');
-		this.titlekid = game.add.sprite(game.width * 9 / 20, game.height * 31 / 60, 'Titlekid');
+		this.titlekid = game.add.sprite(game.width * 9 / 20, game.height * 31 / 60, 'titlekidDark');
 		this.titlekid.anchor.set(0.5);
 		this.titlekid.tint = DARK_TINT;
 		// "press space to toggle the flashlight" text spirte
@@ -52,11 +52,13 @@ Title.prototype = {
 	toggleLight: function () {
 		if (this.lightOn) {
 			this.createLight(0);
-			this.titlekid.frame = 0;
+			//this.titlekid.frame = 0;
 		} else {
 			this.flashlight.play();
 			this.createLight(150);
-			this.titlekid.frame = 1;
+			//this.titlekid.frame = 1;
+			this.titlekid = game.add.sprite(game.width * 9 / 20, game.height * 31 / 60, 'titlekidLight');
+			this.titlekid.anchor.set(0.5);
 		}
 		this.lightOn = !this.lightOn;
 		switch (this.flashed) {
