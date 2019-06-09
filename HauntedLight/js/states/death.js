@@ -3,9 +3,7 @@
 var Death = function (game) { };
 Death.prototype = {
 	create: function () {
-		// player death sounds
 		death.play();
-		// draw lines
 		this.line_1 = game.add.graphics(0, 0);
 		this.line_2 = game.add.graphics(0, 0);
 		this.line_3 = game.add.graphics(0, 0);
@@ -14,7 +12,7 @@ Death.prototype = {
 		this.moveOn = false;
 		this.diffReduced = false;
 
-		// "Haunted light" text sprite
+		// add Death screen text
 		this.titleText = game.add.sprite(game.width / 2, game.height / 4, 'Title_HL');
 		this.titleText.anchor.set(0.5);
 		this.titleText.scale.setTo(0.5);
@@ -25,7 +23,7 @@ Death.prototype = {
 		this.tipsText = game.add.bitmapText(game.width / 2, game.height / 2 - 10, 'bitmapFont', '', 16);
 		this.tipsText.anchor.set(0.5);
 		this.randomTips();
-		// set timer for delay messages
+
 		game.time.events.add(Phaser.Timer.SECOND * 2, function () {
 			this.moveOn = true;
 			this.nextTipsText = game.add.sprite(game.width / 2 - 90, game.height / 2 + 35, 'Enter');
@@ -35,11 +33,11 @@ Death.prototype = {
 			this.spacebar = game.add.sprite(game.width / 2 - 90, game.height / 2 + 55, 'Spacebar');
 			this.spacebarText_f = game.add.bitmapText(game.width / 2 - 140, game.height / 2 + 55, 'bitmapFont', 'Press', 16);
 			this.spacebarText_b = game.add.bitmapText(game.width / 2 - 45, game.height / 2 + 55, 'bitmapFont', 'to Restart', 16);
-
+			
 			this.reduceDiffText = game.add.sprite(game.width / 2 - 90, game.height / 2 + 75, 'SprintKey');
 			this.reduceDiffText_f = game.add.bitmapText(game.width / 2 - 140, game.height / 2 + 75, 'bitmapFont', 'Press', 16);
 			this.reduceDiffText_b = game.add.bitmapText(game.width / 2 - 45, game.height / 2 + 75, 'bitmapFont', 'to Reduce the Difficulty', 16);
-
+			
 			this.cheatText_f = game.add.bitmapText(game.width / 2 - 140, game.height / 2 + 95, 'bitmapFont', 'Press', 16);
 			this.cheatText = game.add.bitmapText(game.width / 2 - 90, game.height / 2 + 95, 'bitmapFont', 'P', 16);
 			this.cheatText_b = game.add.bitmapText(game.width / 2 - 45, game.height / 2 + 95, 'bitmapFont', 'to CHEAT (Only if too hard)', 16);

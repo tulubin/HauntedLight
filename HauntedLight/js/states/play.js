@@ -6,11 +6,20 @@ Play.prototype = {
 		if (cheat)
 			tutorialOn = false;
 		game.time.advancedTiming = true;
-		//tilemap
+		// Physics:
+		// game.physics.startSystem(Phaser.Physics.ARCADE);
+		// game.physics.setBoundsToWorld();
+
+		// World:
+		// game.physics.arcade.gravity.y = this.GRAVITY;
+		// game.physics.arcade.TILE_BIAS = 32;
+		// game.stage.setBackgroundColor('#87CEEB');
 		map = game.add.tilemap('level');
+		// map.addTilesetImage('FloorWall', 'floorwall');
 		map.addTilesetImage('objects', 'objects');
 		map.addTilesetImage('floor', 'floor');
 		map.addTilesetImage('wall', 'wall');
+		// map.addTilesetImage('Puzzle_1', 'puzzle_1');
 		map.setCollisionByExclusion([]);
 		floorLayer = map.createLayer('Floor');
 		wallLayer = map.createLayer('Wall');
@@ -26,11 +35,12 @@ Play.prototype = {
 		sounds = new Sounds(game);
 		// Player:
 		player = new Player(game);
-		game.add.existing(player);	
-		// HUD
+		game.add.existing(player);
+
+
 		hud = new HUD(game);
 		hud.fixedToCamera = true;
-		// Debugging
+
 		debug = new debugPlugin(game);
 		debug.addDebug();
 

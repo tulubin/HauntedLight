@@ -1,35 +1,38 @@
 // Title state
 "use strict";
-var flashlightTimer;
 var Title = function (game) { };
 Title.prototype = {
 	create: function () {
-		this.lightOn = false; // if toggle light
-		this.flashed = 0; // time of light flashed
-		this.flashlight = game.add.audio('Flashlight');
-		this.flashlight.allowMultiple = true;
-		// white background sprite
+
 		this.titleBackground = game.add.sprite(0, 0, 'Title_background');
+		// this.titleBackground.anchor.set(0.5);
+		// this.titleBackground.tint = DARK_TINT;
 		this.titleBackground.scale.setTo(600);
 		this.titleBackground.tint = DARK_TINT;
-		// "Haunted light" text sprite
+
 		this.titleText = game.add.sprite(game.width / 2, game.height * 5 / 14, 'Title_HL_black');
 		this.titleText.anchor.set(0.5);
 		this.titleText.scale.setTo(0.3);
 		this.titleText.visible = false;
-		// title draw of character
-		// this.titlekid = game.add.sprite(game.width * 1 / 11, game.height * 9 / 14, 'Titlekid');
-		this.titlekid = game.add.sprite(game.width * 9 / 20, game.height * 31 / 60, 'Titlekid');
+
+		this.titlekid = game.add.sprite(game.width * 1 / 11, game.height * 9 / 14, 'Titlekid');
 		this.titlekid.anchor.set(0.5);
 		this.titlekid.tint = DARK_TINT;
-		// "press space to toggle the flashlight" text spirte
+
+		// this.titlekid.tint = DARK_TINT;
+		// this.titlekid.scale.setTo(0.5);
+		// this.spacebar = game.add.sprite(game.width / 2, game.height - 50, 'Spacebar');
+		// this.spacebar.anchor.set(0.5);
+		// this.spacebarText_f = game.add.bitmapText(game.width / 2 - 60, game.height - 58, 'bitmapFont', 'Press', 16);
+		// this.spacebarText_b = game.add.bitmapText(game.width / 2 + 20, game.height - 58, 'bitmapFont', 'to Restart', 16);
 		this.titleInstruction = game.add.sprite(game.width / 2, game.height - 50, 'Title_instruction');
 		this.titleInstruction.anchor.set(0.5);
 		this.titleInstruction.scale.setTo(0.5);
-		// masking for highlighting
+
 		this.maskGraphics = this.game.add.graphics(0, 0);
 		this.titleBackground.mask = this.maskGraphics;
 		this.titleText.mask = this.maskGraphics;
+
 		this.createLight(0);
 	},
 	update: function () {
@@ -37,45 +40,16 @@ Title.prototype = {
 		// if (game.input.keyboard.justPressed(Phaser.Keyboard.P)) {
 		// 	cheat = true;
 		// }
-
 		if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !this.titleText.visible) {
 			this.titleText.visible = true;
 			this.titleInstruction.destroy();
-			flashlightTimer = game.time.events.loop(Phaser.Timer.SECOND * 0.1, this.toggleLight, this);
-			game.time.events.add(Phaser.Timer.SECOND * 3, function () {
-				game.time.events.stop();
-				this.createLight(150);
+			this.createLight(150);
+			// this.spacebarText_f.destroy();
+			// this.spacebarText_b.destroy();
+			game.time.events.add(Phaser.Timer.SECOND * 2, function () {
 				game.state.start('Play');
 			}, this);
 		}
-	},
-	toggleLight: function () {
-		if (this.lightOn) {
-			this.createLight(0);
-			this.titlekid.frame = 0;
-		} else {
-			this.flashlight.play();
-			this.createLight(150);
-			this.titlekid.frame = 1;
-		}
-		this.lightOn = !this.lightOn;
-		switch (this.flashed) {
-			case 1:
-				flashlightTimer.delay += Phaser.Timer.SECOND * 0.01;
-				break;
-			case 2:
-				flashlightTimer.delay += Phaser.Timer.SECOND * 0.2;
-				break;
-			case 3:
-				flashlightTimer.delay += Phaser.Timer.SECOND * 2.5;
-				break;
-			case 4:
-				flashlightTimer.delay += Phaser.Timer.SECOND * 3;
-				break;
-			default:
-				break;
-		}
-		this.flashed++;
 	},
 	createLight: function (diameter) {
 		this.maskGraphics.clear();

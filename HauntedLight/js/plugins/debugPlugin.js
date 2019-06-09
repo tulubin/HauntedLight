@@ -2,6 +2,10 @@
 function debugPlugin(game) {
 	Phaser.Plugin.call(this, game);
 	this.toggle = false;
+	// this.tileIndex
+	// this.currentLayer
+	// this.tileX
+	// this.tileY
 };
 
 debugPlugin.prototype = Object.create(Phaser.Plugin.prototype);
@@ -60,6 +64,8 @@ debugPlugin.prototype.getTileProperties = function () {
 	this.tileX = wallLayer.getTileX(game.input.activePointer.worldX);
 	this.tileY = wallLayer.getTileY(game.input.activePointer.worldY);
 	var tile = map.getTile(this.tileX, this.tileY, objectLayer, true);
+	// Note: JSON.stringify will convert the object tile properties to a string
+	// currentDataString = JSON.stringify(tile.properties);
 	if (tile.index !== -1) {
 		this.currentLayer = 'Object';
 		this.tileIndex = tile.index;
@@ -78,4 +84,6 @@ debugPlugin.prototype.getTileProperties = function () {
 			this.tileIndex = tile.index;
 		}
 	}
+
+	// tile.properties.wibble = true;
 };
