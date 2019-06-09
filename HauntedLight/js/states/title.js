@@ -43,7 +43,6 @@ Title.prototype = {
 			this.titleInstruction.destroy();
 			flashlightTimer = game.time.events.loop(Phaser.Timer.SECOND * 0.1, this.toggleLight, this);
 			game.time.events.add(Phaser.Timer.SECOND * 3, function () {
-				game.time.events.stop();
 				this.createLight(150);
 				game.state.start('Play');
 			}, this);
