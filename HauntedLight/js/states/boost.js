@@ -34,7 +34,6 @@ Boost.prototype = {
 		game.load.spritesheet('floor', 'assets/tilesheet/floor.png', 32, 32);
 		game.load.image('Temp', 'assets/img/temp.png');
 		game.load.image('Title_background', 'assets/img/title_background.png');
-		game.load.image('Titlekid', 'assets/img/titlekid.png');
 		game.load.image('Title_instruction', 'assets/img/title_instruction.png');
 		game.load.image('Title_HL', 'assets/img/title_HL.png');
 		game.load.image('Title_HL_black', 'assets/img/title_HL_black.png');
@@ -49,6 +48,7 @@ Boost.prototype = {
 		game.load.image('SprintKey', 'assets/img/sprintKey.png');
 		game.load.image('Spacebar', 'assets/img/spacebar.png');
 		game.load.image('Enter', 'assets/img/enter.png');
+		game.load.atlas('Titlekid', 'assets/img/titlekid.png', 'assets/img/titlekid.json');
 		game.load.atlas('Player', 'assets/img/kid.png', 'assets/img/kid.json');
 		game.load.atlas('Player_f', 'assets/img/kid_flash.png', 'assets/img/kid_flash.json');
 		game.load.atlas('Battery_level', 'assets/img/battery_level.png', 'assets/img/battery_level.json');
