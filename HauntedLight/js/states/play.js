@@ -6,20 +6,21 @@ Play.prototype = {
 		if (cheat)
 			tutorialOn = false;
 		game.time.advancedTiming = true;
-		// Physics:
-		// game.physics.startSystem(Phaser.Physics.ARCADE);
-		// game.physics.setBoundsToWorld();
+		// Physics: // diff: not in master
+		// game.physics.startSystem(Phaser.Physics.ARCADE); // diff: not in master
+		// game.physics.setBoundsToWorld(); // diff: not in master
 
-		// World:
-		// game.physics.arcade.gravity.y = this.GRAVITY;
-		// game.physics.arcade.TILE_BIAS = 32;
-		// game.stage.setBackgroundColor('#87CEEB');
+		// World: // diff: not in master
+		// game.physics.arcade.gravity.y = this.GRAVITY; // diff: not in master
+		// game.physics.arcade.TILE_BIAS = 32; // diff: not in master
+		// game.stage.setBackgroundColor('#87CEEB'); // diff: not in master
+		//tilemap
 		map = game.add.tilemap('level');
-		// map.addTilesetImage('FloorWall', 'floorwall');
+		// map.addTilesetImage('FloorWall', 'floorwall'); // diff: not in master
 		map.addTilesetImage('objects', 'objects');
 		map.addTilesetImage('floor', 'floor');
 		map.addTilesetImage('wall', 'wall');
-		// map.addTilesetImage('Puzzle_1', 'puzzle_1');
+		// map.addTilesetImage('Puzzle_1', 'puzzle_1');  // diff: not in master
 		map.setCollisionByExclusion([]);
 		floorLayer = map.createLayer('Floor');
 		wallLayer = map.createLayer('Wall');
@@ -36,11 +37,10 @@ Play.prototype = {
 		// Player:
 		player = new Player(game);
 		game.add.existing(player);
-
-
+		// HUD
 		hud = new HUD(game);
 		hud.fixedToCamera = true;
-
+		// Debugging
 		debug = new debugPlugin(game);
 		debug.addDebug();
 

@@ -1,6 +1,6 @@
 // Boost state
 "use strict";
-var text;
+var text; /**************** var loadingText; // for loading text **************/
 
 var Boost = function (game) { };
 Boost.prototype = {
@@ -11,7 +11,7 @@ Boost.prototype = {
 		game.scale.pageAlignVertically = true;
 		game.scale.refresh();
 
-		// game.stage.backgroundColor = '#182d3b';
+		// game.stage.backgroundColor = '#182d3b'; //diff: not in master
 
 		// Loading bar
 		this.loadingBar_b = game.add.graphics(0, 0);

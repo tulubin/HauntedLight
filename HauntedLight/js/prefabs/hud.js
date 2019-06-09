@@ -310,19 +310,19 @@ HUD.prototype.update = function () {
 			break;
 	}
 }
-// HUD.prototype.hpParticle = function () {
-// 	this.hpEmitter = game.add.emitter(game.width - 35, 23, 100);
-// 	this.hpEmitter.width = 1;
-// 	this.hpEmitter.height = 6;
-// 	this.hpEmitter.makeParticles('Particle');
-// 	this.hpEmitter.setRotation(0, 0);
-// 	this.hpEmitter.setAlpha(0.2, 0.4);
-// 	this.hpEmitter.setScale(0.02, 0.1, 0.02, 0.1);
-// 	this.hpEmitter.gravity = -300;
-// 	// this.hpEmitter.setXSpeed(0, 0);
-// 	// this.hpEmitter.setYSpeed(0, 0);
-// 	// this.hpEmitter.x = ;
-// 	// this.hpEmitter.y = ;
-// 	this.hpEmitter.start(false, 700, 10);
-// 	// this.hpEmitter.start(true, 1000, null, 100);
+// HUD.prototype.hpParticle = function () { //diff: not in master
+// 	this.hpEmitter = game.add.emitter(game.width - 35, 23, 100); //diff: not in master
+// 	this.hpEmitter.width = 1; //diff: not in master
+// 	this.hpEmitter.height = 6; //diff: not in master
+// 	this.hpEmitter.makeParticles('Particle'); //diff: not in master
+// 	this.hpEmitter.setRotation(0, 0); //diff: not in master
+// 	this.hpEmitter.setAlpha(0.2, 0.4); //diff: not in master
+// 	this.hpEmitter.setScale(0.02, 0.1, 0.02, 0.1); //diff: not in master
+// 	this.hpEmitter.gravity = -300; //diff: not in master
+// 	// this.hpEmitter.setXSpeed(0, 0); //diff: not in master
+// 	// this.hpEmitter.setYSpeed(0, 0); //diff: not in master
+// 	// this.hpEmitter.x = ; //diff: not in master
+// 	// this.hpEmitter.y = ; //diff: not in master
+// 	this.hpEmitter.start(false, 700, 10); //diff: not in master
+// 	// this.hpEmitter.start(true, 1000, null, 100); //diff: not in master
 // }

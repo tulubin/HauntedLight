@@ -3,7 +3,9 @@
 var Death = function (game) { };
 Death.prototype = {
 	create: function () {
+		// player death sounds
 		death.play();
+		// draw lines
 		this.line_1 = game.add.graphics(0, 0);
 		this.line_2 = game.add.graphics(0, 0);
 		this.line_3 = game.add.graphics(0, 0);
@@ -23,7 +25,7 @@ Death.prototype = {
 		this.tipsText = game.add.bitmapText(game.width / 2, game.height / 2 - 10, 'bitmapFont', '', 16);
 		this.tipsText.anchor.set(0.5);
 		this.randomTips();
-
+		// set timer for delay messages		
 		game.time.events.add(Phaser.Timer.SECOND * 2, function () {
 			this.moveOn = true;
 			this.nextTipsText = game.add.sprite(game.width / 2 - 90, game.height / 2 + 35, 'Enter');

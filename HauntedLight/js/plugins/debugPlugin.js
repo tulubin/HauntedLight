@@ -2,10 +2,10 @@
 function debugPlugin(game) {
 	Phaser.Plugin.call(this, game);
 	this.toggle = false;
-	// this.tileIndex
-	// this.currentLayer
-	// this.tileX
-	// this.tileY
+	// this.tileIndex //diff: not in master
+	// this.currentLayer //diff: not in master
+	// this.tileX //diff: not in master
+	// this.tileY //diff: not in master
 };
 
 debugPlugin.prototype = Object.create(Phaser.Plugin.prototype);
@@ -64,8 +64,8 @@ debugPlugin.prototype.getTileProperties = function () {
 	this.tileX = wallLayer.getTileX(game.input.activePointer.worldX);
 	this.tileY = wallLayer.getTileY(game.input.activePointer.worldY);
 	var tile = map.getTile(this.tileX, this.tileY, objectLayer, true);
-	// Note: JSON.stringify will convert the object tile properties to a string
-	// currentDataString = JSON.stringify(tile.properties);
+	// Note: JSON.stringify will convert the object tile properties to a string //diff: not in master
+	// currentDataString = JSON.stringify(tile.properties); //diff: not in master
 	if (tile.index !== -1) {
 		this.currentLayer = 'Object';
 		this.tileIndex = tile.index;
@@ -85,5 +85,5 @@ debugPlugin.prototype.getTileProperties = function () {
 		}
 	}
 
-	// tile.properties.wibble = true;
+	// tile.properties.wibble = true; //diff: not in master
 };

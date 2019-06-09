@@ -1,4 +1,4 @@
-// // Camera prefab
+// // Camera prefab //diff: the file is not in master
 
 // function Camera(game) {
 // 	// call Sprite constructor within this object
