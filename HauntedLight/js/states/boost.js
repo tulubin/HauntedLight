@@ -51,6 +51,7 @@ Boost.prototype = {
 		game.load.image('SprintKey', 'assets/img/sprintKey.png');
 		game.load.image('Spacebar', 'assets/img/spacebar.png');
 		game.load.image('Enter', 'assets/img/enter.png');
+		game.load.atlas('Titlekid', 'assets/img/titlekid.png', 'assets/img/titlekid.json');
 		game.load.atlas('Player', 'assets/img/kid.png', 'assets/img/kid.json');
 		game.load.atlas('Player_f', 'assets/img/kid_flash.png', 'assets/img/kid_flash.json');
 		game.load.atlas('Battery_level', 'assets/img/battery_level.png', 'assets/img/battery_level.json');

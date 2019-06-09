@@ -15,7 +15,7 @@ Title.prototype = {
 		this.titleText.scale.setTo(0.3);
 		this.titleText.visible = false;
 
-		this.titlekid = game.add.sprite(game.width * 1 / 11, game.height * 9 / 14, 'Titlekid');
+		this.titlekid = game.add.sprite(game.width * 9 / 20, game.height * 31 / 60, 'Titlekid');
 		this.titlekid.anchor.set(0.5);
 		this.titlekid.tint = DARK_TINT;
 
