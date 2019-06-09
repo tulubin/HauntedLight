@@ -47,10 +47,10 @@ function Player(game) {
 	this.frontObjectIndex = -1; // index of front object tile
 	this.nextColorBlock = -1; // next color block that player should move to, in color puzzle
 	// Add Player animation
-	this.animations.add('walkUp', [4, 5, 6, 7], 6, true);
-	this.animations.add('walkDown', [0, 1, 2, 3], 6, true);
-	this.animations.add('walkLeft', [8, 9, 10, 11], 6, true);
-	this.animations.add('walkRight', [12, 13, 14, 15], 6, true);
+	this.animations.add('walkUp', [4, 5, 6, 7], 8, true);
+	this.animations.add('walkDown', [0, 1, 2, 3], 8, true);
+	this.animations.add('walkLeft', [8, 9, 10, 11], 8, true);
+	this.animations.add('walkRight', [12, 13, 14, 15], 8, true);
 	// update loop with 1 per second for HP, MP and battery
 	timer = game.time.create(false);
 	timer.loop(Phaser.Timer.SECOND, function () {
