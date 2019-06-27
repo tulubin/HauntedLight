@@ -148,11 +148,11 @@ Player.prototype.movePlayer = function (directions) {
 }
 // check if player can move forward:
 Player.prototype.checkCollision = function (x, y, directions) {
-	var frontTileX = floorLayer.getTileX(x);
-	var frontTileY = floorLayer.getTileY(y);
-	var wallTile = map.getTile(frontTileX, frontTileY, wallLayer, true);
+	let frontTileX = floorLayer.getTileX(x);
+	let frontTileY = floorLayer.getTileY(y);
+	let wallTile = map.getTile(frontTileX, frontTileY, wallLayer, true);
 	if (wallTile.index === -1) { // check if it's not a wall
-		var objectTile = map.getTile(frontTileX, frontTileY, objectLayer, true);
+		let objectTile = map.getTile(frontTileX, frontTileY, objectLayer, true);
 		switch (objectTile.index) { // check certain object for collision
 			case DOOR_1_INDEX + 1:	// open door pass through
 			case DOOR_2_R_INDEX + 1:
@@ -165,7 +165,7 @@ Player.prototype.checkCollision = function (x, y, directions) {
 			case CHEST_FLASHLIGHT_INDEX: // collect chest flashlight
 				this.animations.play("walkUp");
 				footstep.play();
-				var newTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY - 32 }, this.walkingDuration, Phaser.Easing.Linear.None, true);
+				let newTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY - 32 }, this.walkingDuration, Phaser.Easing.Linear.None, true);
 				this.actionCompleted = false;
 				newTween.onComplete.addOnce(this.flashlightPickupEvent, this);
 				break;
@@ -260,15 +260,15 @@ Player.prototype.updateLight = function () {
 	this.lightSourceX = this.x;
 	this.lightSourceY = this.y + 3;
 
-	for (var i = 0; i < this.numberOfRays; i++) {
-		var rayAngle = this.directionAngle - (this.lightAngle / 2) + (this.lightAngle / this.numberOfRays) * i;
-		var lastX = this.lightSourceX;
-		var lastY = this.lightSourceY;
-		var lightThrough = false;
-		var k = 0;
-		for (var j = 1; j <= this.rayLength; j++) {
-			var wallTile = map.getTile(wallLayer.getTileX(lastX), wallLayer.getTileY(lastY), wallLayer, true);
-			var objectTile = map.getTile(objectLayer.getTileX(lastX), objectLayer.getTileY(lastY), objectLayer, true);
+	for (let i = 0; i < this.numberOfRays; i++) {
+		let rayAngle = this.directionAngle - (this.lightAngle / 2) + (this.lightAngle / this.numberOfRays) * i;
+		let lastX = this.lightSourceX;
+		let lastY = this.lightSourceY;
+		let lightThrough = false;
+		let k = 0;
+		for (let j = 1; j <= this.rayLength; j++) {
+			let wallTile = map.getTile(wallLayer.getTileX(lastX), wallLayer.getTileY(lastY), wallLayer, true);
+			let objectTile = map.getTile(objectLayer.getTileX(lastX), objectLayer.getTileY(lastY), objectLayer, true);
 			if ((Phaser.Math.distance(lastX, lastY, shadow.x, shadow.y) < 8) && (this.currentHP >= 0) && !this.isHided) {
 				if (!this.jumpscared) {
 					this.jumpscared = true;
@@ -294,8 +294,8 @@ Player.prototype.updateLight = function () {
 				}
 				if (lightThrough)
 					k++;
-				var landingX = Math.round(this.lightSourceX - (2 * j) * Math.cos(rayAngle));
-				var landingY = Math.round(this.lightSourceY - (2 * j) * Math.sin(rayAngle));
+				let landingX = Math.round(this.lightSourceX - (2 * j) * Math.cos(rayAngle));
+				let landingY = Math.round(this.lightSourceY - (2 * j) * Math.sin(rayAngle));
 				lastX = landingX;
 				lastY = landingY;
 			}
@@ -305,7 +305,7 @@ Player.prototype.updateLight = function () {
 	this.maskGraphics.lineTo(this.lightSourceX, this.lightSourceY);
 	this.maskGraphics.endFill();
 	if (this.switchToFlashLight && this.flashLightOn) {
-		var ran = Math.random();
+		let ran = Math.random();
 		floorLayer.tint = (ran < 0.5) ? RESET_TINT : LIGHT_TINT;
 		wallLayer.tint = (ran < 0.5) ? RESET_TINT : LIGHT_TINT;
 		objectLayer.tint = (ran < 0.5) ? RESET_TINT : LIGHT_TINT;
@@ -347,7 +347,7 @@ Player.prototype.flashlightPickupEvent = function () {
 	this.hasFlashlight = true;
 	this.switchToFlashLight = true;
 	this.loadTexture('Player_f', 4);
-	var tile = map.getTile(wallLayer.getTileX(player.centerX), wallLayer.getTileY(player.centerY), objectLayer, true);
+	let tile = map.getTile(wallLayer.getTileX(player.centerX), wallLayer.getTileY(player.centerY), objectLayer, true);
 	map.replace(CHEST_FLASHLIGHT_INDEX, -1, tile.x, tile.y, 1, 1, objectLayer);
 	this.toggleFlashLight();
 	this.actionCompleted = true;
@@ -358,9 +358,9 @@ Player.prototype.flashlightPickupEvent = function () {
 	}, this);
 }
 Player.prototype.colorPuzzle = function () {
-	var tileX = floorLayer.getTileX(player.centerX);
-	var tileY = floorLayer.getTileY(player.centerY);
-	var tile = map.getTile(tileX, tileY, floorLayer, true);
+	let tileX = floorLayer.getTileX(player.centerX);
+	let tileY = floorLayer.getTileY(player.centerY);
+	let tile = map.getTile(tileX, tileY, floorLayer, true);
 	if (this.nextColorBlock === -1 && tile.index === PUZZLE_COLOR_BLOCK_YELLOW_INDEX)
 		this.nextColorBlock = PUZZLE_COLOR_BLOCK_YELLOW_INDEX;
 	switch (tile.index) {
@@ -452,7 +452,7 @@ Player.prototype.touchMirror = function () {
 	this.animations.play("walkDown");
 	this.orientation = { up: false, down: true, left: false, right: false };
 	this.updateFrontObject(this.orientation);
-	var newTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY + 32 }, this.walkingDuration, Phaser.Easing.Quadratic.Out, true);
+	let newTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY + 32 }, this.walkingDuration, Phaser.Easing.Quadratic.Out, true);
 	newTween.onComplete.addOnce(this.playerTweenComplete, this);
 }
 
@@ -525,7 +525,7 @@ Player.prototype.interactObjects = function () {
 			this.mirrorParticle();
 			this.actionCompleted = false;
 			this.animations.play("walkUp");
-			var newTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY - 32 }, this.walkingDuration, Phaser.Easing.Quadratic.In, true);
+			let newTween = game.add.tween(this).to({ x: this.centerX, y: this.centerY - 32 }, this.walkingDuration, Phaser.Easing.Quadratic.In, true);
 			newTween.onComplete.addOnce(this.touchMirror, this);
 			break;
 		case DOOR_1_INDEX:
@@ -661,9 +661,9 @@ Player.prototype.trapTriggers = function () {
 	map.replace(PRISONDOOR_1_INDEX + 1, PRISONDOOR_1_INDEX, 64, 64, 1, 1, objectLayer);
 }
 Player.prototype.trapPuzzle = function () {
-	var tileX = floorLayer.getTileX(this.centerX);
-	var tileY = floorLayer.getTileY(this.centerY);
-	var tile = map.getTile(tileX, tileY, floorLayer, true);
+	let tileX = floorLayer.getTileX(this.centerX);
+	let tileY = floorLayer.getTileY(this.centerY);
+	let tile = map.getTile(tileX, tileY, floorLayer, true);
 	if (tile.index === TRAP_BUTTON_INDEX) {
 		this.trapBotton++;
 		trapButton.play();
