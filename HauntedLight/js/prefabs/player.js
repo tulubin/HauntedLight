@@ -13,7 +13,7 @@ function Player(game) {
 	this.currentMP = this.maxMP;
 	this.maxBattery = playerMaxBattery; // battery level of flashlight
 	this.currentBattery = this.maxBattery;
-	this.walkingDuration = 500; // time spend for one grid movement
+	this.walkingDuration = 500 * (game.time.fps || 60) / 60; // time spend for one grid movement
 	this.batteryStock = 0; // remaining battery
 	this.hpLevel = 1; // extended HP
 	this.trapBotton = 0; // trap puzzle floor botton
@@ -458,12 +458,12 @@ Player.prototype.touchMirror = function () {
 
 Player.prototype.playerControls = function () {
 	if ((game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)) && (this.currentMP > 10)) {
-		this.walkingDuration = 250;
+		this.walkingDuration = 250 * (game.time.fps || 60) / 60;
 		this.sprinting = true;
 	}
 	else {
 		this.sprinting = false;
-		this.walkingDuration = 500;
+		this.walkingDuration = 500 * (game.time.fps || 60) / 60;
 	}
 	if (game.input.keyboard.isDown(Phaser.Keyboard.UP) && this.actionCompleted) {
 		this.animations.play("walkUp");
