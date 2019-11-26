@@ -6,6 +6,7 @@ function Player(game) {
 	game.camera.follow(this, 0, 1, 1);
 	// initiallize the variables:
 	// for player properities:
+	this.maxFPS = 60;
 	this.tint = DARK_TINT; // tint the character so it fits the darkness
 	this.maxHP = playerMaxHP; // horror point
 	this.currentHP = this.maxHP;
@@ -13,7 +14,7 @@ function Player(game) {
 	this.currentMP = this.maxMP;
 	this.maxBattery = playerMaxBattery; // battery level of flashlight
 	this.currentBattery = this.maxBattery;
-	this.walkingDuration = 500 * (game.time.fps || 60) / 60; // time spend for one grid movement
+	this.walkingDuration = 500; // time spend for one grid movement
 	this.batteryStock = 0; // remaining battery
 	this.hpLevel = 1; // extended HP
 	this.trapBotton = 0; // trap puzzle floor botton
@@ -101,6 +102,8 @@ Player.prototype = Object.create(Phaser.Sprite.prototype);
 Player.prototype.constructor = Player;
 
 Player.prototype.update = function () {
+	if (this.maxFPS < game.time.fps)
+		this.maxFPS = game.time.fps;
 	// light update
 	if (!cheat) {
 		this.maskGraphics.moveTo(this.x, this.y + 3);
@@ -458,12 +461,12 @@ Player.prototype.touchMirror = function () {
 
 Player.prototype.playerControls = function () {
 	if ((game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)) && (this.currentMP > 10)) {
-		this.walkingDuration = 250 * (game.time.fps || 60) / 60;
+		this.walkingDuration = 250 * this.maxFPS / 60;
 		this.sprinting = true;
 	}
 	else {
 		this.sprinting = false;
-		this.walkingDuration = 500 * (game.time.fps || 60) / 60;
+		this.walkingDuration = 500 * this.maxFPS / 60;
 	}
 	if (game.input.keyboard.isDown(Phaser.Keyboard.UP) && this.actionCompleted) {
 		this.animations.play("walkUp");
