@@ -461,12 +461,12 @@ Player.prototype.touchMirror = function () {
 
 Player.prototype.playerControls = function () {
 	if ((game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)) && (this.currentMP > 10)) {
-		this.walkingDuration = 250 * this.maxFPS / 60;
+		this.walkingDuration = 250 / (this.maxFPS / 60);
 		this.sprinting = true;
 	}
 	else {
 		this.sprinting = false;
-		this.walkingDuration = 500 * this.maxFPS / 60;
+		this.walkingDuration = 500 / (this.maxFPS / 60);
 	}
 	if (game.input.keyboard.isDown(Phaser.Keyboard.UP) && this.actionCompleted) {
 		this.animations.play("walkUp");
